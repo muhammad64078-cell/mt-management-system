@@ -1037,7 +1037,7 @@ export const Dashboard = () => {
                       onClick={() => {
                         const token = localStorage.getItem("token");
                         // Download file directly
-                        fetch(`http://localhost:5000/api/admin/export-leads/${u.id || u._id}`, {
+                        fetch(`${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/admin/export-leads/${u.id || u._id}`, {
                           headers: { Authorization: `Bearer ${token}` }
                         })
                         .then(response => response.blob())
