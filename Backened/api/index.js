@@ -55,17 +55,40 @@ app.options("*", cors());
 // 3. ROUTES
 
 app.use("/api/tasks", taskRoutes);
+app.use("/tasks", taskRoutes);
+
 app.use("/api/comments", commentRoutes);
+app.use("/comments", commentRoutes);
+
 app.use("/api/auth", authRoutes);
+app.use("/auth", authRoutes);
+
 app.use("/api/admin", adminRoutes);
+app.use("/admin", adminRoutes);
+
 app.use("/api/sales", salesRoutes);
+app.use("/sales", salesRoutes);
+
 app.use("/api/activities", activityRoutes);
+app.use("/activities", activityRoutes);
+
 app.use("/api/targets", targetRoutes);
+app.use("/targets", targetRoutes);
+
 app.use("/api/leads", leadRoutes);
+app.use("/leads", leadRoutes);
+
 app.use("/api/projects", projectRoutes);
+app.use("/projects", projectRoutes);
+
 app.use("/api/files", fileroutes);
+app.use("/files", fileroutes);
+
 app.use("/api/reports", reportRoutes);
+app.use("/reports", reportRoutes);
+
 app.use("/api/lead-payments", leadPaymentRoutes);
+app.use("/lead-payments", leadPaymentRoutes);
 
 // 4. HEALTH CHECK
 app.get("/", (req, res) => {
