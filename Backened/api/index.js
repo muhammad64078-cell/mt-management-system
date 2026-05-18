@@ -23,6 +23,7 @@ const app = express();
 app.use(express.json()); // Sabse pehle JSON parser
 app.use(express.urlencoded({ extended: true }));
 const allowedOrigins = [
+  "https://mt-softwarehouse-1htp.vercel.app",
   "http://localhost:5173", // Local development
   "http://localhost:3000"  // Alternative local development port
 ];
