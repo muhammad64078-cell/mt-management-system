@@ -37,6 +37,9 @@ app.use(cors({
   credentials: true
 }));
 
+app.options('*', cors()); // Enable pre-flight across-the-board
+
+
 app.use(express.json()); // Sabse pehle JSON parser
 app.use(express.urlencoded({ extended: true }));
 
