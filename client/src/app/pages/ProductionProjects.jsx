@@ -556,7 +556,7 @@ export const ProductionProjects = () => {
         </Card>
       ) : (
         /* BOARD VIEW (TRELLO BOARD STYLE WITH DYNAMIC GROUPING) */
-        <div className="flex gap-5 overflow-x-auto pb-4 custom-scrollbar select-none animate-in fade-in duration-300" style={{ minHeight: '65vh' }}>
+        <div className="flex flex-col sm:flex-row gap-5 overflow-y-auto sm:overflow-x-auto pb-4 custom-scrollbar select-none animate-in fade-in duration-300" style={{ minHeight: '65vh' }}>
           {getDynamicColumns().map((column) => {
             const columnProjects = getColumnProjects(column.id);
             

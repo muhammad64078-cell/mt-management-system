@@ -90,7 +90,7 @@ export const Reports = () => {
 
       {/* Main Table */}
       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="px-8 py-6 border-b border-gray-50 flex justify-between items-center bg-gray-50/30">
+        <div className="px-6 sm:px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/30">
           <h2 className="text-xl font-bold text-gray-900">Revenue Overview (All Clients)</h2>
           <span className="text-xs font-medium text-gray-400 uppercase tracking-widest">{groupedArray.length} Total Records</span>
         </div>
@@ -150,9 +150,9 @@ export const Reports = () => {
 
       {/* NEW SECTION: Working & Revision Projects */}
       <div className="bg-white rounded-3xl shadow-sm border-2 border-indigo-50 overflow-hidden">
-        <div className="px-8 py-6 border-b border-indigo-50 flex justify-between items-center bg-indigo-50/30">
+        <div className="px-6 sm:px-8 py-6 border-b border-indigo-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-indigo-50/30">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+            <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex flex-shrink-0 items-center justify-center text-white shadow-lg shadow-indigo-100">
               <Activity size={20} />
             </div>
             <div>

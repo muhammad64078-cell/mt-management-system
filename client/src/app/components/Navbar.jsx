@@ -112,7 +112,7 @@ export const Navbar = ({ onMenuClick }) => {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center space-x-6 ml-6">
+        <div className="flex items-center space-x-3 sm:space-x-6 ml-auto sm:ml-6">
           {/* Notifications */}
           <div className="relative">
             <button
@@ -126,7 +126,7 @@ export const Navbar = ({ onMenuClick }) => {
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-3 w-80 bg-white rounded-2xl border border-gray-100 shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute -right-16 sm:right-0 mt-3 w-[90vw] sm:w-80 max-w-[360px] bg-white rounded-2xl border border-gray-100 shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                 <div className="px-4 py-3 border-b border-gray-50 flex items-center justify-between">
                   <h3 className="text-sm font-bold text-gray-900">Notifications</h3>
                   <div className="flex items-center gap-2">

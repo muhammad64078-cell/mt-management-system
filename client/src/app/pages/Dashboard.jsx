@@ -615,8 +615,8 @@ export const Dashboard = () => {
 
           {/* Team Performance Banner */}
           <Card className="p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/25 border border-indigo-100 dark:border-indigo-900/30 shadow-sm">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center mr-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center">
+              <div className="flex-shrink-0 w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center mb-4 sm:mb-0 sm:mr-4">
                 <TrendingUp className="w-6 h-6 text-white animate-pulse" />
               </div>
               <div className="flex-1">
@@ -625,12 +625,12 @@ export const Dashboard = () => {
                   Great work! The team is maintaining an average progress of {avgProgress}% across all projects.{" "}
                   {statusCounts['in-progress']} projects are actively in progress and {statusCounts['review']} are awaiting review.
                 </p>
-                <div className="flex items-center space-x-4 text-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 text-sm">
                   <div className="flex items-center text-green-600 dark:text-green-400">
                     <CheckCircle2 className="w-4 h-4 mr-1" />
                     <span className="font-bold">{statusCounts['completed']} completed this month</span>
                   </div>
-                  <span className="text-gray-400">•</span>
+                  <span className="hidden sm:inline text-gray-400">•</span>
                   <span className="text-gray-600 dark:text-gray-400 font-bold">{projects.length} total projects</span>
                 </div>
               </div>
@@ -938,7 +938,7 @@ export const Dashboard = () => {
 
         {/* Team Targets */}
         <Card className="p-6 border-none ring-1 ring-gray-100 bg-white shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <h3 className="text-lg font-bold text-gray-900">
               Team Performance &amp; Targets
             </h3>
@@ -946,7 +946,7 @@ export const Dashboard = () => {
               <Button
                 size="sm"
                 onClick={() => setIsTargetModalOpen(true)}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold w-full sm:w-auto"
               >
                 <Plus className="w-4 h-4 mr-1" />
                 Set Target

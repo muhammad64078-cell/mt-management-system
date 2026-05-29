@@ -172,11 +172,11 @@ export const Pipeline = () => {
     return (
       <div
         ref={drop}
-        className={`w-full transition-all duration-300 ${
-          isOver ? 'scale-[1.01]' : ''
+        className={`w-full lg:w-[320px] xl:w-[350px] flex-shrink-0 flex flex-col transition-all duration-300 ${
+          isOver ? 'scale-[1.01] shadow-xl' : ''
         }`}
       >
-        <div className={`bg-gradient-to-br ${column.color} border-b ${column.border} rounded-t-2xl px-6 py-4 backdrop-blur-sm shadow-sm`}>
+        <div className={`bg-gradient-to-br ${column.color} border-b ${column.border} rounded-t-2xl px-5 py-4 backdrop-blur-sm shadow-sm flex-shrink-0`}>
           <div className="flex items-center justify-between">
             <h3 className={`font-extrabold text-sm tracking-widest uppercase ${column.text}`}>{column.title}</h3>
             <span className={`text-xs font-black px-3 py-1 rounded-full shadow-sm ${column.badge}`}>
@@ -185,16 +185,16 @@ export const Pipeline = () => {
           </div>
         </div>
 
-        <div className={`bg-gray-50/30 p-6 rounded-b-2xl border-x border-b border-gray-100 transition-colors ${isOver ? 'bg-indigo-50/50' : ''}`}>
+        <div className={`bg-gray-50/50 p-4 rounded-b-2xl border-x border-b border-gray-100 flex-1 min-h-[150px] transition-colors ${isOver ? 'bg-indigo-50/50 ring-2 ring-indigo-200 ring-inset' : ''}`}>
           {columnLeads.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               {columnLeads.map((lead) => (
                 <LeadCard key={lead.id || lead._id} lead={lead} />
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-10 border-2 border-dashed border-gray-200 rounded-xl bg-white/50">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">No active leads in this stage</p>
+            <div className="flex flex-col items-center justify-center py-8 border-2 border-dashed border-gray-200 rounded-xl bg-white/50 h-full">
+              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center px-4">No active leads<br/>in this stage</p>
             </div>
           )}
         </div>
@@ -211,10 +211,10 @@ export const Pipeline = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="max-w-[1600px] mx-auto space-y-8 p-2">
+      <div className="lg:h-[calc(100vh-6rem)] flex flex-col space-y-6">
 
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 flex-shrink-0">
           <div className="space-y-1">
             <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Pipeline Overview</h1>
             <p className="text-sm font-medium text-gray-500 flex items-center">
@@ -223,31 +223,33 @@ export const Pipeline = () => {
             </p>
           </div>
 
-          <div className="bg-white border border-gray-100 shadow-xl rounded-2xl p-5 flex items-center gap-6 min-w-[300px]">
-             <div className="p-3 bg-indigo-50 rounded-xl">
-                <DollarSign className="w-6 h-6 text-indigo-600" />
+          <div className="bg-white border border-gray-100 shadow-sm rounded-2xl p-4 flex items-center gap-5 min-w-[280px]">
+             <div className="p-2.5 bg-indigo-50 rounded-xl">
+                <DollarSign className="w-5 h-5 text-indigo-600" />
              </div>
              <div>
-                <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Total Pipeline Value</p>
-                <p className="text-2xl font-black text-gray-900">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Total Pipeline Value</p>
+                <p className="text-xl font-black text-gray-900">
                   ${totalValue.toLocaleString()}
                 </p>
              </div>
           </div>
         </div>
 
-        {/* Columns Container */}
-        <div className="flex flex-col gap-8 pb-8">
-          {columns.map((column) => (
-            <Column key={column.id} column={column} />
-          ))}
+        {/* Columns Container (Vertical on Mobile, Horizontal on Desktop) */}
+        <div className="flex-1 lg:overflow-x-auto lg:overflow-y-hidden pb-4">
+          <div className="flex flex-col lg:flex-row gap-6 h-full lg:min-w-max items-stretch lg:items-start px-1">
+            {columns.map((column) => (
+              <Column key={column.id} column={column} />
+            ))}
+          </div>
         </div>
 
         {/* Floating Help Hint */}
-        <div className="fixed bottom-8 right-8">
-           <div className="bg-gray-900 text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3">
+        <div className="fixed bottom-6 right-6 z-10 hidden sm:block">
+           <div className="bg-gray-900/90 backdrop-blur-sm text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 hover:scale-105 transition-transform cursor-help">
               <span className="text-xl">💡</span>
-              <p className="text-xs font-bold">Drag cards to update stage</p>
+              <p className="text-xs font-bold tracking-wide">Drag cards to update stage</p>
            </div>
         </div>
 
