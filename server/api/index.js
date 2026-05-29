@@ -19,31 +19,18 @@ import commentRoutes from "../routes/comment.js";
 dotenv.config();
 const app = express();
 
-// 1. MIDDLEWARES
-const allowedOrigins = [
-  "https://mt-softwarehouse-1htp.vercel.app",
-  "http://localhost:5173",
-  "http://localhost:3000"
-];
-
+// 1. MIDDLEWARES (CORS ka mukammal hal)
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: "*", // 👈 FIX: Kisi bhi frontend URL se request block nahi hogi!
   credentials: true
 }));
 
 app.options('*', cors()); // Enable pre-flight across-the-board
 
-
 app.use(express.json()); // Sabse pehle JSON parser
 app.use(express.urlencoded({ extended: true }));
 
-// 3. ROUTES (Don't worry, matching with and without /api handled)
+// 3. ROUTES
 app.use("/api/tasks", taskRoutes);
 app.use("/tasks", taskRoutes);
 
