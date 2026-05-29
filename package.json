@@ -5,7 +5,7 @@
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",
-    "build": "echo 'No build step required for backend'"
+    "build": "cd client && npm install && npm run build"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.43.2",
