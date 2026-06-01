@@ -68,11 +68,11 @@ export const Reports = () => {
   return (
     <div className="space-y-8 p-2">
       <div>
-        <h1 className="text-3xl font-black text-gray-900 tracking-tight flex items-center gap-3">
-          <PieChart className="text-indigo-600 w-8 h-8" />
+        <h1 className="text-3xl font-black text-foreground tracking-tight flex items-center gap-3">
+          <PieChart className="text-orange-500 w-8 h-8" />
           Business Intelligence
         </h1>
-        <p className="text-gray-500 mt-1">Real-time revenue tracking and performance analytics</p>
+        <p className="text-muted-foreground mt-1">Real-time revenue tracking and performance analytics</p>
       </div>
 
       {/* Stats Grid */}
@@ -89,15 +89,15 @@ export const Reports = () => {
       </div>
 
       {/* Main Table */}
-      <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="px-6 sm:px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gray-50/30">
-          <h2 className="text-xl font-bold text-gray-900">Revenue Overview (All Clients)</h2>
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-widest">{groupedArray.length} Total Records</span>
+      <div className="bg-card rounded-3xl shadow-[0_0_15px_rgba(0,0,0,0.5)] border border-border overflow-hidden">
+        <div className="px-6 sm:px-8 py-6 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-black/20/30">
+          <h2 className="text-xl font-bold text-foreground">Revenue Overview (All Clients)</h2>
+          <span className="text-xs font-medium text-muted-foreground uppercase tracking-widest">{groupedArray.length} Total Records</span>
         </div>
         
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-gray-50/50 text-[10px] uppercase text-gray-400 font-bold tracking-widest">
+            <thead className="bg-black/20/50 text-[10px] uppercase text-muted-foreground font-bold tracking-widest">
               <tr>
                 <th className="px-8 py-4">Client Name</th>
                 <th className="px-8 py-4">Status</th>
@@ -107,20 +107,20 @@ export const Reports = () => {
                 <th className="px-8 py-4 text-center">History</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-border">
               {groupedArray.map((item, idx) => (
-                <tr key={idx} className="hover:bg-gray-50/50 transition-all group">
+                <tr key={idx} className="hover:bg-black/20/50 transition-all group">
                   <td className="px-8 py-5">
-                    <div className="font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">{item.leadName}</div>
+                    <div className="font-bold text-foreground group-hover:text-orange-500 transition-colors">{item.leadName}</div>
                   </td>
                   <td className="px-8 py-5">
                     <span className={`text-[10px] font-bold uppercase px-2 py-1 rounded-lg ${
-                      item.status === 'closed-won' ? 'bg-emerald-50 text-emerald-600' : 'bg-gray-100 text-gray-500'
+                      item.status === 'closed-won' ? 'bg-emerald-50 text-emerald-600' : 'bg-black/40 text-muted-foreground'
                     }`}>
                       {statusLabels[item.status] || item.status}
                     </span>
                   </td>
-                  <td className="px-8 py-5 text-gray-600 font-medium">${Number(item.budget).toLocaleString()}</td>
+                  <td className="px-8 py-5 text-muted-foreground font-medium">${Number(item.budget).toLocaleString()}</td>
                   <td className="px-8 py-5 font-bold text-emerald-600">${Number(item.totalReceived).toLocaleString()}</td>
                   <td className="px-8 py-5">
                     <span className={`font-medium ${item.budget - item.totalReceived <= 0 ? 'text-gray-300' : 'text-rose-500'}`}>
@@ -130,7 +130,7 @@ export const Reports = () => {
                   <td className="px-8 py-5 text-center">
                     <button 
                       onClick={() => setSelectedLeadPayments(item)}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-xl text-xs font-bold hover:bg-indigo-600 hover:text-white transition-all shadow-sm"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 text-orange-500 rounded-xl text-xs font-bold hover:bg-orange-500 hover:text-white transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)]"
                     >
                       <Eye size={14} />
                       View Details
@@ -140,7 +140,7 @@ export const Reports = () => {
               ))}
               {groupedArray.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="px-8 py-20 text-center text-gray-400 italic">No revenue records found.</td>
+                  <td colSpan="6" className="px-8 py-20 text-center text-muted-foreground italic">No revenue records found.</td>
                 </tr>
               )}
             </tbody>
@@ -149,25 +149,25 @@ export const Reports = () => {
       </div>
 
       {/* NEW SECTION: Working & Revision Projects */}
-      <div className="bg-white rounded-3xl shadow-sm border-2 border-indigo-50 overflow-hidden">
-        <div className="px-6 sm:px-8 py-6 border-b border-indigo-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-indigo-50/30">
+      <div className="bg-card rounded-3xl shadow-[0_0_15px_rgba(0,0,0,0.5)] border-2 border-indigo-50 overflow-hidden">
+        <div className="px-6 sm:px-8 py-6 border-b border-indigo-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-orange-500/10/30">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-indigo-600 rounded-2xl flex flex-shrink-0 items-center justify-center text-white shadow-lg shadow-indigo-100">
+            <div className="w-10 h-10 bg-orange-500 rounded-2xl flex flex-shrink-0 items-center justify-center text-white shadow-lg shadow-indigo-100">
               <Activity size={20} />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-gray-900">Working & Revision Projects</h2>
-              <p className="text-xs text-indigo-600 font-medium uppercase tracking-wider">Active Ongoing Work</p>
+              <h2 className="text-xl font-bold text-foreground">Working & Revision Projects</h2>
+              <p className="text-xs text-orange-500 font-medium uppercase tracking-wider">Active Ongoing Work</p>
             </div>
           </div>
-          <span className="text-xs font-black text-indigo-600 bg-white px-3 py-1 rounded-full shadow-sm">
+          <span className="text-xs font-black text-orange-500 bg-card px-3 py-1 rounded-full shadow-[0_0_15px_rgba(0,0,0,0.5)]">
             {groupedArray.filter(i => i.status === 'closed-won').length} Active
           </span>
         </div>
         
         <div className="overflow-x-auto">
           <table className="w-full text-left">
-            <thead className="bg-indigo-50/20 text-[10px] uppercase text-indigo-400 font-bold tracking-widest">
+            <thead className="bg-orange-500/10/20 text-[10px] uppercase text-indigo-400 font-bold tracking-widest">
               <tr>
                 <th className="px-8 py-4">Client Name</th>
                 <th className="px-8 py-4">Total Budget</th>
@@ -178,18 +178,18 @@ export const Reports = () => {
             </thead>
             <tbody className="divide-y divide-indigo-50/50">
               {groupedArray.filter(i => i.status === 'closed-won').map((item, idx) => (
-                <tr key={idx} className="hover:bg-indigo-50/10 transition-all">
+                <tr key={idx} className="hover:bg-orange-500/10/10 transition-all">
                   <td className="px-8 py-5">
-                    <div className="font-black text-gray-900">{item.leadName}</div>
+                    <div className="font-black text-foreground">{item.leadName}</div>
                   </td>
-                  <td className="px-8 py-5 text-gray-600 font-bold">${Number(item.budget).toLocaleString()}</td>
-                  <td className="px-8 py-5 font-black text-indigo-600">${Number(item.totalReceived).toLocaleString()}</td>
+                  <td className="px-8 py-5 text-muted-foreground font-bold">${Number(item.budget).toLocaleString()}</td>
+                  <td className="px-8 py-5 font-black text-orange-500">${Number(item.totalReceived).toLocaleString()}</td>
                   <td className="px-8 py-5">
                     <div className="flex flex-col">
                       <span className="text-rose-600 font-black text-lg">
                         ${Math.max(0, item.budget - item.totalReceived).toLocaleString()}
                       </span>
-                      <div className="w-24 bg-gray-100 rounded-full h-1.5 mt-1 overflow-hidden">
+                      <div className="w-24 bg-black/40 rounded-full h-1.5 mt-1 overflow-hidden">
                         <div 
                           className="bg-indigo-500 h-full transition-all" 
                           style={{ width: `${Math.min(100, (item.totalReceived / (item.budget || 1)) * 100)}%` }}
@@ -200,7 +200,7 @@ export const Reports = () => {
                   <td className="px-8 py-5 text-center">
                     <button 
                       onClick={() => setSelectedLeadPayments(item)}
-                      className="px-4 py-2 bg-gray-900 text-white rounded-xl text-xs font-bold hover:bg-indigo-600 transition-all shadow-md shadow-gray-200"
+                      className="px-4 py-2 bg-gray-900 text-white rounded-xl text-xs font-bold hover:bg-orange-500 transition-all shadow-md shadow-gray-200"
                     >
                       Track Payments
                     </button>
@@ -209,7 +209,7 @@ export const Reports = () => {
               ))}
               {groupedArray.filter(i => i.status === 'closed-won').length === 0 && (
                 <tr>
-                  <td colSpan="5" className="px-8 py-16 text-center text-gray-400 italic">No active working/revision projects.</td>
+                  <td colSpan="5" className="px-8 py-16 text-center text-muted-foreground italic">No active working/revision projects.</td>
                 </tr>
               )}
             </tbody>
@@ -226,9 +226,9 @@ export const Reports = () => {
         >
           <div className="p-6 space-y-6">
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-50 p-4 rounded-2xl">
-                <p className="text-[10px] font-bold text-gray-400 uppercase">Project Budget</p>
-                <p className="text-xl font-black text-gray-900">${Number(selectedLeadPayments.budget).toLocaleString()}</p>
+              <div className="bg-black/20 p-4 rounded-2xl">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase">Project Budget</p>
+                <p className="text-xl font-black text-foreground">${Number(selectedLeadPayments.budget).toLocaleString()}</p>
               </div>
               <div className="bg-emerald-50 p-4 rounded-2xl">
                 <p className="text-[10px] font-bold text-emerald-600 uppercase">Total Paid</p>
@@ -237,17 +237,17 @@ export const Reports = () => {
             </div>
 
             <div className="space-y-3">
-              <h4 className="text-sm font-bold text-gray-900 px-1">Transaction List</h4>
+              <h4 className="text-sm font-bold text-foreground px-1">Transaction List</h4>
               {selectedLeadPayments.payments.map((p, i) => (
-                <div key={i} className="flex justify-between items-center p-4 border border-gray-100 rounded-2xl hover:border-indigo-200 transition-all">
+                <div key={i} className="flex justify-between items-center p-4 border border-border rounded-2xl hover:border-indigo-200 transition-all">
                   <div>
-                    <div className="text-xs font-bold text-indigo-600 uppercase tracking-wider">{p.payment_type}</div>
-                    <div className="text-sm text-gray-500 mt-0.5">{p.note || "Standard Payment"}</div>
-                    <div className="text-[10px] text-gray-400 mt-1 flex items-center gap-1">
+                    <div className="text-xs font-bold text-orange-500 uppercase tracking-wider">{p.payment_type}</div>
+                    <div className="text-sm text-muted-foreground mt-0.5">{p.note || "Standard Payment"}</div>
+                    <div className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">
                       <Clock size={10} /> {new Date(p.payment_date).toLocaleDateString()}
                     </div>
                   </div>
-                  <div className="text-lg font-black text-gray-900">${Number(p.amount).toLocaleString()}</div>
+                  <div className="text-lg font-black text-foreground">${Number(p.amount).toLocaleString()}</div>
                 </div>
               ))}
             </div>
@@ -267,7 +267,7 @@ export const Reports = () => {
 
 const StatCard = ({ title, value, icon: Icon, color, sub }) => {
   const colors = {
-    indigo: "text-indigo-600 bg-indigo-50",
+    indigo: "text-orange-500 bg-orange-500/10",
     green: "text-green-600 bg-green-50",
     emerald: "text-emerald-600 bg-emerald-50",
     purple: "text-purple-600 bg-purple-50",
@@ -278,12 +278,12 @@ const StatCard = ({ title, value, icon: Icon, color, sub }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 group hover:shadow-md transition-all">
+    <div className="bg-card p-6 rounded-3xl shadow-[0_0_15px_rgba(0,0,0,0.5)] border border-border group hover:shadow-md transition-all">
       <div className="flex justify-between items-start">
         <div>
-          <h2 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{title}</h2>
-          <p className="text-2xl font-black mt-2 text-gray-900">{value}</p>
-          {sub && <p className="text-[10px] text-gray-400 mt-1 font-medium">{sub}</p>}
+          <h2 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{title}</h2>
+          <p className="text-2xl font-black mt-2 text-foreground">{value}</p>
+          {sub && <p className="text-[10px] text-muted-foreground mt-1 font-medium">{sub}</p>}
         </div>
         <div className={`p-3 rounded-2xl ${colors[color] || colors.indigo} transition-transform group-hover:scale-110`}>
           <Icon size={20} />

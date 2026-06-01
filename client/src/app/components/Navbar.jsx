@@ -59,12 +59,12 @@ export const Navbar = ({ onMenuClick }) => {
   const userAvatar = user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name || 'User')}&background=6366f1&color=fff`;
 
   return (
-    <div className="h-16 bg-white border-b border-gray-100 sticky top-0 z-40 w-full transition-all duration-300">
+    <div className="h-16 bg-background border-b border-border sticky top-0 z-40 w-full transition-all duration-300">
       <div className="flex items-center justify-between h-full px-4 md:px-8">
         {/* Mobile Menu Toggle */}
         <button 
           onClick={onMenuClick}
-          className="p-2 mr-2 text-gray-500 hover:text-indigo-600 rounded-xl hover:bg-indigo-50 lg:hidden"
+          className="p-2 mr-2 text-muted-foreground hover:text-orange-500 rounded-xl hover:bg-orange-500/10 lg:hidden"
         >
           <Menu className="w-6 h-6" />
         </button>
@@ -72,7 +72,7 @@ export const Navbar = ({ onMenuClick }) => {
         {/* Search */}
         <div className="flex-1 max-w-xl hidden md:block" ref={searchRef}>
           <div className="relative group">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within:text-indigo-500 transition-colors" />
             <input
               type="text"
               placeholder="Search data or pages..."
@@ -82,12 +82,12 @@ export const Navbar = ({ onMenuClick }) => {
                 setShowSearch(true);
               }}
               onFocus={() => setShowSearch(true)}
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-transparent rounded-xl text-sm transition-all focus:outline-none focus:bg-white focus:border-indigo-100 focus:ring-4 focus:ring-indigo-500/5 placeholder:text-gray-400 text-gray-900"
+              className="w-full pl-10 pr-4 py-2 bg-card border border-border rounded-xl text-sm transition-all focus:outline-none focus:bg-card focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 placeholder:text-muted-foreground text-foreground"
             />
             
             {showSearch && searchQuery.trim() !== '' && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl border border-gray-100 shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="px-4 py-2 text-xs font-bold text-gray-500 uppercase tracking-widest border-b border-gray-50 mb-1">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-card rounded-xl border border-border shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-2 text-xs font-bold text-muted-foreground uppercase tracking-widest border-b border-border mb-1">
                   Pages & Results
                 </div>
                 {searchResults.length > 0 ? (
@@ -95,14 +95,14 @@ export const Navbar = ({ onMenuClick }) => {
                     <button
                       key={idx}
                       onClick={() => handleSearchNavigate(result.path)}
-                      className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-indigo-600 transition-colors flex items-center gap-2"
+                      className="w-full text-left px-4 py-2.5 text-sm text-foreground hover:bg-card/5 hover:text-orange-500 transition-colors flex items-center gap-2"
                     >
-                      <Search className="w-3.5 h-3.5 text-gray-400" />
+                      <Search className="w-3.5 h-3.5 text-muted-foreground" />
                       {result.title}
                     </button>
                   ))
                 ) : (
-                  <div className="px-4 py-3 text-sm text-gray-500 text-center">
+                  <div className="px-4 py-3 text-sm text-muted-foreground text-center">
                     No matching results found.
                   </div>
                 )}
@@ -117,7 +117,7 @@ export const Navbar = ({ onMenuClick }) => {
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-2 text-gray-500 hover:text-indigo-600 rounded-xl hover:bg-indigo-50 transition-all"
+              className="relative p-2 text-muted-foreground hover:text-orange-500 rounded-xl hover:bg-orange-500/10 transition-all"
             >
               <Bell className="w-5 h-5" />
               {unreadCount > 0 && (
@@ -126,21 +126,21 @@ export const Navbar = ({ onMenuClick }) => {
             </button>
 
             {showNotifications && (
-              <div className="absolute -right-16 sm:right-0 mt-3 w-[90vw] sm:w-80 max-w-[360px] bg-white rounded-2xl border border-gray-100 shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="px-4 py-3 border-b border-gray-50 flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-gray-900">Notifications</h3>
+              <div className="absolute -right-16 sm:right-0 mt-3 w-[90vw] sm:w-80 max-w-[360px] bg-card rounded-2xl border border-border shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-3 border-b border-border flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-foreground">Notifications</h3>
                   <div className="flex items-center gap-2">
                     <button 
                       onClick={markAllAsRead}
                       title="Mark all as read"
-                      className="p-1.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all"
+                      className="p-1.5 text-muted-foreground hover:text-orange-500 hover:bg-orange-500/10 rounded-lg transition-all"
                     >
                       <CheckCheck className="w-4 h-4" />
                     </button>
                     <button 
                       onClick={clearNotifications}
                       title="Clear all"
-                      className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                      className="p-1.5 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -152,30 +152,30 @@ export const Navbar = ({ onMenuClick }) => {
                       <div
                         key={notification.id}
                         onClick={() => handleNotificationClick(notification)}
-                        className={`px-4 py-4 hover:bg-gray-50 cursor-pointer transition-colors relative border-b border-gray-50 last:border-0 ${
-                          notification.unread ? 'bg-indigo-50/20' : ''
+                        className={`px-4 py-4 hover:bg-card/5 cursor-pointer transition-colors relative border-b border-border last:border-0 ${
+                          notification.unread ? 'bg-orange-500/10' : ''
                         }`}
                       >
                         {notification.unread && (
-                          <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-indigo-500 rounded-full" />
+                          <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-orange-500 rounded-full" />
                         )}
-                        <p className={`text-sm leading-snug ${notification.unread ? 'font-semibold text-gray-900' : 'text-gray-600'}`}>
+                        <p className={`text-sm leading-snug ${notification.unread ? 'font-semibold text-foreground' : 'text-muted-foreground'}`}>
                           {notification.text}
                         </p>
-                        <p className="text-[11px] font-medium text-gray-400 mt-1.5">{notification.time}</p>
+                        <p className="text-[11px] font-medium text-muted-foreground/70 mt-1.5">{notification.time}</p>
                       </div>
                     ))
                   ) : (
-                    <div className="py-12 flex flex-col items-center justify-center text-gray-400">
+                    <div className="py-12 flex flex-col items-center justify-center text-muted-foreground">
                       <Bell className="w-8 h-8 mb-2 opacity-20" />
                       <p className="text-xs font-medium">No new notifications</p>
                     </div>
                   )}
                 </div>
-                <div className="px-4 py-2.5 border-t border-gray-50">
+                <div className="px-4 py-2.5 border-t border-border">
                   <button 
                     onClick={() => { navigate('/activities'); setShowNotifications(false); }}
-                    className="w-full text-center py-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 rounded-lg transition-all"
+                    className="w-full text-center py-1.5 text-xs font-bold text-orange-500 hover:text-orange-400 hover:bg-orange-500/10 rounded-lg transition-all"
                   >
                     View Activity Log
                   </button>
@@ -184,49 +184,49 @@ export const Navbar = ({ onMenuClick }) => {
             )}
           </div>
 
-          <div className="h-8 w-px bg-gray-100" />
+          <div className="h-8 w-px bg-border" />
 
           {/* Profile */}
           <div className="relative">
             <button 
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center group p-1 pr-2 rounded-xl hover:bg-gray-50 transition-all"
+              className="flex items-center group p-1 pr-2 rounded-xl hover:bg-card/5 transition-all"
             >
               <div className="relative">
                 <img
                   src={userAvatar}
                   alt={user?.name}
-                  className="w-8 h-8 rounded-lg object-cover ring-2 ring-white group-hover:ring-indigo-100 transition-all"
+                  className="w-8 h-8 rounded-lg object-cover ring-2 ring-card group-hover:ring-orange-500/30 transition-all"
                 />
               </div>
               <div className="ml-3 text-left hidden sm:block">
-                <p className="text-xs font-bold text-gray-900 leading-tight">{user?.name}</p>
-                <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">{user?.role}</p>
+                <p className="text-xs font-bold text-foreground leading-tight">{user?.name}</p>
+                <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">{user?.role}</p>
               </div>
-              <ChevronDown className={`ml-2 w-4 h-4 text-gray-400 group-hover:text-indigo-500 transition-transform duration-200 ${showProfileMenu ? 'rotate-180' : ''}`} />
+              <ChevronDown className={`ml-2 w-4 h-4 text-muted-foreground group-hover:text-orange-500 transition-transform duration-200 ${showProfileMenu ? 'rotate-180' : ''}`} />
             </button>
 
             {showProfileMenu && (
-              <div className="absolute right-0 mt-3 w-48 bg-white rounded-2xl border border-gray-100 shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="px-4 py-2 border-b border-gray-50 mb-1">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Account</p>
+              <div className="absolute right-0 mt-3 w-48 bg-card rounded-2xl border border-border shadow-2xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-2 border-b border-border mb-1">
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Account</p>
                 </div>
                 <button 
                   onClick={() => { navigate('/profile'); setShowProfileMenu(false); }}
-                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-card/5 hover:text-orange-500 transition-colors"
                 >
                   My Profile
                 </button>
                 <button 
                   onClick={() => { navigate('/settings'); setShowProfileMenu(false); }}
-                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:bg-card/5 hover:text-orange-500 transition-colors"
                 >
                   Settings
                 </button>
-                <div className="h-px bg-gray-50 my-1" />
+                <div className="h-px bg-border my-1" />
                 <button 
                   onClick={() => { logout(); setShowProfileMenu(false); }}
-                  className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors font-medium flex items-center gap-2"
+                  className="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-500/10 transition-colors font-medium flex items-center gap-2"
                 >
                   Logout
                 </button>

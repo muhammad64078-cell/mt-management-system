@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import API from "../api/api";
 import { ArrowLeft, Mail, Phone, Calendar, DollarSign, User, FileText, Upload, MessageSquare, Clock, Send, CheckCircle2 } from 'lucide-react';
 import { Modal } from '../components/Modal';
+import { InvoiceModal } from '../components/InvoiceModal';
 
 
 
@@ -90,6 +91,7 @@ const [files, setFiles] = useState([]);
   });
 
   const [payments, setPayments] = useState([]);
+  const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
   const [paymentData, setPaymentData] = useState({
     amount: "",
     paymentType: "Advance",
@@ -191,6 +193,7 @@ const [files, setFiles] = useState([]);
         note: "",
       });
       alert("Payment added successfully!");
+      setIsInvoiceModalOpen(true); // Automatically show invoice after payment
     } catch (err) {
       console.log(err);
       alert("Error adding payment");
@@ -505,13 +508,13 @@ const handleDelete = async (fileId) => {
           <div className="flex items-center">
             <button
               onClick={() => navigate('/leads')}
-              className="mr-4 text-gray-400 hover:text-gray-600"
+              className="mr-4 text-muted-foreground hover:text-muted-foreground"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
             <div>
-              <h1 className="text-2xl text-gray-900 mb-1">{lead.clientName}</h1>
-              <p className="text-sm text-gray-500">Lead Details</p>
+              <h1 className="text-2xl text-foreground mb-1">{lead.clientName}</h1>
+              <p className="text-sm text-muted-foreground">Lead Details</p>
             </div>
           </div>
           <Badge variant={statusColors[lead.status]} className="w-fit">
@@ -524,77 +527,77 @@ const handleDelete = async (fileId) => {
           <div className="lg:col-span-2 space-y-6">
             {/* Client Information */}
             <Card className="p-6">
-              <h3 className="text-lg text-gray-900 mb-4">Client Information</h3>
+              <h3 className="text-lg text-foreground mb-4">Client Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <User className="w-4 h-4 mr-2" />
                     <span className="text-sm">Contact Person</span>
                   </div>
-                  <p className="text-gray-900 ml-6">{lead.contactPerson || lead.contact_person || "Not Provided"}</p>
+                  <p className="text-foreground ml-6">{lead.contactPerson || lead.contact_person || "Not Provided"}</p>
                 </div>
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <FileText className="w-4 h-4 mr-2" />
                     <span className="text-sm">Company</span>
                   </div>
-                  <p className="text-gray-900 ml-6">{lead.company || lead.Company || "Not Provided"}</p>
+                  <p className="text-foreground ml-6">{lead.company || lead.Company || "Not Provided"}</p>
                 </div>
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <FileText className="w-4 h-4 mr-2" />
                     <span className="text-sm">Country</span>
                   </div>
-                  <p className="text-gray-900 ml-6">{lead.country || lead.Country || "Global"}</p>
+                  <p className="text-foreground ml-6">{lead.country || lead.Country || "Global"}</p>
                 </div>
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <Mail className="w-4 h-4 mr-2" />
                     <span className="text-sm">Email</span>
                   </div>
-                  <p className="text-gray-900 ml-6">{lead.email}</p>
+                  <p className="text-foreground ml-6">{lead.email}</p>
                 </div>
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <Phone className="w-4 h-4 mr-2" />
                     <span className="text-sm">Phone / WhatsApp</span>
                   </div>
-                  <p className="text-gray-900 ml-6">{lead.phone}</p>
+                  <p className="text-foreground ml-6">{lead.phone}</p>
                 </div>
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <FileText className="w-4 h-4 mr-2" />
                     <span className="text-sm">Service</span>
                   </div>
-                  <p className="text-gray-900 ml-6">{lead.service}</p>
+                  <p className="text-foreground ml-6">{lead.service}</p>
                 </div>
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <MessageSquare className="w-4 h-4 mr-2" />
                     <span className="text-sm">Lead Source</span>
                   </div>
-                  <p className="text-gray-900 ml-6 font-semibold text-indigo-600 uppercase text-xs">{lead.source || lead.lead_source || "N/A"}</p>
+                  <p className="text-foreground ml-6 font-semibold text-orange-500 uppercase text-xs">{lead.source || lead.lead_source || "N/A"}</p>
                 </div>
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <DollarSign className="w-4 h-4 mr-2" />
                     <span className="text-sm">Budget</span>
                   </div>
-                  <p className="text-gray-900 ml-6">{lead.budget}</p>
+                  <p className="text-foreground ml-6">{lead.budget}</p>
                 </div>
                 <div>
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <Calendar className="w-4 h-4 mr-2" />
                     <span className="text-sm">Deadline</span>
                   </div>
-                  <p className="text-gray-900 ml-6">{lead.deadline || lead.project_deadline || "No Deadline Set"}</p>
+                  <p className="text-foreground ml-6">{lead.deadline || lead.project_deadline || "No Deadline Set"}</p>
                 </div>
                 <div className="md:col-span-2">
-                  <div className="flex items-center text-gray-600 mb-3">
+                  <div className="flex items-center text-muted-foreground mb-3">
                     <FileText className="w-4 h-4 mr-2" />
                     <span className="text-sm">Notes</span>
                   </div>
-                  <p className="text-gray-900 ml-6 bg-gray-50 p-3 rounded-lg border border-gray-100 italic text-sm">
+                  <p className="text-foreground ml-6 bg-black/20 p-3 rounded-lg border border-border italic text-sm">
                     {lead.notes || "No notes added for this lead."}
                   </p>
                 </div>
@@ -602,13 +605,13 @@ const handleDelete = async (fileId) => {
             </Card>
 
             {/* Notes */}
-            <div className="border rounded-lg p-4 h-[350px] overflow-y-auto bg-gray-50">
+            <div className="border rounded-lg p-4 h-[350px] overflow-y-auto bg-black/20">
               {messages.map((msg) => (
                 <div key={msg.id} className="mb-2">
-                  <div className="text-xs text-gray-500">
+                  <div className="text-xs text-muted-foreground">
                     {msg.sender_name}
                   </div>
-                  <div className="bg-white p-2 rounded shadow-sm w-fit">
+                  <div className="bg-card p-2 rounded shadow-[0_0_15px_rgba(0,0,0,0.5)] w-fit">
                     {msg.message}
                   </div>
                 </div>
@@ -624,7 +627,7 @@ const handleDelete = async (fileId) => {
               />
               <button
                 onClick={sendMessage}
-                className="bg-indigo-600 text-white px-4 rounded"
+                className="bg-orange-500 text-white px-4 rounded"
               >
                 Send
               </button>
@@ -633,7 +636,7 @@ const handleDelete = async (fileId) => {
             {/* Files */}
             <Card className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg text-gray-900">Files</h3>
+                <h3 className="text-lg text-foreground">Files</h3>
                 <label className="cursor-pointer">
                   <input
                     type="file"
@@ -655,15 +658,15 @@ const handleDelete = async (fileId) => {
                 {files.map((f) => (
                   <div
                     key={f.id || f._id}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                    className="flex items-center justify-between p-3 bg-black/20 rounded-lg hover:bg-black/40 transition"
                   >
                     <div className="flex items-center">
-                      <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
-                        <FileText className="w-5 h-5 text-indigo-600" />
+                      <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center mr-3">
+                        <FileText className="w-5 h-5 text-orange-500" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-900">{f.name}</p>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-sm text-foreground">{f.name}</p>
+                        <p className="text-xs text-muted-foreground">
                           {f.size} • {f.uploadedBy}
                         </p>
                       </div>
@@ -672,7 +675,7 @@ const handleDelete = async (fileId) => {
                       <a
                         href={f.url}
                         target="_blank"
-                        className="text-indigo-600 text-xs font-bold hover:bg-indigo-50 px-2 py-1 rounded transition-colors"
+                        className="text-orange-500 text-xs font-bold hover:bg-orange-500/10 px-2 py-1 rounded transition-colors"
                       >
                         View
                       </a>
@@ -697,7 +700,7 @@ const handleDelete = async (fileId) => {
 
             {/* Activity Timeline */}
             <Card className="p-6">
-              <h3 className="text-lg text-gray-900 mb-4">Activity Timeline</h3>
+              <h3 className="text-lg text-foreground mb-4">Activity Timeline</h3>
               <div className="space-y-4">
                 {activityTimeline.map((activity, index) => (
                   <div key={activity.id} className="flex">
@@ -705,14 +708,14 @@ const handleDelete = async (fileId) => {
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
                         activity.type === 'call' ? 'bg-green-100' :
                         activity.type === 'email' ? 'bg-blue-100' :
-                        'bg-gray-100'
+                        'bg-black/40'
                       }`}>
                         {activity.type === 'call' ? (
                           <Phone className="w-4 h-4 text-green-600" />
                         ) : activity.type === 'email' ? (
                           <Mail className="w-4 h-4 text-blue-600" />
                         ) : (
-                          <MessageSquare className="w-4 h-4 text-gray-600" />
+                          <MessageSquare className="w-4 h-4 text-muted-foreground" />
                         )}
                       </div>
                       {index < activityTimeline.length - 1 && (
@@ -720,8 +723,8 @@ const handleDelete = async (fileId) => {
                       )}
                     </div>
                     <div className="flex-1 pb-8">
-                      <p className="text-sm text-gray-900 mb-1">{activity.text}</p>
-                      <div className="flex items-center text-xs text-gray-500">
+                      <p className="text-sm text-foreground mb-1">{activity.text}</p>
+                      <div className="flex items-center text-xs text-muted-foreground">
                         <span>{activity.user}</span>
                         <span className="mx-2">•</span>
                         <Clock className="w-3 h-3 mr-1" />
@@ -736,16 +739,25 @@ const handleDelete = async (fileId) => {
             {/* Payments */}
             <Card className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg text-gray-900">Payments History</h3>
-                <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50">
-                  Total Received: ${payments.reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0).toLocaleString()}
-                </Badge>
+                <h3 className="text-lg text-foreground">Payments History</h3>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="outline" 
+                    className="border-orange-500/50 text-orange-500 hover:bg-orange-500/10"
+                    onClick={() => setIsInvoiceModalOpen(true)}
+                  >
+                    View Invoice
+                  </Button>
+                  <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50">
+                    Total Received: ${payments.reduce((sum, p) => sum + (parseFloat(p.amount) || 0), 0).toLocaleString()}
+                  </Badge>
+                </div>
               </div>
 
               {/* ADMIN ONLY: ADD PAYMENT */}
               {user?.role === "admin" && (
-                <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 mb-6 space-y-4">
-                  <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wider">Add New Payment</h4>
+                <div className="bg-black/20 p-4 rounded-xl border border-border mb-6 space-y-4">
+                  <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Add New Payment</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input
                       label="Amount ($)"
@@ -761,9 +773,9 @@ const handleDelete = async (fileId) => {
                       onChange={(e) => setPaymentData({ ...paymentData, paymentDate: e.target.value })}
                     />
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-sm font-medium text-gray-700">Payment Type</label>
+                      <label className="text-sm font-medium text-muted-foreground">Payment Type</label>
                       <select
-                        className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="w-full px-3 py-2 bg-card border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         value={paymentData.paymentType}
                         onChange={(e) => setPaymentData({ ...paymentData, paymentType: e.target.value })}
                       >
@@ -789,22 +801,22 @@ const handleDelete = async (fileId) => {
               {/* PAYMENT HISTORY LIST */}
               <div className="space-y-3">
                 {payments.length === 0 ? (
-                  <p className="text-center py-8 text-gray-400 text-sm italic">No payment records found.</p>
+                  <p className="text-center py-8 text-muted-foreground text-sm italic">No payment records found.</p>
                 ) : (
                   payments.map((payment) => (
-                    <div key={payment.id} className="flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl hover:shadow-sm transition-all">
+                    <div key={payment.id} className="flex items-center justify-between p-4 bg-card border border-border rounded-xl hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-green-600">
                           <DollarSign size={20} />
                         </div>
                         <div>
-                          <div className="font-bold text-gray-900">{payment.payment_type}</div>
-                          <div className="text-sm text-gray-500">{payment.note || "No notes"}</div>
+                          <div className="font-bold text-foreground">{payment.payment_type}</div>
+                          <div className="text-sm text-muted-foreground">{payment.note || "No notes"}</div>
                         </div>
                       </div>
                       <div className="text-right">
                         <div className="font-bold text-green-600 text-lg">${payment.amount}</div>
-                        <div className="flex items-center justify-end text-xs text-gray-400 mt-1">
+                        <div className="flex items-center justify-end text-xs text-muted-foreground mt-1">
                           <Clock size={12} className="mr-1" />
                           {new Date(payment.payment_date).toLocaleDateString()}
                         </div>
@@ -819,7 +831,7 @@ const handleDelete = async (fileId) => {
           {/* Sidebar */}
           <div className="space-y-6">
             <Card className="p-6">
-              <h3 className="text-lg text-gray-900 mb-4">Quick Actions</h3>
+              <h3 className="text-lg text-foreground mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <Button className="w-full" variant="outline" onClick={() => setIsEmailModalOpen(true)}>
                   <Mail className="w-4 h-4 mr-2" />
@@ -835,32 +847,32 @@ const handleDelete = async (fileId) => {
             </Card>
 
             <Card className="p-6">
-              <h3 className="text-lg text-gray-900 mb-4">Lead Details</h3>
+              <h3 className="text-lg text-foreground mb-4">Lead Details</h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">Source</p>
-                  <p className="text-sm text-gray-900">{lead.source}</p>
+                  <p className="text-xs text-muted-foreground mb-1">Source</p>
+                  <p className="text-sm text-foreground">{lead.source}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">Assigned To</p>
-                  <p className="text-sm text-gray-900">{lead.assignedTo?.name}</p>
+                  <p className="text-xs text-muted-foreground mb-1">Assigned To</p>
+                  <p className="text-sm text-foreground">{lead.assignedTo?.name}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">Created Date</p>
-                  <p className="text-sm text-gray-900">{lead.createdAt}</p>
+                  <p className="text-xs text-muted-foreground mb-1">Created Date</p>
+                  <p className="text-sm text-foreground">{lead.createdAt}</p>
                 </div>
               </div>
             </Card>
 
             <Card className="p-6 mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+              <h3 className="text-lg font-semibold text-foreground mb-4">Quick Actions</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Button 
                   variant="outline" 
-                  className="flex flex-col items-center gap-2 py-6 h-auto hover:bg-indigo-50 hover:border-indigo-200 transition-all"
+                  className="flex flex-col items-center gap-2 py-6 h-auto hover:bg-orange-500/10 hover:border-indigo-200 transition-all"
                   onClick={() => addActivity("call", "Call Logged", "Client ko call kiya")}
                 >
-                  <Phone className="w-5 h-5 text-indigo-600" />
+                  <Phone className="w-5 h-5 text-orange-500" />
                   <span className="text-xs font-bold uppercase tracking-wider">Log Call</span>
                 </Button>
                 
@@ -894,36 +906,38 @@ const handleDelete = async (fileId) => {
             </Card>
 
             {/* Status Section */}
-            <Card className="p-6">
-              <h3 className="text-lg text-gray-900 mb-4">Change Status</h3>
-              <select
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-              >
-                <option value="new">New</option>
-                <option value="discussing">Discussing</option>
-                <option value="proposal">Proposal</option>
-                <option value="negotiation">Negotiation</option>
-                <option value="closed-won">Working/Revision</option>
-                <option value="closed-lost">Closed Lost</option>
-                <option value="complete">Completed</option>
-              </select>
-              <Button
-                className="w-full"
-                onClick={updateStatus}
-                disabled={statusUpdating}
-              >
-                {statusUpdating ? "Updating..." : "Update Status"}
-              </Button>
-              <Button
-                className="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-white"
-                onClick={() => setIsEmailModalOpen(true)}
-              >
-                <Send className="w-4 h-4 mr-2" />
-                Send Follow-up Email
-              </Button>
-            </Card>
+            {user?.role === "admin" && (
+              <Card className="p-6">
+                <h3 className="text-lg text-foreground mb-4">Change Status</h3>
+                <select
+                  className="w-full px-3 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3 bg-black/20 text-foreground"
+                  value={selectedStatus}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
+                >
+                  <option value="new">New</option>
+                  <option value="discussing">Discussing</option>
+                  <option value="proposal">Proposal</option>
+                  <option value="negotiation">Negotiation</option>
+                  <option value="closed-won">Working/Revision</option>
+                  <option value="closed-lost">Closed Lost</option>
+                  <option value="complete">Completed</option>
+                </select>
+                <Button
+                  className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                  onClick={updateStatus}
+                  disabled={statusUpdating}
+                >
+                  {statusUpdating ? "Updating..." : "Update Status"}
+                </Button>
+                <Button
+                  className="w-full mt-4 bg-amber-500 hover:bg-amber-600 text-white"
+                  onClick={() => setIsEmailModalOpen(true)}
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  Send Follow-up Email
+                </Button>
+              </Card>
+            )}
           </div>
         </div>
 
@@ -938,13 +952,13 @@ const handleDelete = async (fileId) => {
               <button
                 key={idx}
                 onClick={() => handleSendEmail(template)}
-                className="w-full text-left p-4 rounded-xl border border-gray-100 hover:border-indigo-500 hover:bg-indigo-50 transition-all group"
+                className="w-full text-left p-4 rounded-xl border border-border hover:border-indigo-500 hover:bg-orange-500/10 transition-all group"
               >
                 <div className="flex justify-between items-center">
-                  <h4 className="font-bold text-gray-900 group-hover:text-indigo-700">{template.title}</h4>
-                  <Send className="w-4 h-4 text-gray-400 group-hover:text-indigo-500" />
+                  <h4 className="font-bold text-foreground group-hover:text-orange-600">{template.title}</h4>
+                  <Send className="w-4 h-4 text-muted-foreground group-hover:text-indigo-500" />
                 </div>
-                <p className="text-xs text-gray-500 mt-1 line-clamp-1">{template.subject}</p>
+                <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{template.subject}</p>
               </button>
             ))}
           </div>
@@ -985,7 +999,7 @@ const handleDelete = async (fileId) => {
         >
           <div className="p-4 space-y-4">
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">Select Production Member</label>
+              <label className="block text-sm font-bold text-muted-foreground mb-1">Select Production Member</label>
               <select 
                 className="w-full p-2 border rounded-lg"
                 value={assignData.assignedTo}
@@ -999,7 +1013,7 @@ const handleDelete = async (fileId) => {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">Service / Scope</label>
+              <label className="block text-sm font-bold text-muted-foreground mb-1">Service / Scope</label>
               <Input 
                 value={assignData.service}
                 onChange={(e) => setAssignData({...assignData, service: e.target.value})}
@@ -1007,7 +1021,7 @@ const handleDelete = async (fileId) => {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-gray-700 mb-1">Production Deadline</label>
+              <label className="block text-sm font-bold text-muted-foreground mb-1">Production Deadline</label>
               <Input 
                 type="date"
                 value={assignData.deadline}
@@ -1032,7 +1046,7 @@ const handleDelete = async (fileId) => {
         >
           <div className="space-y-4 p-4">
             <textarea
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none min-h-[200px]"
+              className="w-full p-3 border border-border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none min-h-[200px]"
               placeholder="Type your note here..."
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
@@ -1047,6 +1061,13 @@ const handleDelete = async (fileId) => {
             </div>
           </div>
         </Modal>
+
+        <InvoiceModal 
+          isOpen={isInvoiceModalOpen} 
+          onClose={() => setIsInvoiceModalOpen(false)} 
+          lead={lead} 
+          payments={payments} 
+        />
       </div>
     </>
   );

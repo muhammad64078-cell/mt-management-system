@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import API from "../api/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import DarkToggle from "../components/DarkToggle";
 import {
   Card,
   Badge,
@@ -50,7 +49,7 @@ import {
   Area,
 } from "recharts";
 
-const PIE_COLORS = ["#6366f1", "#10b981", "#f59e0b", "#8b5cf6"];
+const PIE_COLORS = ["#f97316", "#22c55e", "#a855f7", "#3b82f6", "#eab308", "#ef4444", "#0ea5e9"];
 
 const statusLabels = {
   new: 'New',
@@ -331,7 +330,7 @@ export const Dashboard = () => {
   // ─── GUARDS ───────────────────────────────────────────────────────────────
   if (loading) return <LoadingSpinner size="lg" />;
   if (!dashboardStats)
-    return <p className="p-6 text-center text-gray-500">No data available.</p>;
+    return <p className="p-6 text-center text-muted-foreground">No data available.</p>;
 
   // ─── DERIVED VALUES ───────────────────────────────────────────────────────
   // Helper: Parse notes column JSON
@@ -443,32 +442,32 @@ export const Dashboard = () => {
       name: 'Total Projects',
       value: (Array.isArray(projects) ? projects : []).length,
       icon: Briefcase,
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50 border border-indigo-100 dark:bg-indigo-950/40 dark:border-indigo-900/30',
+      color: 'text-orange-500',
+      bgColor: 'bg-orange-500/10',
       description: 'Total active and completed pipeline'
     },
     {
       name: 'In Progress',
       value: statusCounts['in-progress'],
       icon: ActivityIcon,
-      color: 'text-sky-600',
-      bgColor: 'bg-sky-50 border border-sky-100 dark:bg-sky-950/40 dark:border-sky-900/30',
+      color: 'text-blue-500',
+      bgColor: 'bg-blue-500/10',
       description: 'Active coding and design work'
     },
     {
       name: 'Approaching Deadline',
       value: approachingDeadlineCount,
       icon: AlertTriangle,
-      color: 'text-rose-600',
-      bgColor: `bg-rose-50 border border-rose-100 dark:bg-rose-950/40 dark:border-rose-900/30 ${approachingDeadlineCount > 0 ? 'animate-pulse' : ''}`,
+      color: 'text-rose-500',
+      bgColor: `bg-rose-500/10 ${approachingDeadlineCount > 0 ? 'animate-pulse' : ''}`,
       description: 'Deadlines in next 3-5 days'
     },
     {
       name: 'Completed',
       value: statusCounts['completed'],
       icon: CheckCircle2,
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50 border border-emerald-100 dark:bg-emerald-950/40 dark:border-emerald-900/30',
+      color: 'text-emerald-500',
+      bgColor: 'bg-emerald-500/10',
       description: 'Delivered and closed deliverables'
     }
   ];
@@ -481,8 +480,8 @@ export const Dashboard = () => {
       change: dashboardStats.leads?.change ?? 0,
       trend: dashboardStats.leads?.trend ?? "up",
       icon: Users,
-      bgColor: "bg-indigo-50",
-      color: "text-indigo-600",
+      bgColor: "bg-orange-500/10",
+      color: "text-orange-500",
     },
     {
       name: "Active Deals",
@@ -490,8 +489,8 @@ export const Dashboard = () => {
       change: dashboardStats.deals?.change ?? 0,
       trend: dashboardStats.deals?.trend ?? "up",
       icon: DollarSign,
-      bgColor: "bg-green-50",
-      color: "text-green-600",
+      bgColor: "bg-emerald-500/10",
+      color: "text-emerald-500",
     },
     {
       name: "Follow-ups",
@@ -499,8 +498,8 @@ export const Dashboard = () => {
       change: dashboardStats.followups?.change ?? 0,
       trend: dashboardStats.followups?.trend ?? "up",
       icon: Clock,
-      bgColor: "bg-amber-50",
-      color: "text-amber-600",
+      bgColor: "bg-amber-500/10",
+      color: "text-amber-500",
     },
     {
       name: "Revenue",
@@ -508,8 +507,8 @@ export const Dashboard = () => {
       change: dashboardStats.revenue?.change ?? 0,
       trend: dashboardStats.revenue?.trend ?? "up",
       icon: TrendingUp,
-      bgColor: "bg-purple-50",
-      color: "text-purple-600",
+      bgColor: "bg-purple-500/10",
+      color: "text-purple-500",
     },
     {
       name: "Pending Leads",
@@ -517,8 +516,17 @@ export const Dashboard = () => {
       change: dashboardStats.pendingLeads?.change ?? 0,
       trend: dashboardStats.pendingLeads?.trend ?? "up",
       icon: ActivityIcon,
-      bgColor: "bg-red-50",
-      color: "text-red-600",
+      bgColor: "bg-rose-500/10",
+      color: "text-rose-500",
+    },
+    {
+      name: "Completed Projects",
+      value: statusCounts['completed'] || 0,
+      change: 0,
+      trend: "up",
+      icon: CheckCircle2,
+      bgColor: "bg-blue-500/10",
+      color: "text-blue-500",
     },
   ];
 
@@ -531,7 +539,7 @@ export const Dashboard = () => {
         <div className="flex items-center gap-3">
           <Button
             onClick={() => navigate("/reports")}
-            className="bg-indigo-600 text-white"
+            className="bg-orange-500 text-white hover:bg-orange-600 transition-colors shadow-[0_0_15px_rgba(249,115,22,0.4)]"
           >
             <ChartPieIcon className="w-4 h-4 mr-1" />
             View Reports
@@ -540,49 +548,49 @@ export const Dashboard = () => {
       )}
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-gray-100 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-border pb-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">
             Overview
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-muted-foreground mt-1">
             Welcome back,{" "}
-            <span className="text-indigo-600 font-semibold">{user?.name}</span>
+            <span className="text-orange-500 font-semibold">{user?.name}</span>
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <DarkToggle />
-          <div className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300">
+          <div className="px-4 py-2 bg-card border border-border rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.5)] text-sm font-medium text-foreground">
             {new Date().toLocaleDateString()}
           </div>
         </div>
       </div>
 
-      {/* ── Stats Cards (5 cards) ───────────────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      {/* ── Stats Cards (6 cards) ───────────────────────────────────────────── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
         {stats.map((stat, idx) => (
           <div
             key={idx}
-            className="p-5 rounded-2xl backdrop-blur-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300"
+            className="p-6 rounded-2xl bg-card border border-border shadow-[0_0_15px_rgba(0,0,0,0.5)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all duration-300 relative overflow-hidden"
           >
-            <div className="flex justify-between items-center mb-4">
-              <div className={`p-3 rounded-xl ${stat.bgColor} ${stat.color}`}>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+            <div className="flex justify-between items-center mb-8 relative z-10">
+              <div className={`p-3 rounded-xl ${stat.bgColor} ${stat.color} shadow-inner`}>
                 <stat.icon size={22} />
               </div>
               <span
                 className={`text-xs font-semibold px-2 py-1 rounded-full ${
                   stat.trend === "up"
-                    ? "bg-green-100 text-green-600"
-                    : "bg-red-100 text-red-600"
+                    ? "bg-emerald-500/10 text-emerald-500"
+                    : "bg-rose-500/10 text-rose-500"
                 }`}
               >
                 {stat.change}%
               </span>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+            <h3 className="text-2xl font-bold text-foreground relative z-10">
               {stat.value}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">{stat.name}</p>
+            <p className="text-sm text-muted-foreground relative z-10 mt-1">{stat.name}</p>
           </div>
         ))}
       </div>
@@ -591,21 +599,21 @@ export const Dashboard = () => {
       {user?.role === "admin" && (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-black text-gray-900 dark:text-white tracking-tight">Production Pipeline Overview</h2>
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/30 uppercase tracking-wider">Live Metrics</span>
+            <h2 className="text-xl font-black text-foreground tracking-tight">Production Pipeline Overview</h2>
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-orange-500/10 text-orange-500 border border-orange-500/20 uppercase tracking-wider">Live Metrics</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {productionStats.map((stat) => (
-              <Card key={stat.name} className="p-6 border-none ring-1 ring-gray-100 dark:ring-gray-700/50 bg-white dark:bg-gray-800 shadow-sm transition-all hover:shadow-md hover:scale-[1.01] duration-300 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-gray-50/30 dark:to-gray-700/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <Card key={stat.name} className="p-6 border border-border bg-card shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] hover:scale-[1.01] duration-300 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                 <div className="flex items-start justify-between relative z-10">
                   <div className="flex-1">
-                    <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{stat.name}</p>
-                    <p className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">{stat.value}</p>
-                    <p className="text-[10px] text-gray-400 font-semibold mt-1.5 leading-none">{stat.description}</p>
+                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1">{stat.name}</p>
+                    <p className="text-3xl font-black text-foreground tracking-tight">{stat.value}</p>
+                    <p className="text-[10px] text-muted-foreground font-semibold mt-1.5 leading-none">{stat.description}</p>
                   </div>
-                  <div className={`p-3 rounded-xl ${stat.bgColor} flex items-center justify-center transition-all group-hover:scale-110 duration-300`}>
+                  <div className={`p-3 rounded-xl bg-black/20 flex items-center justify-center transition-all group-hover:scale-110 duration-300 shadow-inner border border-white/5`}>
                     <stat.icon className={`w-6 h-6 ${stat.color}`} />
                   </div>
                 </div>
@@ -614,24 +622,25 @@ export const Dashboard = () => {
           </div>
 
           {/* Team Performance Banner */}
-          <Card className="p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/20 dark:to-purple-950/25 border border-indigo-100 dark:border-indigo-900/30 shadow-sm">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center">
-              <div className="flex-shrink-0 w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center mb-4 sm:mb-0 sm:mr-4">
+          <Card className="p-6 bg-gradient-to-r from-card to-black/20 border border-border shadow-[0_0_15px_rgba(0,0,0,0.5)] relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-orange-500/5 to-transparent pointer-events-none" />
+            <div className="flex flex-col sm:flex-row items-start sm:items-center relative z-10">
+              <div className="flex-shrink-0 w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mb-4 sm:mb-0 sm:mr-4 shadow-[0_0_15px_rgba(249,115,22,0.4)]">
                 <TrendingUp className="w-6 h-6 text-white animate-pulse" />
               </div>
               <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Team Performance</h3>
-                <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+                <h3 className="text-lg font-bold text-foreground mb-2">Team Performance</h3>
+                <p className="text-sm text-muted-foreground mb-3">
                   Great work! The team is maintaining an average progress of {avgProgress}% across all projects.{" "}
                   {statusCounts['in-progress']} projects are actively in progress and {statusCounts['review']} are awaiting review.
                 </p>
                 <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 text-sm">
-                  <div className="flex items-center text-green-600 dark:text-green-400">
+                  <div className="flex items-center text-emerald-500">
                     <CheckCircle2 className="w-4 h-4 mr-1" />
                     <span className="font-bold">{statusCounts['completed']} completed this month</span>
                   </div>
-                  <span className="hidden sm:inline text-gray-400">•</span>
-                  <span className="text-gray-600 dark:text-gray-400 font-bold">{projects.length} total projects</span>
+                  <span className="hidden sm:inline text-muted-foreground/50">•</span>
+                  <span className="text-muted-foreground font-bold">{projects.length} total projects</span>
                 </div>
               </div>
             </div>
@@ -642,7 +651,7 @@ export const Dashboard = () => {
       {/* ── Follow-up Alerts ──────────────────────────────────────────────── */}
       {followUpLeads.length > 0 && (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-amber-600">
+          <div className="flex items-center gap-2 text-amber-500">
             <AlertCircle size={20} />
             <h2 className="text-lg font-bold">Follow-up Reminders</h2>
           </div>
@@ -650,16 +659,16 @@ export const Dashboard = () => {
             {followUpLeads.map((lead) => (
               <div 
                 key={lead.id || lead._id} 
-                className="bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/20 rounded-xl p-4 flex items-center justify-between group hover:bg-amber-100 dark:hover:bg-amber-900/20 transition-all cursor-pointer shadow-sm"
+                className="bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 flex items-center justify-between group hover:bg-amber-500/15 transition-all cursor-pointer"
                 onClick={() => navigate(`/leads/${lead.id || lead._id}`)}
               >
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-bold text-amber-900 dark:text-amber-100 truncate">{lead.client_name}</h4>
-                  <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
+                  <h4 className="font-bold text-foreground truncate">{lead.client_name}</h4>
+                  <p className="text-xs text-amber-500 mt-1">
                     Stuck in <span className="font-bold">{statusLabels[lead.status] || lead.status}</span> for 3+ days
                   </p>
                 </div>
-                <div className="ml-4 p-2 bg-white dark:bg-gray-800 rounded-lg text-amber-600 group-hover:scale-110 transition-transform">
+                <div className="ml-4 p-2 bg-card rounded-lg text-amber-500 group-hover:scale-110 transition-transform">
                   <Mail size={18} />
                 </div>
               </div>
@@ -672,37 +681,47 @@ export const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
         {/* Monthly Growth — spans 2 cols */}
-        <Card className="lg:col-span-2 p-6 border-none ring-1 ring-gray-100 bg-white">
-          <h3 className="text-lg font-bold text-gray-900 mb-6">Monthly Growth</h3>
+        <Card className="lg:col-span-2 p-6 border border-border bg-card">
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-foreground">Monthly Revenue Overview</h3>
+            <p className="text-sm text-muted-foreground mt-1">Revenue trend over the last 6 months</p>
+          </div>
           <div className="h-[320px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData.monthlyDeals}>
                 <defs>
                   <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%"  stopColor="#6366f1" stopOpacity={0.1} />
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0}   />
+                    <stop offset="5%"  stopColor="#f97316" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#f97316" stopOpacity={0}   />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#27272a" />
                 <XAxis
                   dataKey="month"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: "#9ca3af", fontSize: 12 }}
+                  tick={{ fill: "#71717a", fontSize: 12 }}
                   dy={10}
                 />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: "#9ca3af", fontSize: 12 }} />
+                <YAxis 
+                  axisLine={false} 
+                  tickLine={false} 
+                  tick={{ fill: "#71717a", fontSize: 12 }} 
+                  tickFormatter={(value) => `$${value.toLocaleString()}`}
+                  domain={[100, 10000]}
+                />
                 <Tooltip
                   contentStyle={{
                     borderRadius: "12px",
-                    border: "none",
-                    boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)",
+                    border: "1px solid #27272a",
+                    backgroundColor: "#18181c",
+                    color: "#fff",
                   }}
                 />
                 <Area
                   type="monotone"
                   dataKey="revenue"
-                  stroke="#6366f1"
+                  stroke="#f97316"
                   strokeWidth={3}
                   fillOpacity={1}
                   fill="url(#colorRevenue)"
@@ -720,43 +739,59 @@ export const Dashboard = () => {
         </Card>
 
         {/* Leads Distribution Pie — 1 col */}
-        <Card className="p-6 border-none ring-1 ring-gray-100 bg-white">
-          <h3 className="text-lg font-bold text-gray-900 mb-6">Leads Distribution</h3>
-          <div className="h-[250px] w-full">
+        <Card className="p-6 border border-border bg-card">
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-foreground">Leads Categories</h3>
+            <p className="text-sm text-muted-foreground mt-1">Distribution by service type</p>
+          </div>
+          
+          <div className="h-[250px] w-full relative">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={chartData.leadsByService}
                   cx="50%"
                   cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  paddingAngle={8}
+                  innerRadius={75}
+                  outerRadius={105}
+                  paddingAngle={0}
                   dataKey="value"
                 >
                   {chartData.leadsByService.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={PIE_COLORS[index % PIE_COLORS.length]}
-                      stroke="none"
+                      stroke="#18181c"
+                      strokeWidth={4}
                     />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip contentStyle={{ borderRadius: "12px", border: "1px solid #27272a", backgroundColor: "#18181c", color: "#fff" }} />
               </PieChart>
             </ResponsiveContainer>
+
+            {/* Centered Total */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <span className="text-4xl font-black text-foreground tracking-tighter">
+                {chartData.leadsByService.reduce((acc, curr) => acc + curr.value, 0)}
+              </span>
+              <span className="text-xs text-muted-foreground font-medium uppercase tracking-widest mt-1">
+                Leads
+              </span>
+            </div>
           </div>
-          <div className="mt-4 space-y-3">
+
+          <div className="mt-8 space-y-4">
             {chartData.leadsByService.map((item, i) => (
               <div key={i} className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <div
-                    className="w-2.5 h-2.5 rounded-full"
+                    className="w-3 h-3 rounded-full"
                     style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }}
                   />
-                  <span className="text-sm text-gray-600 font-medium">{item.name}</span>
+                  <span className="text-[15px] font-semibold text-foreground">{item.name}</span>
                 </div>
-                <span className="text-sm font-bold text-gray-900">{item.value}</span>
+                <span className="text-[15px] text-muted-foreground">{item.value}</span>
               </div>
             ))}
           </div>
@@ -766,14 +801,14 @@ export const Dashboard = () => {
 
       {/* Monthly Completion Analytics Section (Admin Only) */}
       {user?.role === 'admin' && (
-        <Card className="p-6 border-none ring-1 ring-gray-100 shadow-sm bg-white dark:bg-gray-800 dark:ring-gray-700">
+        <Card className="p-6 border border-border bg-card">
           <div className="flex items-center gap-2 mb-6">
-            <Calendar className="w-5 h-5 text-indigo-600 animate-bounce" />
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Monthly Completion Analytics</h3>
+            <Calendar className="w-5 h-5 text-orange-500 animate-bounce" />
+            <h3 className="text-lg font-bold text-foreground">Monthly Completion Analytics</h3>
           </div>
           
           {monthlyCompleted.length === 0 ? (
-            <div className="py-8 text-center text-gray-400 italic text-sm bg-gray-50 dark:bg-gray-700/30 rounded-2xl">
+            <div className="py-8 text-center text-muted-foreground italic text-sm bg-black/20 rounded-2xl">
               No completed projects recorded for any month yet.
             </div>
           ) : (
@@ -781,40 +816,40 @@ export const Dashboard = () => {
               {monthlyCompleted.map((m) => (
                 <div 
                   key={m.month} 
-                  className="p-5 bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-sm hover:shadow-md hover:ring-2 hover:ring-indigo-500/10 transition-all duration-300 relative group overflow-hidden"
+                  className="p-5 bg-gradient-to-br from-card to-black/20 border border-border rounded-2xl hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] hover:ring-2 hover:ring-orange-500/10 transition-all duration-300 relative group overflow-hidden"
                 >
                   {/* Visual Accent */}
-                  <div className="absolute right-0 top-0 w-24 h-24 bg-indigo-50/30 rounded-bl-full -z-10 group-hover:bg-indigo-50/50 transition-colors duration-300" />
+                  <div className="absolute right-0 top-0 w-24 h-24 bg-orange-500/5 rounded-bl-full -z-10 group-hover:bg-orange-500/10 transition-colors duration-300" />
                   
                   <div className="flex justify-between items-start mb-3">
                     <div>
-                      <h4 className="text-sm font-black text-gray-800 dark:text-gray-100 uppercase tracking-wide">{m.month}</h4>
-                      <p className="text-[10px] text-gray-400 font-bold mt-0.5">Completed Pipeline</p>
+                      <h4 className="text-sm font-black text-foreground uppercase tracking-wide">{m.month}</h4>
+                      <p className="text-[10px] text-muted-foreground font-bold mt-0.5">Completed Pipeline</p>
                     </div>
-                    <Badge variant="success" className="font-extrabold text-[11px] px-2.5 py-0.5 shadow-sm">
+                    <Badge variant="success" className="font-extrabold text-[11px] px-2.5 py-0.5 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                       {m.completedCount} {m.completedCount === 1 ? 'Project' : 'Projects'}
                     </Badge>
                   </div>
                   
-                  <div className="space-y-3 pt-2 border-t border-gray-100 dark:border-gray-700/50">
+                  <div className="space-y-3 pt-2 border-t border-border">
                     <div className="flex items-center justify-between text-xs">
-                      <span className="text-gray-400 font-bold">Total Revenue:</span>
-                      <span className="font-black text-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-400 px-2 py-0.5 rounded shadow-sm">
+                      <span className="text-muted-foreground font-bold">Total Revenue:</span>
+                      <span className="font-black text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded">
                         💰 {m.revenue > 0 ? `$${m.revenue.toLocaleString()}` : '—'}
                       </span>
                     </div>
                     
                     {/* List of Developers and their Completed Projects */}
-                    <div className="space-y-2 pt-2 border-t border-gray-100 dark:border-gray-700/50">
-                      <span className="text-[9px] text-gray-400 font-extrabold uppercase tracking-wider block">Completed Deliverables by Member:</span>
+                    <div className="space-y-2 pt-2 border-t border-border">
+                      <span className="text-[9px] text-muted-foreground font-extrabold uppercase tracking-wider block">Completed Deliverables by Member:</span>
                       <div className="space-y-2.5">
                         {m.devGroups.map((group, gIdx) => (
-                          <div key={gIdx} className="space-y-1 bg-gray-50/50 dark:bg-gray-700/20 p-2 rounded-xl border border-gray-100/50 dark:border-gray-700/30">
+                          <div key={gIdx} className="space-y-1 bg-black/20 p-2 rounded-xl border border-border">
                             <div className="flex items-center justify-between">
-                              <span className="text-[10px] font-black text-gray-700 dark:text-gray-300 flex items-center gap-1">
+                              <span className="text-[10px] font-black text-foreground flex items-center gap-1">
                                 👤 {group.name}
                               </span>
-                              <span className="text-[8px] font-extrabold px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400">
+                              <span className="text-[8px] font-extrabold px-1.5 py-0.2 rounded bg-orange-500/10 text-orange-500">
                                 {group.projects.length} {group.projects.length === 1 ? 'Project' : 'Projects'}
                               </span>
                             </div>
@@ -823,7 +858,7 @@ export const Dashboard = () => {
                                 <span 
                                   key={p.id || p._id || idx} 
                                   onClick={() => navigate(`/production/projects/${p.id || p._id}`)}
-                                  className="text-[9px] font-bold text-indigo-700 dark:text-indigo-300 bg-white dark:bg-gray-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 transition-all border border-indigo-100/30 dark:border-indigo-900/30 px-2 py-0.5 rounded cursor-pointer shadow-sm animate-in fade-in duration-200"
+                                  className="text-[9px] font-bold text-orange-500 bg-card hover:bg-orange-500/10 transition-all border border-border px-2 py-0.5 rounded cursor-pointer animate-in fade-in duration-200"
                                   title="Click to view workspace"
                                 >
                                   {p.clientName || 'Unnamed'}
@@ -844,18 +879,18 @@ export const Dashboard = () => {
 
       {/* ── Recent Lead Notifications (Admin Only) ──────────────────────────── */}
       {user?.role === "admin" && (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+        <div className="bg-card rounded-2xl border border-border overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-border">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <h3 className="text-base font-bold text-gray-900 dark:text-white">Lead Notifications</h3>
+              <h3 className="text-base font-bold text-foreground">Lead Notifications</h3>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-xs text-gray-400">Latest {(dashboardStats?.recentActivities || []).length} entries</span>
+              <span className="text-xs text-muted-foreground">Latest {(dashboardStats?.recentActivities || []).length} entries</span>
               {(dashboardStats?.recentActivities || []).length > 0 && (
                 <button 
                   onClick={clearAllNotifications}
-                  className="text-xs font-bold text-red-500 hover:text-red-600 px-2 py-1 rounded-lg hover:bg-red-50 transition-all"
+                  className="text-xs font-bold text-red-500 hover:text-red-400 px-2 py-1 rounded-lg hover:bg-red-500/10 transition-all"
                 >
                   Clear All
                 </button>
@@ -864,14 +899,13 @@ export const Dashboard = () => {
           </div>
 
           {(dashboardStats?.recentActivities || []).length === 0 ? (
-            <div className="px-6 py-10 text-center text-gray-400 text-sm">No lead activity yet.</div>
+            <div className="px-6 py-10 text-center text-muted-foreground text-sm">No lead activity yet.</div>
           ) : (
-            <ul className="divide-y divide-gray-50 dark:divide-gray-700">
+            <ul className="divide-y divide-border">
               {(dashboardStats?.recentActivities || []).map((act, i) => {
                 const adderName = act.createdBy?.name || "Unknown";
                 const initials = adderName.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
                 
-                // Fix: Use act.created_at (Supabase) instead of act.createdAt
                 const timeAgo = (() => {
                   const timestamp = new Date(act.created_at || act.createdAt).getTime();
                   if (isNaN(timestamp)) return "—";
@@ -885,40 +919,37 @@ export const Dashboard = () => {
                 return (
                   <li 
                     key={i} 
-                    className="group flex items-start gap-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all"
+                    className="group flex items-start gap-4 px-6 py-4 hover:bg-card/5 transition-all"
                   >
-                    {/* Avatar */}
-                    <div className="w-9 h-9 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                    <div className="w-9 h-9 rounded-full bg-orange-500/10 text-orange-500 flex items-center justify-center text-xs font-bold flex-shrink-0">
                       {initials}
                     </div>
 
-                    {/* Details */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-800 dark:text-gray-200">
-                        <span className="font-bold text-indigo-600">{adderName}</span>
+                      <p className="text-sm text-foreground">
+                        <span className="font-bold text-orange-500">{adderName}</span>
                         {" "}added a new lead:
-                        {" "}<span className="font-semibold text-gray-900 dark:text-white">{act.client_name || act.clientName || "—"}</span>
+                        {" "}<span className="font-semibold text-foreground">{act.client_name || act.clientName || "—"}</span>
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 truncate">
+                      <p className="text-xs text-muted-foreground mt-0.5 truncate">
                         {act.notes || ""}
                       </p>
                     </div>
 
-                    {/* Actions & Time */}
                     <div className="flex flex-col items-end gap-2">
-                      <span className="text-[10px] text-gray-400 font-medium">{timeAgo}</span>
+                      <span className="text-[10px] text-muted-foreground font-medium">{timeAgo}</span>
                       
                       <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                         <button 
                           onClick={() => act.lead_id && navigate(`/leads/${act.lead_id}`)}
-                          className={`p-1.5 rounded-lg transition-colors ${act.lead_id ? 'text-indigo-600 hover:bg-indigo-50' : 'text-gray-300 cursor-not-allowed'}`}
+                          className={`p-1.5 rounded-lg transition-colors ${act.lead_id ? 'text-orange-500 hover:bg-orange-500/10' : 'text-muted-foreground cursor-not-allowed'}`}
                           title="View Lead"
                         >
                           <Eye size={14} />
                         </button>
                         <button 
                           onClick={() => deleteNotification(act.id || act._id)}
-                          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-1.5 text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
                           title="Dismiss"
                         >
                           <Trash2 size={14} />
@@ -937,16 +968,16 @@ export const Dashboard = () => {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 
         {/* Team Targets */}
-        <Card className="p-6 border-none ring-1 ring-gray-100 bg-white shadow-sm overflow-hidden">
+        <Card className="p-6 border border-border bg-card overflow-hidden">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-            <h3 className="text-lg font-bold text-gray-900">
+            <h3 className="text-lg font-bold text-foreground">
               Team Performance &amp; Targets
             </h3>
             {user?.role === "admin" && (
               <Button
                 size="sm"
                 onClick={() => setIsTargetModalOpen(true)}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold w-full sm:w-auto"
+                className="bg-orange-500 hover:bg-orange-600 text-white font-bold w-full sm:w-auto"
               >
                 <Plus className="w-4 h-4 mr-1" />
                 Set Target
@@ -963,30 +994,30 @@ export const Dashboard = () => {
                 <div key={i} className="group">
                   <div className="flex items-center justify-between mb-2">
                     <div>
-                      <div className="text-sm font-bold text-gray-900">
+                      <div className="text-sm font-bold text-foreground">
                         {t.userId?.name || "User"}
                       </div>
-                      <div className="text-[10px] text-gray-400 uppercase tracking-wider">
+                      <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
                         {t.period} {t.type}
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-bold text-gray-800">
+                      <div className="text-sm font-bold text-foreground">
                         {t.current} / {t.target}
                       </div>
                       <div
                         className={`text-[10px] font-bold ${
-                          percentage >= 100 ? "text-green-600" : "text-indigo-600"
+                          percentage >= 100 ? "text-emerald-500" : "text-orange-500"
                         }`}
                       >
                         {percentage}% REACHED
                       </div>
                     </div>
                   </div>
-                  <div className="w-full bg-gray-50 rounded-full h-1.5 overflow-hidden">
+                  <div className="w-full bg-black/20 rounded-full h-1.5 overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-1000 ${
-                        percentage >= 100 ? "bg-green-500" : "bg-indigo-600"
+                        percentage >= 100 ? "bg-emerald-500" : "bg-orange-500"
                       }`}
                       style={{ width: `${Math.min(percentage, 100)}%` }}
                     />
@@ -996,36 +1027,36 @@ export const Dashboard = () => {
             })}
 
             {allTargets.length === 0 && (
-              <p className="text-center text-gray-400 py-10">No active targets found.</p>
+              <p className="text-center text-muted-foreground py-10">No active targets found.</p>
             )}
           </div>
         </Card>
 
         {/* Sales Team Management Card */}
         {user?.role === "admin" && (
-          <Card className="p-6 border-none ring-1 ring-gray-100 bg-white shadow-sm mt-8">
+          <Card className="p-6 border border-border bg-card mt-8">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-bold text-gray-900">
+              <h3 className="text-lg font-bold text-foreground">
                 Sales Team Management
               </h3>
             </div>
             <div className="space-y-4">
               {salesUsers.map((u) => (
-                <div key={u.id || u._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+                <div key={u.id || u._id} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-black/20 rounded-xl border border-border gap-3 sm:gap-0">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs">
+                    <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center text-orange-500 font-bold text-xs shrink-0">
                       {u.name?.substring(0, 2).toUpperCase()}
                     </div>
-                    <div>
-                      <p className="text-sm font-bold text-gray-900">{u.name}</p>
-                      <p className="text-xs text-gray-500">{u.email}</p>
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-foreground truncate">{u.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{u.email}</p>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap sm:flex-nowrap gap-2 w-full sm:w-auto mt-2 sm:mt-0">
                     <Button 
                       size="sm" 
                       variant="outline" 
-                      className="text-xs bg-white text-indigo-600 border-indigo-200 hover:bg-indigo-50"
+                      className="text-xs bg-card text-orange-500 border-orange-500/20 hover:bg-orange-500/10"
                       onClick={() => navigate(`/activity?userId=${u.id || u._id}`)}
                     >
                       View Activity
@@ -1033,7 +1064,7 @@ export const Dashboard = () => {
                     <Button 
                       size="sm" 
                       variant="outline" 
-                      className="text-xs bg-white text-green-600 border-green-200 hover:bg-green-50"
+                      className="text-xs bg-card text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/10"
                       onClick={() => {
                         const token = localStorage.getItem("token");
                         // Download file directly
@@ -1055,11 +1086,12 @@ export const Dashboard = () => {
                     >
                       Excel
                     </Button>
+
                   </div>
                 </div>
               ))}
               {salesUsers.length === 0 && (
-                <p className="text-center text-gray-400 py-4 text-sm">No sales users found.</p>
+                <p className="text-center text-muted-foreground py-4 text-sm">No sales users found.</p>
               )}
             </div>
           </Card>
@@ -1069,10 +1101,10 @@ export const Dashboard = () => {
         <div className="space-y-8">
 
           {/* Top Performer Card */}
-          <Card className="p-6 border-none ring-1 ring-gray-100 shadow-sm bg-gradient-to-br from-indigo-600 to-violet-700 text-white overflow-hidden relative">
+          <Card className="p-6 border border-border bg-gradient-to-br from-orange-600 to-orange-800 text-white overflow-hidden relative">
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-6">
-                <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                <span className="bg-card/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                   Top Performer
                 </span>
                 <Trophy className="text-amber-300" size={24} />
@@ -1092,38 +1124,38 @@ export const Dashboard = () => {
                   <h3 className="text-xl font-bold">
                     {topPerformer.name || "No Data Yet"}
                   </h3>
-                  <p className="text-indigo-100 text-sm">Senior Executive</p>
+                  <p className="text-orange-100 text-sm">Senior Executive</p>
                 </div>
               </div>
 
               <div className="mt-8 grid grid-cols-3 gap-4 border-t border-white/10 pt-6 text-center">
                 <div>
-                  <p className="text-indigo-200 text-[10px] uppercase font-bold">Leads</p>
+                  <p className="text-orange-200 text-[10px] uppercase font-bold">Leads</p>
                   <p className="text-lg font-bold">{topPerformer.leads || 0}</p>
                 </div>
                 <div>
-                  <p className="text-indigo-200 text-[10px] uppercase font-bold">Deals</p>
+                  <p className="text-orange-200 text-[10px] uppercase font-bold">Deals</p>
                   <p className="text-lg font-bold">{topPerformer.deals || 0}</p>
                 </div>
                 <div>
-                  <p className="text-indigo-200 text-[10px] uppercase font-bold">Revenue</p>
+                  <p className="text-orange-200 text-[10px] uppercase font-bold">Revenue</p>
                   <p className="text-lg font-bold">
                     ${(topPerformer.revenue || 0).toLocaleString()}
                   </p>
                 </div>
               </div>
             </div>
-            <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute -right-10 -top-10 w-40 h-40 bg-card/10 rounded-full blur-3xl" />
           </Card>
 
           {/* Provision New User (admin only) */}
           {user?.role === "admin" && (
-            <Card className="p-6 border-none ring-1 ring-gray-100 bg-white shadow-sm">
+            <Card className="p-6 border border-border bg-card">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg">
+                <div className="p-2 bg-orange-500/10 text-orange-500 rounded-lg">
                   <UserPlus size={20} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900">Provision New User</h3>
+                <h3 className="text-lg font-bold text-foreground">Provision New User</h3>
               </div>
 
               <div className="space-y-4">
@@ -1143,7 +1175,7 @@ export const Dashboard = () => {
                 />
                 <Button
                   onClick={createUser}
-                  className="w-full bg-gray-900 py-3 rounded-xl font-bold text-sm text-white"
+                  className="w-full bg-orange-500 hover:bg-orange-600 py-3 rounded-xl font-bold text-sm text-white shadow-[0_0_15px_rgba(249,115,22,0.3)]"
                 >
                   Create Account
                 </Button>
@@ -1157,13 +1189,13 @@ export const Dashboard = () => {
       {/* ── Target Assignment Modal ─────────────────────────────────────────── */}
       {isTargetModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-          <Card className="w-full max-w-md p-6 bg-white animate-in zoom-in-95 duration-200">
+          <Card className="w-full max-w-md p-6 bg-card border border-border animate-in zoom-in-95 duration-200">
 
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-900">Assign Sales Target</h3>
+              <h3 className="text-xl font-bold text-foreground">Assign Sales Target</h3>
               <button
                 onClick={() => setIsTargetModalOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-full text-gray-400"
+                className="p-2 hover:bg-card/10 rounded-full text-muted-foreground"
               >
                 <CloseIcon size={20} />
               </button>
@@ -1209,13 +1241,13 @@ export const Dashboard = () => {
               <div className="flex gap-3 pt-4">
                 <Button
                   onClick={() => setIsTargetModalOpen(false)}
-                  className="flex-1 bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  className="flex-1 bg-card border border-border text-foreground hover:bg-card/5"
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={assignTarget}
-                  className="flex-1 bg-indigo-600 text-white font-bold"
+                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold"
                 >
                   Save Target
                 </Button>

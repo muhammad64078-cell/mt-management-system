@@ -124,8 +124,8 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Team</h1>
-        <p className="text-sm text-gray-500">View team performance and member statistics</p>
+        <h1 className="text-2xl font-bold text-foreground mb-2">Team</h1>
+        <p className="text-sm text-muted-foreground">View team performance and member statistics</p>
       </div>
 
       {/* Team Stats Summary */}
@@ -133,11 +133,11 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Total Team Leads</p>
-              <p className="text-3xl font-bold text-gray-900">{data.totalLeads}</p>
+              <p className="text-sm text-muted-foreground mb-1">Total Team Leads</p>
+              <p className="text-3xl font-bold text-foreground">{data.totalLeads}</p>
             </div>
-            <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-              <Users className="w-6 h-6 text-indigo-600" />
+            <div className="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center">
+              <Users className="w-6 h-6 text-orange-500" />
             </div>
           </div>
         </Card>
@@ -145,8 +145,8 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Total Deals Closed</p>
-              <p className="text-3xl font-bold text-gray-900">{data.totalDeals}</p>
+              <p className="text-sm text-muted-foreground mb-1">Total Deals Closed</p>
+              <p className="text-3xl font-bold text-foreground">{data.totalDeals}</p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
               <Trophy className="w-6 h-6 text-green-600" />
@@ -157,8 +157,8 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Total Revenue</p>
-              <p className="text-3xl font-bold text-gray-900">${(data.totalRevenue / 1000).toFixed(0)}K</p>
+              <p className="text-sm text-muted-foreground mb-1">Total Revenue</p>
+              <p className="text-3xl font-bold text-foreground">${(data.totalRevenue / 1000).toFixed(0)}K</p>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
               <DollarSign className="w-6 h-6 text-purple-600" />
@@ -169,8 +169,8 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
         <Card className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-500 mb-1">Team Members</p>
-              <p className="text-3xl font-bold text-gray-900">{data.totalUsers}</p>
+              <p className="text-sm text-muted-foreground mb-1">Team Members</p>
+              <p className="text-3xl font-bold text-foreground">{data.totalUsers}</p>
             </div>
             <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
               <TrendingUp className="w-6 h-6 text-yellow-600" />
@@ -181,7 +181,7 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
 
       {/* Sales Team List */}
       <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Sales Team</h2>
+        <h2 className="text-xl font-bold text-foreground mb-4">Sales Team</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {salesMembers.map((member) => (
             <Card key={member.id || member._id} className="p-6 transition-all hover:shadow-md">
@@ -196,8 +196,8 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
                     <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-white" />
                   </div>
                   <div className="ml-4">
-                    <h3 className="text-gray-900 font-bold mb-1">{member.name}</h3>
-                    <p className="text-sm text-gray-500 uppercase tracking-wider">{member.role}</p>
+                    <h3 className="text-foreground font-bold mb-1">{member.name}</h3>
+                    <p className="text-sm text-muted-foreground uppercase tracking-wider">{member.role}</p>
                   </div>
                 </div>
                 <Badge variant={member.status === 'inactive' ? 'danger' : 'success'}>
@@ -206,13 +206,13 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-500">Email</p>
-                  <p className="text-xs font-medium text-gray-900 truncate">{member.email}</p>
+                <div className="text-center p-3 bg-black/20 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Email</p>
+                  <p className="text-xs font-medium text-foreground truncate">{member.email}</p>
                 </div>
-                <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <p className="text-sm text-gray-500">Joined</p>
-                  <p className="text-xs font-medium text-gray-900">{new Date(member.createdAt).toLocaleDateString()}</p>
+                <div className="text-center p-3 bg-black/20 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Joined</p>
+                  <p className="text-xs font-medium text-foreground">{new Date(member.createdAt).toLocaleDateString()}</p>
                 </div>
               </div>
 
@@ -233,7 +233,7 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
                   <Button 
                     size="sm" 
                     variant="outline"
-                    className="flex-1 text-[10px] h-8 border-indigo-100 text-indigo-600 hover:bg-indigo-50"
+                    className="flex-1 text-[10px] h-8 border-indigo-100 text-orange-500 hover:bg-orange-500/10"
                     onClick={() => setResetModal({ isOpen: true, userId: member.id || member._id, userName: member.name })}
                     disabled={isUpdating}
                   >
@@ -262,7 +262,7 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
 
       {/* Production Team */}
       <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Production Team</h2>
+        <h2 className="text-xl font-bold text-foreground mb-4">Production Team</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {productionMembers.map((member) => (
             <Card key={member.id || member._id} className="p-6">
@@ -274,12 +274,12 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
                     className="w-12 h-12 rounded-full"
                   />
                   <div className="ml-3">
-                    <h3 className="text-sm font-bold text-gray-900 mb-0.5">{member.name}</h3>
-                    <p className="text-xs text-gray-500 uppercase">{member.role}</p>
+                    <h3 className="text-sm font-bold text-foreground mb-0.5">{member.name}</h3>
+                    <p className="text-xs text-muted-foreground uppercase">{member.role}</p>
                   </div>
                 </div>
               </div>
-              <div className="text-xs text-gray-400 bg-gray-50 p-2 rounded">
+              <div className="text-xs text-muted-foreground bg-black/20 p-2 rounded">
                  {member.email}
               </div>
               
@@ -287,7 +287,7 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
                 <div className="mt-4 flex items-center gap-2 pt-3 border-t border-gray-50">
                    <button 
                     onClick={() => handleToggleStatus(member.id || member._id, member.status)}
-                    className={`p-1.5 rounded-lg transition-colors ${member.status === 'inactive' ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400'}`}
+                    className={`p-1.5 rounded-lg transition-colors ${member.status === 'inactive' ? 'bg-green-50 text-green-600' : 'bg-black/40 text-muted-foreground'}`}
                     title={member.status === 'inactive' ? 'Activate User' : 'Deactivate User'}
                     disabled={isUpdating}
                   >
@@ -295,7 +295,7 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
                   </button>
                   <button 
                     onClick={() => setResetModal({ isOpen: true, userId: member.id || member._id, userName: member.name })}
-                    className="p-1.5 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors"
+                    className="p-1.5 rounded-lg bg-orange-500/10 text-orange-500 hover:bg-orange-500/20 transition-colors"
                     title="Reset Password"
                     disabled={isUpdating}
                   >

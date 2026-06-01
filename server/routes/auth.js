@@ -114,8 +114,9 @@ router.get("/sales-users", protect, authorizeRoles("admin"), async (req, res) =>
   try {
     const { data: users, error } = await supabase
       .from('users')
-      .select('id, name, email, role')
-      .eq('role', 'sales');
+      .select('id, name, email, role, status')
+      .ilike('role', 'sales')
+      .neq('status', 'deleted');
 
     if (error) throw error;
     res.json(users.map(u => ({ ...u, _id: u.id }))); // _id mapping
@@ -130,7 +131,7 @@ router.get("/production-users", protect, authorizeRoles("admin", "sales"), async
     const { data: users, error } = await supabase
       .from('users')
       .select('id, name, email, role')
-      .eq('role', 'production');
+      .ilike('role', 'production');
 
     if (error) throw error;
     res.json(users.map(u => ({ ...u, _id: u.id }))); // _id mapping

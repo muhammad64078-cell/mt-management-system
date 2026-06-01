@@ -4,7 +4,6 @@ import { Card, Button, Badge } from "../components/ui";
 import { Modal } from "../components/Modal";
 import { Plus, Phone, Mail, Calendar, MessageSquare, CheckCircle, Clock } from "lucide-react";
 import API from "../api/api";
-import DarkToggle from "../components/DarkToggle";
 import { Trash2 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -116,24 +115,24 @@ const Activity = () => {
         <div className={`w-6 h-6 rounded-full flex items-center justify-center mt-2
           ${a.status === "done" ? "bg-green-500" : "bg-yellow-400"}
         `}>
-          <div className="w-2 h-2 bg-white rounded-full"></div>
+          <div className="w-2 h-2 bg-card rounded-full"></div>
         </div>
 
         {/* CARD */}
         <div className="flex-1">
-          <div className="backdrop-blur-md bg-white/70 border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-xl transition-all duration-300 dark:bg-gray-800/50 dark:border-gray-700">
+          <div className="backdrop-blur-md bg-card/70 border border-border rounded-xl p-5 shadow-[0_0_15px_rgba(0,0,0,0.5)] hover:shadow-xl transition-all duration-300">
 
             {/* TOP */}
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white text-lg">
+                <h3 className="font-semibold text-foreground text-lg">
                   {a.clientName || a.client_name || "Unknown Client"}
                 </h3>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{a.company || "No Company"}</p>
+                <p className="text-xs text-muted-foreground">{a.company || "No Company"}</p>
               </div>
 
               <div className="flex gap-2">
-                <Badge className="bg-indigo-100 text-indigo-700">
+                <Badge className="bg-orange-500/20 text-orange-600">
                   {type?.label}
                 </Badge>
 
@@ -149,12 +148,12 @@ const Activity = () => {
 
             {/* TYPE ICON + DATE */}
             <div className="flex items-center gap-3 mt-4">
-              <div className="p-3 bg-indigo-50 dark:bg-indigo-900/30 rounded-xl">
-                <Icon className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+              <div className="p-3 bg-orange-500/10 rounded-xl">
+                <Icon className="w-5 h-5 text-orange-500" />
               </div>
 
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <Clock className="w-3 h-3" />
                   {new Date(a.createdAt || a.created_at).toLocaleString()}
                 </p>
@@ -169,19 +168,19 @@ const Activity = () => {
             </div>
 
             {/* NOTES */}
-            <p className="text-sm text-gray-700 dark:text-gray-300 mt-4 leading-relaxed">
+            <p className="text-sm text-muted-foreground mt-4 leading-relaxed">
               {a.notes}
             </p>
 
             {/* OUTCOME */}
             {a.outcome && (
-              <div className="mt-3 inline-block px-3 py-1 text-xs rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700">
+              <div className="mt-3 inline-block px-3 py-1 text-xs rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 text-orange-600">
                 ✨ {a.outcome}
               </div>
             )}
 
             {/* FOOTER */}
-            <div className="flex justify-between items-center mt-5 pt-4 border-t border-gray-100 dark:border-gray-700">
+            <div className="flex justify-between items-center mt-5 pt-4 border-t border-border">
 
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white shadow">
@@ -189,10 +188,10 @@ const Activity = () => {
                 </div>
 
                 <div>
-                  <p className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                  <p className="text-xs font-medium text-muted-foreground">
                     {a.createdBy?.name || "System"}
                   </p>
-                  <p className="text-[10px] text-gray-400">
+                  <p className="text-[10px] text-muted-foreground">
                     Activity owner
                   </p>
                 </div>
@@ -201,7 +200,7 @@ const Activity = () => {
               {user?.role === "admin" && (
                 <button 
                   onClick={() => handleDelete(a.id || a._id)}
-                  className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                  className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                   title="Delete Activity"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -223,15 +222,15 @@ const Activity = () => {
     {/* HEADER */}
     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+        <h1 className="text-3xl font-bold text-foreground">
           {userIdFilter ? "User Activities" : "Sales Activity"}
         </h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
+        <p className="text-muted-foreground text-sm">
           Track your CRM interactions
         </p>
       </div>
 
-      <Button className="bg-indigo-600 hover:bg-indigo-700 shadow-lg w-full md:w-auto" onClick={() => setShowModal(true)}>
+      <Button className="bg-orange-500 hover:bg-orange-600 shadow-lg w-full md:w-auto" onClick={() => setShowModal(true)}>
         <Plus className="w-4 h-4 mr-2" />
         Add Activity
       </Button>
@@ -250,14 +249,14 @@ const Activity = () => {
           <div key={userName} className="space-y-6">
             <div className="flex items-center gap-4">
               <div className="h-[1px] flex-1 bg-gray-200"></div>
-              <h2 className="text-sm font-bold text-indigo-600 bg-indigo-50 px-4 py-1 rounded-full uppercase tracking-widest">
+              <h2 className="text-sm font-bold text-orange-500 bg-orange-500/10 px-4 py-1 rounded-full uppercase tracking-widest">
                 {userName}'s Activities ({userActs.length})
               </h2>
               <div className="h-[1px] flex-1 bg-gray-200"></div>
             </div>
             
             <div className="relative">
-              <div className="absolute left-3 top-0 bottom-0 w-[2px] bg-gray-100"></div>
+              <div className="absolute left-3 top-0 bottom-0 w-[2px] bg-black/40"></div>
               <div className="space-y-6">
                 {userActs.map((a) => renderActivityCard(a))}
               </div>
@@ -327,7 +326,7 @@ const Activity = () => {
         />
 
         <div>
-          <label className="block text-xs font-medium text-gray-700 mb-1">Next Follow-up Date & Time</label>
+          <label className="block text-xs font-medium text-muted-foreground mb-1">Next Follow-up Date & Time</label>
           <input
             type="datetime-local"
             className="w-full border p-2 rounded"
@@ -363,7 +362,7 @@ const Activity = () => {
             Cancel
           </Button>
 
-          <Button className="bg-indigo-600 hover:bg-indigo-700" type="submit">
+          <Button className="bg-orange-500 hover:bg-orange-600" type="submit">
             Save
           </Button>
         </div>

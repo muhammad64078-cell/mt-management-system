@@ -25,7 +25,7 @@ import {
 
 const statusColumns = [
   { id: 'not-started', label: 'Not Started', color: 'bg-slate-100 text-slate-700 border-slate-200', dot: 'bg-slate-400' },
-  { id: 'in-progress', label: 'In Progress', color: 'bg-indigo-50 text-indigo-700 border-indigo-100', dot: 'bg-indigo-500' },
+  { id: 'in-progress', label: 'In Progress', color: 'bg-orange-500/10 text-orange-600 border-indigo-100', dot: 'bg-indigo-500' },
   { id: 'review', label: 'Review', color: 'bg-amber-50 text-amber-700 border-amber-100', dot: 'bg-amber-500' },
   { id: 'completed', label: 'Completed', color: 'bg-emerald-50 text-emerald-700 border-emerald-100', dot: 'bg-emerald-500' }
 ];
@@ -93,7 +93,7 @@ export const ProductionProjects = () => {
           id: u.id || u._id,
           label: u.name,
           dot: 'bg-indigo-500',
-          color: 'bg-indigo-50 text-indigo-700 border-indigo-100'
+          color: 'bg-orange-500/10 text-orange-600 border-indigo-100'
         })),
         {
           id: 'unassigned',
@@ -220,6 +220,12 @@ export const ProductionProjects = () => {
     let nextIndex = currentIndex + direction;
     if (nextIndex < 0 || nextIndex >= statuses.length) return;
     const nextStatus = statuses[nextIndex];
+
+    // Prevent non-admin users from moving to 'review' or 'completed' statuses
+    if (user?.role !== 'admin' && (nextStatus === 'review' || nextStatus === 'completed')) {
+      alert('Only admins can move projects to Review or Completed status.');
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token");
@@ -409,25 +415,25 @@ export const ProductionProjects = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight flex items-center gap-2">
-            <Sparkles className="text-indigo-600 w-7 h-7" />
+          <h1 className="text-3xl font-extrabold text-foreground tracking-tight flex items-center gap-2">
+            <Sparkles className="text-orange-500 w-7 h-7" />
             Production Board
           </h1>
-          <p className="text-sm text-gray-500 mt-1">Manage, assign, and track deliverables in a real-time Trello pipeline</p>
+          <p className="text-sm text-muted-foreground mt-1">Manage, assign, and track deliverables in a real-time Trello pipeline</p>
         </div>
         
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex bg-gray-100 p-1 rounded-xl shadow-inner border border-gray-200/50">
+          <div className="flex bg-black/40 p-1 rounded-xl shadow-inner border border-border/50">
             <button
               onClick={() => setViewMode('board')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${viewMode === 'board' ? 'bg-white text-indigo-700 shadow-sm' : 'text-gray-500 hover:text-gray-800'}`}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${viewMode === 'board' ? 'bg-card text-orange-600 shadow-[0_0_15px_rgba(0,0,0,0.5)]' : 'text-muted-foreground hover:text-foreground'}`}
             >
               <LayoutGrid className="w-3.5 h-3.5" />
               Board View
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${viewMode === 'table' ? 'bg-white text-indigo-700 shadow-sm' : 'text-gray-500 hover:text-gray-800'}`}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${viewMode === 'table' ? 'bg-card text-orange-600 shadow-[0_0_15px_rgba(0,0,0,0.5)]' : 'text-muted-foreground hover:text-foreground'}`}
             >
               <List className="w-3.5 h-3.5" />
               Table View
@@ -437,16 +443,16 @@ export const ProductionProjects = () => {
       </div>
 
       {/* Search & Filters */}
-      <Card className="p-4 border-none ring-1 ring-gray-100 shadow-sm">
+      <Card className="p-4 border-none ring-1 ring-border shadow-[0_0_15px_rgba(0,0,0,0.5)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="md:col-span-2 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Search by client or team member..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-gray-50/50"
+              className="w-full pl-9 pr-4 py-2 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 bg-black/20/50"
             />
           </div>
           
@@ -454,7 +460,7 @@ export const ProductionProjects = () => {
             value={filterService}
             onChange={(e) => setFilterService(e.target.value)}
             options={serviceOptions}
-            className="rounded-xl border border-gray-200"
+            className="rounded-xl border border-border"
           />
         </div>
       </Card>
@@ -464,36 +470,36 @@ export const ProductionProjects = () => {
         <LoadingSpinner size="lg" />
       ) : viewMode === 'table' ? (
         /* TABLE VIEW */
-        <Card className="overflow-hidden border-none ring-1 ring-gray-100 shadow-sm">
+        <Card className="overflow-hidden border-none ring-1 ring-border shadow-[0_0_15px_rgba(0,0,0,0.5)]">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
-              <thead className="bg-gray-50 border-b border-gray-100">
+              <thead className="bg-black/20 border-b border-border">
                 <tr>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Client / Project</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Service</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Assigned To</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Progress</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Revenue</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Deadline</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Status</th>
-                  <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Client / Project</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Service</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Assigned To</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Progress</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Revenue</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Deadline</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Status</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-100">
+              <tbody className="bg-card divide-y divide-border">
                 {filteredProjects.map((project) => {
                   const parsed = getProjectNotesData(project.notes);
                   return (
-                    <tr key={project.id || project._id} className="hover:bg-gray-50 transition-colors">
+                    <tr key={project.id || project._id} className="hover:bg-black/20 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
-                          <p className="text-sm font-bold text-gray-900">{project.clientName}</p>
-                          <span className="text-[10px] text-gray-400 uppercase font-mono">PROJ-{(project.id || project._id)?.substring(0, 5)}</span>
+                          <p className="text-sm font-bold text-foreground">{project.clientName}</p>
+                          <span className="text-[10px] text-muted-foreground uppercase font-mono">PROJ-{(project.id || project._id)?.substring(0, 5)}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{project.service}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 font-medium">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-muted-foreground">{project.service}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-foreground font-medium">
                         <span className="flex items-center gap-1.5">
-                          <div className="w-6 h-6 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-[10px] font-bold text-indigo-700 uppercase">
+                          <div className="w-6 h-6 rounded-full bg-orange-500/10 border border-indigo-100 flex items-center justify-center text-[10px] font-bold text-orange-600 uppercase">
                             {(project.assignedTo?.name || 'U')[0]}
                           </div>
                           {project.assignedTo?.name || "Unassigned"}
@@ -501,14 +507,14 @@ export const ProductionProjects = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
-                          <div className="w-20 bg-gray-100 rounded-full h-1.5">
-                            <div className="bg-indigo-600 h-1.5 rounded-full" style={{ width: `${project.progress}%` }} />
+                          <div className="w-20 bg-black/40 rounded-full h-1.5">
+                            <div className="bg-orange-500 h-1.5 rounded-full" style={{ width: `${project.progress}%` }} />
                           </div>
-                          <span className="text-xs font-bold text-gray-700">{project.progress}%</span>
+                          <span className="text-xs font-bold text-muted-foreground">{project.progress}%</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-emerald-600">{parsed.revenue || '—'}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-500 font-medium">
+                      <td className="px-6 py-4 whitespace-nowrap text-xs text-muted-foreground font-medium">
                         {project.deadline ? new Date(project.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Not set'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -524,7 +530,7 @@ export const ProductionProjects = () => {
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => handleOpenDetails(project)}
-                            className="p-1.5 bg-white border border-gray-100 shadow-sm rounded-lg text-gray-400 hover:text-indigo-600 hover:border-indigo-100 transition-colors"
+                            className="p-1.5 bg-card border border-border shadow-[0_0_15px_rgba(0,0,0,0.5)] rounded-lg text-muted-foreground hover:text-orange-500 hover:border-indigo-100 transition-colors"
                             title="Trello Details Workspace"
                           >
                             <Eye className="w-4 h-4" />
@@ -532,7 +538,7 @@ export const ProductionProjects = () => {
                           {user?.role === 'admin' && (
                             <button
                               onClick={(e) => handleDeleteProject(project.id || project._id, e)}
-                              className="p-1.5 bg-white border border-gray-100 shadow-sm rounded-lg text-gray-400 hover:text-rose-600 hover:border-rose-100 transition-colors"
+                              className="p-1.5 bg-card border border-border shadow-[0_0_15px_rgba(0,0,0,0.5)] rounded-lg text-muted-foreground hover:text-rose-600 hover:border-rose-100 transition-colors"
                               title="Delete Project"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -548,9 +554,9 @@ export const ProductionProjects = () => {
           </div>
 
           {filteredProjects.length === 0 && (
-            <div className="py-16 text-center bg-gray-50/50">
+            <div className="py-16 text-center bg-black/20/50">
               <ClipboardList className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <p className="text-gray-500 font-medium text-sm">No production projects found</p>
+              <p className="text-muted-foreground font-medium text-sm">No production projects found</p>
             </div>
           )}
         </Card>
@@ -563,14 +569,14 @@ export const ProductionProjects = () => {
             return (
               <div 
                 key={column.id} 
-                className="flex-shrink-0 w-80 bg-gray-50/70 border border-gray-200/50 rounded-2xl flex flex-col max-h-[70vh] shadow-sm backdrop-blur-sm"
+                className="flex-shrink-0 w-80 bg-black/20/70 border border-border/50 rounded-2xl flex flex-col max-h-[70vh] shadow-[0_0_15px_rgba(0,0,0,0.5)] backdrop-blur-sm"
               >
                 {/* Column Header */}
-                <div className="flex items-center justify-between px-4 py-3.5 border-b border-gray-200/50 bg-white/50 rounded-t-2xl">
+                <div className="flex items-center justify-between px-4 py-3.5 border-b border-border/50 bg-card/50 rounded-t-2xl">
                   <div className="flex items-center gap-2">
                     <div className={`w-2 h-2 rounded-full ${column.dot}`} />
-                    <span className="text-sm font-bold text-gray-800 truncate max-w-[180px]">{column.label}</span>
-                    <span className="text-xs bg-gray-200/60 text-gray-600 font-extrabold px-2 py-0.5 rounded-full">
+                    <span className="text-sm font-bold text-foreground truncate max-w-[180px]">{column.label}</span>
+                    <span className="text-xs bg-gray-200/60 text-muted-foreground font-extrabold px-2 py-0.5 rounded-full">
                       {columnProjects.length}
                     </span>
                   </div>
@@ -587,7 +593,7 @@ export const ProductionProjects = () => {
                             setFormData(prev => ({ ...prev, status: 'not-started', assignedTo: productionUsers[0]?.id || productionUsers[0]?._id || '' }));
                             setShowAddModal(true);
                           }}
-                          className="border-2 border-dashed border-gray-200 hover:border-indigo-400 bg-white/40 hover:bg-white p-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer text-gray-400 hover:text-indigo-600 transition-all font-bold text-xs"
+                          className="border-2 border-dashed border-border hover:border-indigo-400 bg-card/40 hover:bg-card p-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer text-muted-foreground hover:text-orange-500 transition-all font-bold text-xs"
                         >
                           <Plus size={14} /> Add Card
                         </div>
@@ -602,7 +608,7 @@ export const ProductionProjects = () => {
                           }));
                           setShowAddModal(true);
                         }}
-                        className="border-2 border-dashed border-gray-200 hover:border-indigo-400 bg-white/40 hover:bg-white p-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer text-gray-400 hover:text-indigo-600 transition-all font-bold text-xs animate-in fade-in"
+                        className="border-2 border-dashed border-border hover:border-indigo-400 bg-card/40 hover:bg-card p-4 rounded-xl flex items-center justify-center gap-2 cursor-pointer text-muted-foreground hover:text-orange-500 transition-all font-bold text-xs animate-in fade-in"
                       >
                         <Plus size={14} /> Add Project to {column.label.split(' ')[0]}
                       </div>
@@ -619,14 +625,14 @@ export const ProductionProjects = () => {
                       <div
                         key={project.id || project._id}
                         onClick={() => handleOpenDetails(project)}
-                        className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:ring-2 hover:ring-indigo-500/20 transition-all cursor-pointer group flex flex-col gap-3 relative"
+                        className="bg-card p-4 rounded-xl border border-border shadow-[0_0_15px_rgba(0,0,0,0.5)] hover:shadow-md hover:ring-2 hover:ring-indigo-500/20 transition-all cursor-pointer group flex flex-col gap-3 relative"
                       >
                         {/* Quick Shift buttons on hover (only when grouped by Status) */}
                         {boardGrouping === 'status' && (
-                          <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity z-10 bg-white rounded-lg p-0.5 shadow border border-gray-100">
+                          <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity z-10 bg-card rounded-lg p-0.5 shadow border border-border">
                             <button
                               onClick={(e) => handleQuickShiftStatus(project, -1, e)}
-                              className="p-1 rounded text-gray-400 hover:text-indigo-600 hover:bg-gray-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                              className="p-1 rounded text-muted-foreground hover:text-orange-500 hover:bg-black/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                               title="Move Left"
                               disabled={column.id === 'not-started' || (project.status === 'completed' && user?.role !== 'admin')}
                             >
@@ -634,7 +640,7 @@ export const ProductionProjects = () => {
                             </button>
                             <button
                               onClick={(e) => handleQuickShiftStatus(project, 1, e)}
-                              className="p-1 rounded text-gray-400 hover:text-indigo-600 hover:bg-gray-50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                              className="p-1 rounded text-muted-foreground hover:text-orange-500 hover:bg-black/20 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                               title="Move Right"
                               disabled={column.id === 'completed' || (project.status === 'completed' && user?.role !== 'admin')}
                             >
@@ -647,21 +653,21 @@ export const ProductionProjects = () => {
                           <span className="text-[10px] text-indigo-500 font-bold uppercase tracking-wider block mb-1">
                             {project.service}
                           </span>
-                          <h4 className="text-sm font-bold text-gray-800 tracking-tight leading-tight group-hover:text-indigo-600 transition-colors pr-8">
+                          <h4 className="text-sm font-bold text-foreground tracking-tight leading-tight group-hover:text-orange-500 transition-colors pr-8">
                             {project.clientName}
                           </h4>
                         </div>
 
                         {/* Progress */}
                         <div className="space-y-1">
-                          <div className="flex justify-between items-center text-[9px] font-bold text-gray-400">
+                          <div className="flex justify-between items-center text-[9px] font-bold text-muted-foreground">
                             <span>Progress</span>
                             <span>{project.progress}%</span>
                           </div>
-                          <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                          <div className="w-full bg-black/40 rounded-full h-1.5 overflow-hidden">
                             <div 
                               className={`h-full rounded-full transition-all duration-500 ${
-                                project.status === 'completed' ? 'bg-emerald-500' : 'bg-indigo-600'
+                                project.status === 'completed' ? 'bg-emerald-500' : 'bg-orange-500'
                               }`} 
                               style={{ width: `${project.progress}%` }} 
                             />
@@ -669,7 +675,7 @@ export const ProductionProjects = () => {
                         </div>
 
                         {/* Metadata Row */}
-                        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-gray-100 text-[10px] font-bold text-gray-400">
+                        <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-border text-[10px] font-bold text-muted-foreground">
                           {project.deadline && (
                             <span className="flex items-center gap-1 text-rose-500 bg-rose-50 px-1.5 py-0.5 rounded">
                               <Calendar size={11} />
@@ -683,15 +689,15 @@ export const ProductionProjects = () => {
                             </span>
                           )}
 
-                          <span className="flex items-center gap-1 text-gray-500 font-bold bg-gray-50 border border-gray-100 px-1.5 py-0.5 rounded uppercase">
-                            <User size={11} className="text-gray-400" />
+                          <span className="flex items-center gap-1 text-muted-foreground font-bold bg-black/20 border border-border px-1.5 py-0.5 rounded uppercase">
+                            <User size={11} className="text-muted-foreground" />
                             {project.assignedTo?.name ? project.assignedTo.name.split(' ')[0] : 'Unassigned'}
                           </span>
                         </div>
 
                         {/* Task Checklist & Comments Indicators */}
                         {(totalTasks > 0 || commentsCount > 0) && (
-                          <div className="flex items-center gap-3 text-[10px] text-gray-400 font-bold">
+                          <div className="flex items-center gap-3 text-[10px] text-muted-foreground font-bold">
                             {totalTasks > 0 && (
                               <span className={`flex items-center gap-1 px-1.5 py-0.5 rounded ${completedTasks === totalTasks ? 'bg-emerald-50 text-emerald-600 font-extrabold border border-emerald-100' : 'bg-slate-50 text-slate-500 border border-slate-100'}`}>
                                 <CheckSquare size={11} />
@@ -711,7 +717,7 @@ export const ProductionProjects = () => {
                   })}
 
                   {columnProjects.length === 0 && (
-                    <div className="py-10 text-center border-2 border-dashed border-gray-200 rounded-xl bg-white/30 text-gray-400 text-xs italic">
+                    <div className="py-10 text-center border-2 border-dashed border-border rounded-xl bg-card/30 text-muted-foreground text-xs italic">
                       No projects here
                     </div>
                   )}
@@ -733,15 +739,15 @@ export const ProductionProjects = () => {
           <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
             {/* Completed By Banner */}
             {selectedProject.status === 'completed' && (
-              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-between shadow-sm animate-in fade-in zoom-in-95 duration-300">
+              <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold px-4 py-2.5 rounded-xl flex items-center justify-between shadow-[0_0_15px_rgba(0,0,0,0.5)] animate-in fade-in zoom-in-95 duration-300">
                 <span className="flex items-center gap-1.5">🎉 Completed by: <span className="underline font-black text-emerald-950">{selectedProject.assignedTo?.name || 'Unassigned'}</span></span>
-                <span className="bg-emerald-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded shadow-sm">Verified</span>
+                <span className="bg-emerald-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded shadow-[0_0_15px_rgba(0,0,0,0.5)]">Verified</span>
               </div>
             )}
 
             {/* Locked Completed Project Warning Banner */}
             {selectedProject.status === 'completed' && user?.role !== 'admin' && (
-              <div className="bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold px-3 py-2.5 rounded-xl flex items-center gap-1.5 shadow-sm animate-in fade-in slide-in-from-top-1 duration-300">
+              <div className="bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold px-3 py-2.5 rounded-xl flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,0,0,0.5)] animate-in fade-in slide-in-from-top-1 duration-300">
                 <span>🔒 This project is completed and locked. Non-admin members cannot edit completed projects.</span>
               </div>
             )}
@@ -750,17 +756,17 @@ export const ProductionProjects = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               
               {/* Service Type */}
-              <div className="p-3 bg-gray-50 border border-gray-100 rounded-xl space-y-1">
-                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Service Type</span>
-                <span className="text-xs font-bold text-gray-800 uppercase bg-white border border-gray-200/50 px-2 py-0.5 rounded shadow-sm inline-block">
+              <div className="p-3 bg-black/20 border border-border rounded-xl space-y-1">
+                <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block">Service Type</span>
+                <span className="text-xs font-bold text-foreground uppercase bg-card border border-border/50 px-2 py-0.5 rounded shadow-[0_0_15px_rgba(0,0,0,0.5)] inline-block">
                   {selectedProject.service}
                 </span>
               </div>
 
               {/* Target Deadline */}
-              <div className="p-3 bg-gray-50 border border-gray-100 rounded-xl space-y-1">
-                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Target Deadline</span>
-                <span className="text-xs font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded shadow-sm inline-flex items-center gap-1">
+              <div className="p-3 bg-black/20 border border-border rounded-xl space-y-1">
+                <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block">Target Deadline</span>
+                <span className="text-xs font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded shadow-[0_0_15px_rgba(0,0,0,0.5)] inline-flex items-center gap-1">
                   <Calendar size={12} />
                   {selectedProject.deadline ? new Date(selectedProject.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'No deadline'}
                 </span>
@@ -768,7 +774,7 @@ export const ProductionProjects = () => {
 
               {/* Status Selector */}
               <div>
-                <label className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-1.5">Project Status</label>
+                <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block mb-1.5">Project Status</label>
                 <select 
                   value={modalStatus}
                   onChange={(e) => {
@@ -776,23 +782,30 @@ export const ProductionProjects = () => {
                     if (e.target.value === 'completed') setModalProgress(100);
                   }}
                   disabled={selectedProject.status === 'completed' && user?.role !== 'admin'}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                  className="w-full px-3 py-2 border border-border rounded-xl text-xs font-bold text-muted-foreground bg-card focus:ring-2 focus:ring-indigo-500/20 outline-none disabled:bg-black/40 disabled:text-muted-foreground disabled:cursor-not-allowed"
                 >
-                  {statusOptions.map(opt => (
-                    <option key={opt.value} value={opt.value}>{opt.label}</option>
-                  ))}
+                  {statusOptions
+                    .filter(opt => {
+                      if (user?.role !== 'admin' && (opt.value === 'review' || opt.value === 'completed')) {
+                        return false;
+                      }
+                      return true;
+                    })
+                    .map(opt => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
                 </select>
               </div>
 
               {/* Assigned Developer */}
               <div>
-                <label className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-1.5">Assigned Team Member</label>
+                <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block mb-1.5">Assigned Team Member</label>
                 {user?.role === 'admin' ? (
                   <select
                     value={modalAssignedTo}
                     onChange={(e) => setModalAssignedTo(e.target.value)}
                     disabled={selectedProject.status === 'completed'}
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                    className="w-full px-3 py-2 border border-border rounded-xl text-xs font-bold text-muted-foreground bg-card focus:ring-2 focus:ring-indigo-500/20 outline-none disabled:bg-black/40 disabled:text-muted-foreground disabled:cursor-not-allowed"
                   >
                     <option value="">Unassigned</option>
                     {productionUsers.map(u => (
@@ -800,8 +813,8 @@ export const ProductionProjects = () => {
                     ))}
                   </select>
                 ) : (
-                  <span className="flex items-center gap-1.5 text-xs font-bold text-gray-800 bg-gray-50 border border-gray-100 p-2 rounded-xl">
-                    <div className="w-4 h-4 rounded-full bg-indigo-50 text-[9px] font-bold text-indigo-700 flex items-center justify-center border border-indigo-100 uppercase">
+                  <span className="flex items-center gap-1.5 text-xs font-bold text-foreground bg-black/20 border border-border p-2 rounded-xl">
+                    <div className="w-4 h-4 rounded-full bg-orange-500/10 text-[9px] font-bold text-orange-600 flex items-center justify-center border border-indigo-100 uppercase">
                       {(selectedProject.assignedTo?.name || 'U')[0]}
                     </div>
                     {selectedProject.assignedTo?.name || "Unassigned"}
@@ -813,9 +826,9 @@ export const ProductionProjects = () => {
 
               {/* Progress Slider */}
               <div>
-                <div className="flex justify-between items-center text-[10px] font-bold text-gray-400 mb-1.5">
+                <div className="flex justify-between items-center text-[10px] font-bold text-muted-foreground mb-1.5">
                   <span>Overall Progress</span>
-                  <span className="font-extrabold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">{modalProgress}%</span>
+                  <span className="font-extrabold text-orange-500 bg-orange-500/10 px-1.5 py-0.5 rounded">{modalProgress}%</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <input
@@ -834,22 +847,22 @@ export const ProductionProjects = () => {
 
             {/* Editable Description / Requirements Notes */}
             <div className="space-y-1.5">
-              <label className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Project Description & Requirements</label>
+              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block">Project Description & Requirements</label>
               <Textarea
                 placeholder="Enter detailed project requirements, client brief, or specifications..."
                 value={modalDescription}
                 onChange={(e) => setModalDescription(e.target.value)}
                 disabled={selectedProject.status === 'completed' && user?.role !== 'admin'}
-                className="min-h-[120px] text-xs bg-gray-50/50 border-gray-200 focus:bg-white rounded-xl resize-none p-3 outline-none focus:ring-2 focus:ring-indigo-500/20 leading-relaxed font-medium disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                className="min-h-[120px] text-xs bg-black/20/50 border-border focus:bg-card rounded-xl resize-none p-3 outline-none focus:ring-2 focus:ring-indigo-500/20 leading-relaxed font-medium disabled:bg-black/40 disabled:text-muted-foreground disabled:cursor-not-allowed"
               />
             </div>
 
             {/* Action Buttons Panel */}
-            <div className="flex flex-col sm:flex-row gap-2.5 pt-4 border-t border-gray-100">
+            <div className="flex flex-col sm:flex-row gap-2.5 pt-4 border-t border-border">
               <Button 
                 onClick={handleSaveModalDetails} 
                 disabled={savingDetails || (selectedProject.status === 'completed' && user?.role !== 'admin')}
-                className="flex-1 bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-xs shadow-sm flex items-center justify-center gap-1 hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                className="flex-1 bg-orange-500 text-white font-bold py-2.5 rounded-xl text-xs shadow-[0_0_15px_rgba(0,0,0,0.5)] flex items-center justify-center gap-1 hover:bg-orange-600 transition-colors disabled:bg-gray-300 disabled:text-muted-foreground disabled:cursor-not-allowed"
               >
                 {selectedProject.status === 'completed' && user?.role !== 'admin' ? 'Locked (Completed) 🔒' : (savingDetails ? 'Saving Changes...' : 'Save Updates 💾')}
               </Button>
@@ -857,7 +870,7 @@ export const ProductionProjects = () => {
               <Button
                 onClick={() => navigate(`/production/projects/${selectedProject.id || selectedProject._id}`)}
                 variant="outline"
-                className="flex-1 border-gray-200 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50/50 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1 transition-colors"
+                className="flex-1 border-border text-muted-foreground hover:text-orange-500 hover:bg-orange-500/10/50 font-bold py-2.5 rounded-xl text-xs flex items-center justify-center gap-1 transition-colors"
               >
                 Go to Workspace 🚀
               </Button>
@@ -892,7 +905,7 @@ export const ProductionProjects = () => {
               value={formData.clientName}
               onChange={(e) => setFormData({ ...formData, clientName: e.target.value })}
               required
-              className="rounded-xl border-gray-200"
+              className="rounded-xl border-border"
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -901,15 +914,15 @@ export const ProductionProjects = () => {
                 value={formData.service}
                 onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                 options={serviceOptions.filter(o => o.value !== 'all')}
-                className="rounded-xl border-gray-200"
+                className="rounded-xl border-border"
               />
 
               <div className="space-y-1.5">
-                <label className="text-sm font-medium text-gray-700">Assign To Team Member</label>
+                <label className="text-sm font-medium text-muted-foreground">Assign To Team Member</label>
                 <select
                   value={formData.assignedTo}
                   onChange={(e) => setFormData({ ...formData, assignedTo: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+                  className="w-full px-3 py-2 border border-border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-card"
                   required
                 >
                   <option value="" disabled>Select Team Member</option>
@@ -926,7 +939,7 @@ export const ProductionProjects = () => {
                 type="date"
                 value={formData.deadline}
                 onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
-                className="rounded-xl border-gray-200"
+                className="rounded-xl border-border"
               />
 
               <Input 
@@ -934,25 +947,25 @@ export const ProductionProjects = () => {
                 placeholder="e.g. $150"
                 value={formData.revenue}
                 onChange={(e) => setFormData({ ...formData, revenue: e.target.value })}
-                className="rounded-xl border-gray-200"
+                className="rounded-xl border-border"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-gray-700">Initial Project Description / Notes</label>
+              <label className="text-sm font-medium text-muted-foreground">Initial Project Description / Notes</label>
               <textarea
                 placeholder="Write initial project notes or specifications..."
                 value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                className="w-full border border-gray-200 rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none min-h-[80px]"
+                className="w-full border border-border rounded-xl p-3 text-sm outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none min-h-[80px]"
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
-              <Button type="button" variant="outline" onClick={() => setShowAddModal(false)} className="rounded-xl border-gray-200 text-xs py-2">
+            <div className="flex justify-end gap-3 pt-4 border-t border-border">
+              <Button type="button" variant="outline" onClick={() => setShowAddModal(false)} className="rounded-xl border-border text-xs py-2">
                 Cancel
               </Button>
-              <Button type="submit" className="rounded-xl bg-indigo-600 text-white text-xs font-bold py-2 px-5">
+              <Button type="submit" className="rounded-xl bg-orange-500 text-white text-xs font-bold py-2 px-5">
                 Launch Project 🚀
               </Button>
             </div>

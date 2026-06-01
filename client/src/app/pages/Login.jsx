@@ -35,54 +35,54 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-100 p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-[#0f0f12] p-4">
+      <div className="max-w-md w-full bg-card rounded-2xl border border-border overflow-hidden shadow-[0_0_40px_rgba(0,0,0,0.5)]">
         <div className="p-8">
           <div className="flex justify-center mb-8">
-            <div className="bg-indigo-600 p-3 rounded-xl shadow-lg shadow-indigo-200">
+            <div className="bg-orange-500 p-3 rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.4)]">
               <Briefcase className="w-8 h-8 text-white" />
             </div>
           </div>
           
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-2">Welcome Back</h2>
-          <p className="text-center text-gray-500 mb-8">Sign in to manage your sales pipeline</p>
+          <h2 className="text-3xl font-bold text-center text-foreground mb-2">Welcome Back</h2>
+          <p className="text-center text-muted-foreground mb-8">Sign in to manage your sales pipeline</p>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded-r-lg animate-shake">
+            <div className="mb-6 p-4 bg-red-500/10 border-l-4 border-red-500 text-red-500 text-sm rounded-r-lg">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-2">Email Address</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <Mail className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none text-gray-900 bg-gray-50 focus:bg-white"
+                  className="block w-full pl-10 pr-4 py-3 border border-border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all outline-none text-foreground bg-card placeholder:text-muted-foreground"
                   placeholder="name@company.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+              <label className="block text-sm font-medium text-muted-foreground mb-2">Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-5 w-5 text-muted-foreground" />
                 </div>
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all outline-none text-gray-900 bg-gray-50 focus:bg-white"
+                  className="block w-full pl-10 pr-4 py-3 border border-border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all outline-none text-foreground bg-card placeholder:text-muted-foreground"
                   placeholder="••••••••"
                 />
               </div>
@@ -91,7 +91,7 @@ export const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-indigo-100"
+              className="w-full flex items-center justify-center px-4 py-3 border border-transparent text-base font-semibold rounded-xl text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(249,115,22,0.3)]"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin mr-2" />
@@ -102,9 +102,9 @@ export const Login = () => {
             </button>
           </form>
 
-          <div className="mt-8 pt-8 border-t border-gray-100 flex items-center justify-between">
-            <span className="text-sm text-gray-500">Don't have an account?</span>
-            <button className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">Contact Admin</button>
+          <div className="mt-8 pt-8 border-t border-border flex items-center justify-between">
+            <span className="text-sm text-muted-foreground">Don't have an account?</span>
+            <button className="text-sm font-semibold text-orange-500 hover:text-orange-400">Contact Admin</button>
           </div>
         </div>
       </div>

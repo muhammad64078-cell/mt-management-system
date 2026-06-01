@@ -304,21 +304,21 @@ export const Leads = () => {
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Leads</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage and track your primary sales opportunities.</p>
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">Leads</h1>
+          <p className="text-sm text-muted-foreground mt-1">Manage and track your primary sales opportunities.</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex bg-gray-100 p-1 rounded-lg">
+          <div className="flex bg-black/40 p-1 rounded-lg">
             <button
               onClick={() => setViewType('table')}
-              className={`p-2 rounded-md transition-all ${viewType === 'table' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`p-2 rounded-md transition-all ${viewType === 'table' ? 'bg-card shadow-[0_0_15px_rgba(0,0,0,0.5)] text-orange-500' : 'text-muted-foreground hover:text-muted-foreground'}`}
               title="Table View"
             >
               <List size={20} />
             </button>
             <button
               onClick={() => setViewType('grouped')}
-              className={`p-2 rounded-md transition-all ${viewType === 'grouped' ? 'bg-white shadow-sm text-indigo-600' : 'text-gray-500 hover:text-gray-700'}`}
+              className={`p-2 rounded-md transition-all ${viewType === 'grouped' ? 'bg-card shadow-[0_0_15px_rgba(0,0,0,0.5)] text-orange-500' : 'text-muted-foreground hover:text-muted-foreground'}`}
               title="Day-wise View"
             >
               <LayoutGrid size={20} />
@@ -331,16 +331,16 @@ export const Leads = () => {
         </div>
       </div>
 
-      <Card className="p-6 border-none ring-1 ring-gray-100 shadow-sm">
+      <Card className="p-6 border-none ring-1 ring-border shadow-[0_0_15px_rgba(0,0,0,0.5)]">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               type="text"
               placeholder="Quick search by name, company, email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-gray-50 border-none rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              className="w-full pl-9 pr-4 py-2 bg-black/20 border-none rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
             />
           </div>
           <div>
@@ -390,44 +390,44 @@ export const Leads = () => {
       </Card>
 
       {viewType === 'table' ? (
-        <Card className="overflow-hidden border-none ring-1 ring-gray-100 shadow-sm">
+        <Card className="overflow-hidden border-none ring-1 ring-border shadow-[0_0_15px_rgba(0,0,0,0.5)]">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-100">
-                  <th className="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Client / Company</th>
-                  <th className="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Contact</th>
-                  <th className="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Source</th>
-                  {user?.role === 'admin' && <th className="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Added By</th>}
-                  <th className="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-center">Status</th>
-                  <th className="p-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
+                <tr className="bg-black/20 border-b border-border">
+                  <th className="p-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Client / Company</th>
+                  <th className="p-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Contact</th>
+                  <th className="p-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Source</th>
+                  {user?.role === 'admin' && <th className="p-4 text-xs font-bold text-muted-foreground uppercase tracking-widest">Added By</th>}
+                  <th className="p-4 text-xs font-bold text-muted-foreground uppercase tracking-widest text-center">Status</th>
+                  <th className="p-4 text-xs font-bold text-muted-foreground uppercase tracking-widest text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-border">
                 {filteredLeads.map((lead) => (
-                  <tr key={lead.id || lead._id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={lead.id || lead._id} className="hover:bg-black/20 transition-colors">
                     <td className="p-4">
-                      <div className="font-bold text-gray-900">{lead.clientName}</div>
-                      <div className="text-xs text-gray-500">{lead.company || 'No Company'} • {lead.country || 'Global'}</div>
+                      <div className="font-bold text-foreground">{lead.clientName}</div>
+                      <div className="text-xs text-muted-foreground">{lead.company || 'No Company'} • {lead.country || 'Global'}</div>
                     </td>
                     <td className="p-4">
-                      <div className="text-sm text-gray-700">{lead.contactPerson}</div>
-                      <div className="text-xs text-gray-400">{lead.email}</div>
+                      <div className="text-sm text-muted-foreground">{lead.contactPerson}</div>
+                      <div className="text-xs text-muted-foreground">{lead.email}</div>
                     </td>
                     <td className="p-4">
-                      <div className="text-sm font-medium text-gray-600">{lead.service}</div>
-                      <div className="text-[10px] text-gray-400 uppercase font-bold">{lead.source}</div>
+                      <div className="text-sm font-medium text-muted-foreground">{lead.service}</div>
+                      <div className="text-[10px] text-muted-foreground uppercase font-bold">{lead.source}</div>
                     </td>
                     {user?.role === 'admin' && (
                       <td className="p-4">
                         {lead.createdBy ? (
                           <div className="flex items-center gap-2">
-                            <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold uppercase">
+                            <div className="w-7 h-7 rounded-full bg-orange-500/20 text-orange-600 flex items-center justify-center text-xs font-bold uppercase">
                               {(lead.createdBy.name || 'U')[0]}
                             </div>
-                            <span className="text-sm font-medium text-gray-700">{lead.createdBy.name || '—'}</span>
+                            <span className="text-sm font-medium text-muted-foreground">{lead.createdBy.name || '—'}</span>
                           </div>
-                        ) : <span className="text-xs text-gray-400">—</span>}
+                        ) : <span className="text-xs text-muted-foreground">—</span>}
                       </td>
                     )}
                     <td className="p-4 text-center">
@@ -435,18 +435,18 @@ export const Leads = () => {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center justify-end gap-2">
-                        <button onClick={() => navigate(`/leads/${lead.id || lead._id}`)} className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-indigo-600 transition-colors shadow-sm border border-transparent hover:border-gray-100">
+                        <button onClick={() => navigate(`/leads/${lead.id || lead._id}`)} className="p-2 hover:bg-card rounded-lg text-muted-foreground hover:text-orange-500 transition-colors shadow-[0_0_15px_rgba(0,0,0,0.5)] border border-transparent hover:border-border">
                           <Eye size={16} />
                         </button>
                         {user?.role === 'admin' && (
                           <>
-                            <button onClick={() => handleEditLead(lead)} className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-indigo-600 transition-colors shadow-sm border border-transparent hover:border-gray-100">
+                            <button onClick={() => handleEditLead(lead)} className="p-2 hover:bg-card rounded-lg text-muted-foreground hover:text-orange-500 transition-colors shadow-[0_0_15px_rgba(0,0,0,0.5)] border border-transparent hover:border-border">
                               <Edit2 size={16} />
                             </button>
-                            <button onClick={() => handleDeleteLead(lead.id || lead._id)} className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-rose-600 transition-colors shadow-sm border border-transparent hover:border-gray-100">
+                            <button onClick={() => handleDeleteLead(lead.id || lead._id)} className="p-2 hover:bg-card rounded-lg text-muted-foreground hover:text-rose-600 transition-colors shadow-[0_0_15px_rgba(0,0,0,0.5)] border border-transparent hover:border-border">
                               <Trash2 size={16} />
                             </button>
-                            <button onClick={() => handleAssignToProduction(lead)} className="p-2 hover:bg-white rounded-lg text-gray-400 hover:text-green-600 transition-colors shadow-sm border border-transparent hover:border-gray-100" title="Assign to Production">
+                            <button onClick={() => handleAssignToProduction(lead)} className="p-2 hover:bg-card rounded-lg text-muted-foreground hover:text-green-600 transition-colors shadow-[0_0_15px_rgba(0,0,0,0.5)] border border-transparent hover:border-border" title="Assign to Production">
                               🚀
                             </button>
                           </>
@@ -458,7 +458,7 @@ export const Leads = () => {
               </tbody>
             </table>
           </div>
-          {filteredLeads.length === 0 && <div className="p-12 text-center text-gray-500">No matching leads found.</div>}
+          {filteredLeads.length === 0 && <div className="p-12 text-center text-muted-foreground">No matching leads found.</div>}
         </Card>
       ) : (
         <div className="space-y-10">
@@ -467,7 +467,7 @@ export const Leads = () => {
             .map(([dateKey, group]) => (
               <div key={dateKey} className="space-y-6">
                 <div className="flex items-center gap-4">
-                  <div className="bg-indigo-600 text-white px-4 py-2 rounded-xl shadow-lg shadow-indigo-100 flex flex-col items-center min-w-[80px]">
+                  <div className="bg-orange-500 text-white px-4 py-2 rounded-xl shadow-lg shadow-indigo-100 flex flex-col items-center min-w-[80px]">
                     <span className="text-xs font-bold uppercase tracking-wider opacity-80">{group.monthLabel.split(' ')[0].substring(0, 3)}</span>
                     <span className="text-2xl font-black">{group.dayLabel.split(' ')[1]}</span>
                   </div>
@@ -477,19 +477,19 @@ export const Leads = () => {
                 <div className="grid grid-cols-1 gap-8">
                   {Object.entries(group.salespeople).map(([salesperson, leads]) => (
                     <div key={salesperson} className="space-y-4">
-                      <div className="flex items-center gap-2 text-gray-500 mb-2 ml-4">
+                      <div className="flex items-center gap-2 text-muted-foreground mb-2 ml-4">
                         <User size={16} className="text-indigo-500" />
                         <span className="text-sm font-bold uppercase tracking-widest">{salesperson}</span>
-                        <Badge variant="outline" className="ml-2 bg-white">{leads.length} Leads</Badge>
+                        <Badge variant="outline" className="ml-2 bg-card">{leads.length} Leads</Badge>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {leads.map((lead) => (
-                          <Card key={lead.id || lead._id} className="p-5 hover:shadow-xl transition-all duration-300 border-none ring-1 ring-gray-100 group">
+                          <Card key={lead.id || lead._id} className="p-5 hover:shadow-xl transition-all duration-300 border-none ring-1 ring-border group">
                             <div className="flex justify-between items-start mb-4">
                               <div>
-                                <h4 className="font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">{lead.clientName}</h4>
-                                <p className="text-xs text-gray-500">{lead.company || 'No Company'}</p>
+                                <h4 className="font-bold text-foreground group-hover:text-orange-500 transition-colors">{lead.clientName}</h4>
+                                <p className="text-xs text-muted-foreground">{lead.company || 'No Company'}</p>
                               </div>
                               <Badge variant={statusColors[lead.status] || 'default'} className="text-[10px] uppercase">
                                 {statusLabels[lead.status] || lead.status}
@@ -497,12 +497,12 @@ export const Leads = () => {
                             </div>
 
                             <div className="space-y-3 mb-5">
-                              <div className="flex items-center text-xs text-gray-600">
-                                <MessageCircle size={14} className="mr-2 text-gray-400" />
+                              <div className="flex items-center text-xs text-muted-foreground">
+                                <MessageCircle size={14} className="mr-2 text-muted-foreground" />
                                 {lead.service}
                               </div>
-                              <div className="flex items-center text-xs text-gray-600">
-                                <Clock size={14} className="mr-2 text-gray-400" />
+                              <div className="flex items-center text-xs text-muted-foreground">
+                                <Clock size={14} className="mr-2 text-muted-foreground" />
                                 {lead.source}
                               </div>
                             </div>
@@ -510,16 +510,16 @@ export const Leads = () => {
                             <div className="pt-4 border-t border-gray-50 flex items-center justify-between">
                               <button
                                 onClick={() => navigate(`/leads/${lead.id || lead._id}`)}
-                                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
+                                className="text-xs font-bold text-orange-500 hover:text-orange-600 flex items-center gap-1"
                               >
                                 View Details <Eye size={14} />
                               </button>
                               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                 {user?.role === 'admin' && (
                                   <>
-                                    <button onClick={() => handleEditLead(lead)} className="p-1.5 hover:bg-gray-100 rounded text-gray-400 hover:text-indigo-600" title="Edit Lead"><Edit2 size={14} /></button>
-                                    <button onClick={() => handleDeleteLead(lead.id || lead._id)} className="p-1.5 hover:bg-gray-100 rounded text-gray-400 hover:text-rose-600" title="Delete Lead"><Trash2 size={14} /></button>
-                                    <button onClick={() => handleAssignToProduction(lead)} className="p-1.5 hover:bg-gray-100 rounded text-gray-400 hover:text-green-600" title="Assign to Production">🚀</button>
+                                    <button onClick={() => handleEditLead(lead)} className="p-1.5 hover:bg-black/40 rounded text-muted-foreground hover:text-orange-500" title="Edit Lead"><Edit2 size={14} /></button>
+                                    <button onClick={() => handleDeleteLead(lead.id || lead._id)} className="p-1.5 hover:bg-black/40 rounded text-muted-foreground hover:text-rose-600" title="Delete Lead"><Trash2 size={14} /></button>
+                                    <button onClick={() => handleAssignToProduction(lead)} className="p-1.5 hover:bg-black/40 rounded text-muted-foreground hover:text-green-600" title="Assign to Production">🚀</button>
                                   </>
                                 )}
                               </div>
@@ -533,12 +533,12 @@ export const Leads = () => {
               </div>
             ))}
           {filteredLeads.length === 0 && (
-            <div className="p-20 text-center bg-gray-50 rounded-2xl border-2 border-dashed border-gray-100">
-              <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <div className="p-20 text-center bg-black/20 rounded-2xl border-2 border-dashed border-border">
+              <div className="bg-card w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                 <Search className="text-gray-300" size={32} />
               </div>
-              <h3 className="text-lg font-bold text-gray-900 mb-1">No leads found</h3>
-              <p className="text-gray-500 text-sm">Try adjusting your filters or search terms.</p>
+              <h3 className="text-lg font-bold text-foreground mb-1">No leads found</h3>
+              <p className="text-muted-foreground text-sm">Try adjusting your filters or search terms.</p>
             </div>
           )}
         </div>
@@ -550,7 +550,7 @@ export const Leads = () => {
             <Input label="Client Name" value={formData.clientName} onChange={(e) => setFormData({ ...formData, clientName: e.target.value })} />
             <Input label="Company" value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })} />
          <div>
-  <label className="text-sm font-medium text-gray-700">
+  <label className="text-sm font-medium text-muted-foreground">
     Country
   </label>
 
@@ -578,7 +578,7 @@ export const Leads = () => {
 </div>
 
 <div>
-  <label className="text-sm font-medium text-gray-700">
+  <label className="text-sm font-medium text-muted-foreground">
     Status
   </label>
 
@@ -609,7 +609,7 @@ export const Leads = () => {
 
 
 <div>
-  <label className="text-sm font-medium text-gray-700">
+  <label className="text-sm font-medium text-muted-foreground">
     Lead Source
   </label>
 
@@ -665,7 +665,7 @@ export const Leads = () => {
           </div>
           <Select label="Lead Source" value={formData.source} onChange={(e) => setFormData({ ...formData, source: e.target.value })} options={sourceOptions} />
           <div>
-            <label className="text-sm font-medium text-gray-700">Notes</label>
+            <label className="text-sm font-medium text-muted-foreground">Notes</label>
             <textarea className="w-full mt-1 border rounded-lg p-2 min-h-[100px]" value={formData.notes} onChange={(e) => setFormData({ ...formData, notes: e.target.value })} />
           </div>
           <div className="flex justify-end gap-3">
@@ -677,9 +677,9 @@ export const Leads = () => {
 
       <Modal isOpen={assignModal} onClose={() => setAssignModal(false)} title="Assign to Production">
         <div className="space-y-4">
-          <p className="text-sm text-gray-500">Convert lead <b>{selectedLead?.clientName}</b> into a project</p>
+          <p className="text-sm text-muted-foreground">Convert lead <b>{selectedLead?.clientName}</b> into a project</p>
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-gray-700">Assign To</label>
+            <label className="text-sm font-medium text-muted-foreground">Assign To</label>
             <Select 
               value={assignData.assignedTo} 
               onValueChange={(value) => setAssignData({ ...assignData, assignedTo: value })}

@@ -13,7 +13,7 @@ const renderMessageWithLinks = (text, isMine) => {
   return parts.map((part, i) =>
     urlRegex.test(part) ? (
       <a key={i} href={part} target="_blank" rel="noopener noreferrer"
-        className={`underline underline-offset-2 font-bold break-all hover:opacity-80 transition-opacity ${isMine ? 'text-indigo-200' : 'text-indigo-600'}`}>
+        className={`underline underline-offset-2 font-bold break-all hover:opacity-80 transition-opacity ${isMine ? 'text-indigo-200' : 'text-orange-500'}`}>
         {part}
       </a>
     ) : (<span key={i}>{part}</span>)
@@ -382,7 +382,7 @@ export const ProjectDetails = () => {
   if (!project) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Project not found</p>
+        <p className="text-muted-foreground">Project not found</p>
         <Button onClick={() => navigate('/production/projects')} className="mt-4">
           Back to Projects
         </Button>
@@ -403,16 +403,16 @@ export const ProjectDetails = () => {
         <div className="flex items-center">
           <button
             onClick={() => navigate('/production/projects')}
-            className="mr-4 text-gray-400 hover:text-gray-600 transition-colors bg-white p-2 rounded-full shadow-sm"
+            className="mr-4 text-muted-foreground hover:text-muted-foreground transition-colors bg-card p-2 rounded-full shadow-[0_0_15px_rgba(0,0,0,0.5)]"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">{project.clientName}</h1>
-            <p className="text-sm font-medium text-gray-400 flex flex-wrap items-center gap-2">
+            <h1 className="text-2xl font-bold text-foreground mb-1">{project.clientName}</h1>
+            <p className="text-sm font-medium text-muted-foreground flex flex-wrap items-center gap-2">
               <span>{project.service} Project</span>
               {project.status === 'completed' && (
-                <span className="text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 shadow-sm inline-flex items-center gap-1 text-[11px] uppercase tracking-wide">
+                <span className="text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100 shadow-[0_0_15px_rgba(0,0,0,0.5)] inline-flex items-center gap-1 text-[11px] uppercase tracking-wide">
                   🎉 Completed by {project.assignedTo?.name || 'Unassigned'}
                 </span>
               )}
@@ -430,20 +430,20 @@ export const ProjectDetails = () => {
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* Project Overview */}
-          <Card className="p-6 border-none ring-1 ring-gray-100 bg-white">
-            <h3 className="text-lg font-bold text-gray-900 mb-6">Project Overview</h3>
+          <Card className="p-6 border-none ring-1 ring-border bg-card">
+            <h3 className="text-lg font-bold text-foreground mb-6">Project Overview</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Service Type</p>
-                <p className="text-sm font-bold text-gray-900">{project.service}</p>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Service Type</p>
+                <p className="text-sm font-bold text-foreground">{project.service}</p>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Assigned To</p>
-                <p className="text-sm font-bold text-gray-900">{project.assignedTo?.name || "Unassigned"}</p>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Assigned To</p>
+                <p className="text-sm font-bold text-foreground">{project.assignedTo?.name || "Unassigned"}</p>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Assignment Date</p>
-                <p className="text-sm font-bold text-gray-900">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Assignment Date</p>
+                <p className="text-sm font-bold text-foreground">
                   {project.createdAt 
                     ? new Date(project.createdAt).toLocaleDateString(undefined, {
                         year: 'numeric',
@@ -456,34 +456,34 @@ export const ProjectDetails = () => {
                 </p>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Deadline</p>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Deadline</p>
                 <p className="text-sm font-bold text-red-600">{project.deadline ? new Date(project.deadline).toLocaleDateString() : "No deadline"}</p>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Priority</p>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Priority</p>
                 <Badge variant={project.priority === 'high' ? 'danger' : project.priority === 'medium' ? 'warning' : 'default'}>
                   {project.priority || "Medium"}
                 </Badge>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5">Overall Progress</p>
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Overall Progress</p>
                 <div className="flex items-center">
-                  <div className="w-full bg-gray-100 rounded-full h-2 mr-3">
+                  <div className="w-full bg-black/40 rounded-full h-2 mr-3">
                     <div
-                      className="bg-indigo-600 h-2 rounded-full transition-all duration-1000"
+                      className="bg-orange-500 h-2 rounded-full transition-all duration-1000"
                       style={{ width: `${project.progress}%` }}
                     />
                   </div>
-                  <span className="text-sm font-bold text-gray-900">{project.progress}%</span>
+                  <span className="text-sm font-bold text-foreground">{project.progress}%</span>
                 </div>
               </div>
             </div>
           </Card>
 
           {/* Tabs */}
-          <Card className="overflow-hidden border-none ring-1 ring-gray-100 bg-white shadow-sm">
+          <Card className="overflow-hidden border-none ring-1 ring-border bg-card shadow-[0_0_15px_rgba(0,0,0,0.5)]">
             {/* Tab Headers */}
-            <div className="border-b border-gray-100 bg-gray-50/50 overflow-x-auto custom-scrollbar">
+            <div className="border-b border-border bg-black/20/50 overflow-x-auto custom-scrollbar">
               <div className="flex min-w-max">
                 {tabs.map((tab) => (
                   <button
@@ -492,8 +492,8 @@ export const ProjectDetails = () => {
                     className={`
                       flex items-center px-6 py-4 text-sm font-bold transition-all
                       ${activeTab === tab.id
-                        ? 'border-b-2 border-indigo-600 text-indigo-600 bg-white shadow-inner'
-                        : 'text-gray-400 hover:text-gray-600'
+                        ? 'border-b-2 border-indigo-600 text-orange-500 bg-card shadow-inner'
+                        : 'text-muted-foreground hover:text-muted-foreground'
                       }
                     `}
                   >
@@ -516,9 +516,9 @@ export const ProjectDetails = () => {
                 <div className="space-y-6">
                   {/* Task Addition Form (Admins Only) */}
                   {user?.role === 'admin' && (
-                    <Card className="p-5 border border-gray-100 bg-gray-50/30 shadow-none">
-                      <h4 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-indigo-600" />
+                    <Card className="p-5 border border-border bg-black/20/30 shadow-none">
+                      <h4 className="text-sm font-bold text-foreground mb-3 flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-orange-500" />
                         Create New Task
                       </h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -531,10 +531,10 @@ export const ProjectDetails = () => {
                               name: e.target.value,
                             })
                           }
-                          className="bg-white border-gray-200"
+                          className="bg-card border-border"
                         />
                         <select
-                          className="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none text-sm"
+                          className="w-full px-4 py-2 border border-border rounded-xl focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none text-sm"
                           value={taskData.assignedTo}
                           onChange={(e) => setTaskData({ ...taskData, assignedTo: e.target.value })}
                         >
@@ -549,7 +549,7 @@ export const ProjectDetails = () => {
                           onClick={addTask}
                           disabled={!taskData.name.trim()}
                           size="sm"
-                          className="bg-indigo-600 text-white hover:bg-indigo-700 font-bold px-5 py-2 rounded-xl transition-all"
+                          className="bg-orange-500 text-white hover:bg-orange-600 font-bold px-5 py-2 rounded-xl transition-all"
                         >
                           Add Task
                         </Button>
@@ -562,7 +562,7 @@ export const ProjectDetails = () => {
                     {tasks.map((task, index) => (
                       <div
                         key={task.id || task._id}
-                        className="p-5 bg-white border border-gray-100 rounded-2xl group hover:shadow-md hover:ring-1 hover:ring-indigo-100 transition-all duration-300"
+                        className="p-5 bg-card border border-border rounded-2xl group hover:shadow-md hover:ring-1 hover:ring-indigo-100 transition-all duration-300"
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
                           <div className="flex items-start">
@@ -579,17 +579,17 @@ export const ProjectDetails = () => {
                               <CheckCircle2
                                 className={`w-5 h-5 transition-all ${
                                   task.status === 'completed'
-                                    ? 'text-emerald-500 fill-emerald-50 shadow-sm'
+                                    ? 'text-emerald-500 fill-emerald-50 shadow-[0_0_15px_rgba(0,0,0,0.5)]'
                                     : 'text-gray-300 hover:text-indigo-500'
                                 }`}
                               />
                             </button>
                             <div>
-                              <h4 className={`text-sm font-bold text-gray-900 flex items-center gap-2 ${task.status === 'completed' ? 'line-through text-gray-400' : ''}`}>
-                                <span className="text-xs text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md mr-1">Task {tasks.length - index}</span>
+                              <h4 className={`text-sm font-bold text-foreground flex items-center gap-2 ${task.status === 'completed' ? 'line-through text-muted-foreground' : ''}`}>
+                                <span className="text-xs text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded-md mr-1">Task {tasks.length - index}</span>
                                 {task.name}
                                 {task.assignedTo && (
-                                  <Badge variant="outline" className="text-[10px] bg-gray-50 text-gray-600 border-gray-200 px-1 py-0">
+                                  <Badge variant="outline" className="text-[10px] bg-black/20 text-muted-foreground border-border px-1 py-0">
                                     {task.assignedTo.name}
                                   </Badge>
                                 )}
@@ -603,7 +603,7 @@ export const ProjectDetails = () => {
                                 {task.status !== 'in-progress' && task.status !== 'completed' && (
                                   <button
                                     onClick={() => updateTask(task.id || task._id, 'in-progress', 50)}
-                                    className="text-[11px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1 rounded-lg transition-colors"
+                                    className="text-[11px] font-bold text-orange-500 bg-orange-500/10 hover:bg-orange-500/20 px-2.5 py-1 rounded-lg transition-colors"
                                   >
                                     Start Task
                                   </button>
@@ -619,7 +619,7 @@ export const ProjectDetails = () => {
                                 {task.status !== 'not-started' && (
                                   <button
                                     onClick={() => updateTask(task.id || task._id, 'not-started', 0)}
-                                    className="text-[11px] font-bold text-gray-500 bg-gray-50 hover:bg-gray-100 px-2.5 py-1 rounded-lg transition-colors"
+                                    className="text-[11px] font-bold text-muted-foreground bg-black/20 hover:bg-black/40 px-2.5 py-1 rounded-lg transition-colors"
                                   >
                                     Reset
                                   </button>
@@ -629,7 +629,7 @@ export const ProjectDetails = () => {
 
                             {/* Client Approval Toggles (Admins only) */}
                             {user?.role === 'admin' && (
-                              <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mr-2 border-r border-gray-100 pr-2">
+                              <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mr-2 border-r border-border pr-2">
                                 <button
                                   onClick={() => updateTask(task.id || task._id, undefined, undefined, 'approved')}
                                   className="text-[11px] font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-100 px-2 py-1 rounded-lg transition-colors"
@@ -687,17 +687,17 @@ export const ProjectDetails = () => {
                         {/* Progress Bar */}
                         <div className="ml-8">
                           <div className="flex items-center">
-                            <div className="w-full bg-gray-100 rounded-full h-1.5 mr-3 overflow-hidden">
+                            <div className="w-full bg-black/40 rounded-full h-1.5 mr-3 overflow-hidden">
                               <div
                                 className={`h-full rounded-full transition-all duration-500 ${
                                   task.status === 'completed'
                                     ? 'bg-emerald-500'
-                                    : 'bg-indigo-600'
+                                    : 'bg-orange-500'
                                 }`}
                                 style={{ width: `${task.progress || 0}%` }}
                               />
                             </div>
-                            <span className="text-[10px] font-bold text-gray-500 min-w-[24px] text-right">
+                            <span className="text-[10px] font-bold text-muted-foreground min-w-[24px] text-right">
                               {task.progress || 0}%
                             </span>
                           </div>
@@ -706,10 +706,10 @@ export const ProjectDetails = () => {
                     ))}
 
                     {tasks.length === 0 && (
-                      <div className="text-center py-12 bg-gray-50/50 rounded-2xl border border-dashed border-gray-200">
+                      <div className="text-center py-12 bg-black/20/50 rounded-2xl border border-dashed border-border">
                         <CheckCircle2 className="w-8 h-8 text-gray-300 mx-auto mb-3" />
-                        <h4 className="text-sm font-bold text-gray-800">No Tasks Created Yet</h4>
-                        <p className="text-xs text-gray-400 mt-1 max-w-[280px] mx-auto">
+                        <h4 className="text-sm font-bold text-foreground">No Tasks Created Yet</h4>
+                        <p className="text-xs text-muted-foreground mt-1 max-w-[280px] mx-auto">
                           Create some tasks to track the implementation and delivery milestones.
                         </p>
                       </div>
@@ -732,7 +732,7 @@ export const ProjectDetails = () => {
                       onClick={triggerUpload} 
                       disabled={project.status === 'completed' && user?.role !== 'admin'}
                       size="sm" 
-                      className={`font-bold px-4 py-2 rounded-xl flex items-center ${project.status === 'completed' && user?.role !== 'admin' ? 'bg-gray-300 text-gray-400 cursor-not-allowed border-none' : 'bg-indigo-600 text-white'}`}
+                      className={`font-bold px-4 py-2 rounded-xl flex items-center ${project.status === 'completed' && user?.role !== 'admin' ? 'bg-gray-300 text-muted-foreground cursor-not-allowed border-none' : 'bg-orange-500 text-white'}`}
                     >
                       <Upload className="w-4 h-4 mr-2" />
                       {project.status === 'completed' && user?.role !== 'admin' ? 'Upload Locked' : 'Upload Delivering'}
@@ -741,22 +741,22 @@ export const ProjectDetails = () => {
                   {project.files?.map((file, idx) => (
                     <div
                       key={idx}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl hover:bg-white hover:ring-1 hover:ring-gray-100 transition-all group"
+                      className="flex items-center justify-between p-4 bg-black/20 rounded-2xl hover:bg-card hover:ring-1 hover:ring-border transition-all group"
                     >
                       <div className="flex items-center flex-1 min-w-0">
-                        <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center mr-4 text-indigo-600 shadow-sm flex-shrink-0">
+                        <div className="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center mr-4 text-orange-500 shadow-[0_0_15px_rgba(0,0,0,0.5)] flex-shrink-0">
                           <FileText className="w-5 h-5" />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-bold text-gray-900 truncate" title={file.name || file.url}>{file.name || file.url.split('/').pop()}</p>
-                          <p className="text-[10px] uppercase font-bold text-gray-400 mt-0.5">
+                          <p className="text-sm font-bold text-foreground truncate" title={file.name || file.url}>{file.name || file.url.split('/').pop()}</p>
+                          <p className="text-[10px] uppercase font-bold text-muted-foreground mt-0.5">
                              Uploaded by {file.uploaded_by || file.uploadedBy || 'Unknown'} • {new Date(file.created_at || file.createdAt || Date.now()).toLocaleDateString()}
                           </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
                         <a href={file.url} target="_blank" rel="noopener noreferrer" title="View File">
-                          <Button size="sm" variant="ghost" className="text-indigo-600 font-bold hover:bg-indigo-50 p-2 rounded-lg flex items-center gap-1">
+                          <Button size="sm" variant="ghost" className="text-orange-500 font-bold hover:bg-orange-500/10 p-2 rounded-lg flex items-center gap-1">
                             <Eye className="w-4 h-4" />
                             <span>View</span>
                           </Button>
@@ -774,7 +774,7 @@ export const ProjectDetails = () => {
                         {user?.role === 'admin' && (
                           <button
                             onClick={() => handleDeleteFile(file.url)}
-                            className="p-2 text-gray-400 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                            className="p-2 text-muted-foreground hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
                             title="Delete File (Admin Only)"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -784,17 +784,17 @@ export const ProjectDetails = () => {
                     </div>
                   ))}
                   {(!project.files || project.files.length === 0) && (
-                    <p className="text-center py-10 text-gray-400">No source files uploaded yet.</p>
+                    <p className="text-center py-10 text-muted-foreground">No source files uploaded yet.</p>
                   )}
                 </div>
               )}
 
               {/* Chat Tab */}
               {activeTab === 'chat' && (
-                <div className="flex flex-col h-[500px] bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden shadow-inner">
+                <div className="flex flex-col h-[500px] bg-black/20 rounded-2xl border border-border overflow-hidden shadow-inner">
                   <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
                     {comments.length === 0 ? (
-                      <div className="flex flex-col items-center justify-center h-full text-gray-400">
+                      <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
                         <MessageSquare className="w-12 h-12 mb-3 opacity-20" />
                         <p className="text-sm font-medium">No messages yet. Start the conversation!</p>
                       </div>
@@ -802,11 +802,11 @@ export const ProjectDetails = () => {
                       comments.map((comment) => (
                         <div key={comment.id} className={`flex flex-col group ${comment.sender_name === user?.name ? 'items-end' : 'items-start'}`}>
                           <div className="flex items-center gap-2 mb-1.5 px-1">
-                            <span className="text-xs font-bold text-gray-700">{comment.sender_name}</span>
-                            <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${comment.sender_role === 'admin' ? 'bg-amber-100 text-amber-700' : 'bg-indigo-100 text-indigo-700'}`}>
+                            <span className="text-xs font-bold text-muted-foreground">{comment.sender_name}</span>
+                            <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${comment.sender_role === 'admin' ? 'bg-amber-100 text-amber-700' : 'bg-orange-500/20 text-orange-600'}`}>
                               {comment.sender_role}
                             </span>
-                            <span className="text-[10px] font-medium text-gray-400">
+                            <span className="text-[10px] font-medium text-muted-foreground">
                               {new Date(comment.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </span>
                             {/* Admin delete button */}
@@ -820,10 +820,10 @@ export const ProjectDetails = () => {
                               </button>
                             )}
                           </div>
-                          <div className={`rounded-2xl max-w-[85%] sm:max-w-[75%] shadow-sm overflow-hidden ${
+                          <div className={`rounded-2xl max-w-[85%] sm:max-w-[75%] shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden ${
                             comment.sender_name === user?.name
-                              ? 'bg-indigo-600 text-white rounded-tr-sm'
-                              : 'bg-white border border-gray-100 text-gray-800 rounded-tl-sm'
+                              ? 'bg-orange-500 text-white rounded-tr-sm'
+                              : 'bg-card border border-border text-foreground rounded-tl-sm'
                           }`}>
                             {comment.file_type === 'image' && comment.file_url && (
                               <div>
@@ -831,7 +831,7 @@ export const ProjectDetails = () => {
                                   <img src={comment.file_url} alt={comment.file_name || 'image'} className="max-w-full max-h-[280px] object-cover w-full" />
                                 </a>
                                 <a href={comment.file_url} download={comment.file_name}
-                                  className={`flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold border-t hover:opacity-80 transition-opacity ${comment.sender_name === user?.name ? 'text-indigo-200 border-indigo-500' : 'text-indigo-500 border-gray-100'}`}>
+                                  className={`flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold border-t hover:opacity-80 transition-opacity ${comment.sender_name === user?.name ? 'text-indigo-200 border-indigo-500' : 'text-indigo-500 border-border'}`}>
                                   <Download className="w-3 h-3" />
                                   Download
                                 </a>
@@ -843,7 +843,7 @@ export const ProjectDetails = () => {
                                   <source src={comment.file_url} />
                                 </video>
                                 <a href={comment.file_url} download={comment.file_name}
-                                  className={`flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold border-t hover:opacity-80 transition-opacity ${comment.sender_name === user?.name ? 'text-indigo-200 border-indigo-500' : 'text-indigo-500 border-gray-100'}`}>
+                                  className={`flex items-center gap-1.5 px-3 py-2 text-[11px] font-bold border-t hover:opacity-80 transition-opacity ${comment.sender_name === user?.name ? 'text-indigo-200 border-indigo-500' : 'text-indigo-500 border-border'}`}>
                                   <Download className="w-3 h-3" />
                                   Download Video
                                 </a>
@@ -851,7 +851,7 @@ export const ProjectDetails = () => {
                             )}
                             {comment.file_type === 'file' && comment.file_url && (
                               <a href={comment.file_url} download={comment.file_name} target="_blank" rel="noopener noreferrer"
-                                className={`flex items-center gap-2 px-4 py-3 text-sm font-bold hover:opacity-80 transition-opacity ${comment.sender_name === user?.name ? 'text-indigo-100' : 'text-indigo-600'}`}>
+                                className={`flex items-center gap-2 px-4 py-3 text-sm font-bold hover:opacity-80 transition-opacity ${comment.sender_name === user?.name ? 'text-indigo-100' : 'text-orange-500'}`}>
                                 <Download className="w-4 h-4 flex-shrink-0" />
                                 <span className="truncate max-w-[180px]">{comment.file_name || 'Download File'}</span>
                               </a>
@@ -868,7 +868,7 @@ export const ProjectDetails = () => {
                     <div ref={messagesEndRef} />
                   </div>
                   {chatFile && (
-                    <div className="px-4 py-2 bg-indigo-50 border-t border-indigo-100 flex items-center gap-3">
+                    <div className="px-4 py-2 bg-orange-500/10 border-t border-indigo-100 flex items-center gap-3">
                       {chatFilePreview && chatFile.type.startsWith('image/') && (
                         <img src={chatFilePreview} alt="preview" className="w-12 h-12 object-cover rounded-lg border border-indigo-200" />
                       )}
@@ -876,26 +876,26 @@ export const ProjectDetails = () => {
                         <video src={chatFilePreview} className="w-16 h-12 object-cover rounded-lg border border-indigo-200" />
                       )}
                       {!chatFilePreview && (
-                        <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
-                          <FileText className="w-5 h-5 text-indigo-600" />
+                        <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+                          <FileText className="w-5 h-5 text-orange-500" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-indigo-800 truncate">{chatFile.name}</p>
                         <p className="text-[10px] text-indigo-500">{(chatFile.size / 1024).toFixed(1)} KB</p>
                       </div>
-                      <button onClick={clearChatFile} className="text-indigo-400 hover:text-indigo-700 p-1 rounded transition-colors">
+                      <button onClick={clearChatFile} className="text-indigo-400 hover:text-orange-600 p-1 rounded transition-colors">
                         <X className="w-4 h-4" />
                       </button>
                     </div>
                   )}
-                  <div className="p-4 bg-white border-t border-gray-100">
+                  <div className="p-4 bg-card border-t border-border">
                     <div className="flex items-center gap-2">
                       <input type="file" ref={chatFileInputRef} className="hidden"
                         accept="image/*,video/*,.pdf,.doc,.docx,.zip,.rar,.ai,.psd,.xls,.xlsx"
                         onChange={handleChatFileSelect} />
                       <button onClick={() => chatFileInputRef.current?.click()}
-                        className="p-2.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all flex-shrink-0"
+                        className="p-2.5 text-muted-foreground hover:text-orange-500 hover:bg-orange-500/10 rounded-xl transition-all flex-shrink-0"
                         title="Attach file, image or video">
                         <Paperclip className="w-5 h-5" />
                       </button>
@@ -908,7 +908,7 @@ export const ProjectDetails = () => {
                             setNewComment(prev => (prev ? prev + ' ' : '') + 'https://' + link);
                           }
                         }}
-                        className="p-2.5 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-all flex-shrink-0"
+                        className="p-2.5 text-muted-foreground hover:text-orange-500 hover:bg-orange-500/10 rounded-xl transition-all flex-shrink-0"
                         title="Link add karein">
                         <Link className="w-5 h-5" />
                       </button>
@@ -916,13 +916,13 @@ export const ProjectDetails = () => {
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="Type a message..."
-                        className="flex-1 bg-gray-50 border-gray-200 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 text-sm py-2.5 rounded-xl transition-all"
+                        className="flex-1 bg-black/20 border-border focus:bg-card focus:ring-2 focus:ring-indigo-500/20 text-sm py-2.5 rounded-xl transition-all"
                         onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSendComment()}
                       />
                       <Button
                         onClick={handleSendComment}
                         disabled={(!newComment.trim() && !chatFile) || sendingComment}
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm flex items-center gap-2 flex-shrink-0 disabled:bg-gray-300 disabled:cursor-not-allowed"
+                        className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-4 py-2.5 rounded-xl transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)] flex items-center gap-2 flex-shrink-0 disabled:bg-gray-300 disabled:cursor-not-allowed"
                       >
                         <Send className="w-4 h-4" />
                         {sendingComment ? '...' : 'Send'}
@@ -950,25 +950,25 @@ export const ProjectDetails = () => {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Quick Stats */}
-          <Card className="p-6 border-none ring-1 ring-gray-100 bg-white shadow-sm">
-            <h3 className="text-lg font-bold text-gray-900 mb-6">Execution Stats</h3>
+          <Card className="p-6 border-none ring-1 ring-border bg-card shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            <h3 className="text-lg font-bold text-foreground mb-6">Execution Stats</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-500">Asset Files</span>
-                <span className="text-sm font-bold text-gray-900">{project.files?.length || 0}</span>
+                <span className="text-sm font-medium text-muted-foreground">Asset Files</span>
+                <span className="text-sm font-bold text-foreground">{project.files?.length || 0}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-500">Total Revisions</span>
-                <span className="text-sm font-bold text-gray-900">{project.revisions || 0}</span>
+                <span className="text-sm font-medium text-muted-foreground">Total Revisions</span>
+                <span className="text-sm font-bold text-foreground">{project.revisions || 0}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-500">Task Completion</span>
-                <span className="text-sm font-bold text-gray-900">
+                <span className="text-sm font-medium text-muted-foreground">Task Completion</span>
+                <span className="text-sm font-bold text-foreground">
                   {tasks.filter(t => t.status === 'completed').length} / {tasks.length}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-500">Time Left</span>
+                <span className="text-sm font-medium text-muted-foreground">Time Left</span>
                 <span className="text-sm font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded">
                     {project.deadline ? Math.max(0, Math.ceil((new Date(project.deadline) - new Date()) / (1000 * 60 * 60 * 24))) : 0} Days
                 </span>
@@ -979,16 +979,16 @@ export const ProjectDetails = () => {
           {/* Quick Actions */}
 
 
-          <Card className="p-6 border-none ring-1 ring-gray-100 bg-white shadow-sm">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Phase Control</h3>
+          {user?.role === 'admin' && (
+          <Card className="p-6 border-none ring-1 ring-border bg-card shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            <h3 className="text-lg font-bold text-foreground mb-4">Phase Control</h3>
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1.5 block">Status</label>
+                <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Status</label>
                 <select 
                   value={localStatus}
                   onChange={(e) => setLocalStatus(e.target.value)}
-                  disabled={project.status === 'completed' && user?.role !== 'admin'}
-                  className="w-full px-4 py-3 border border-gray-100 bg-gray-50 rounded-xl text-sm font-bold text-gray-700 outline-none ring-2 ring-transparent focus:ring-indigo-500 transition-all disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-3 border border-border bg-black/20 rounded-xl text-sm font-bold text-muted-foreground outline-none ring-2 ring-transparent focus:ring-indigo-500 transition-all"
                 >
                   <option value="not-started">Not Started</option>
                   <option value="in-progress">In Progress</option>
@@ -998,30 +998,30 @@ export const ProjectDetails = () => {
               </div>
               
               <div className="space-y-2">
-                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Update Progress (%)</label>
+                <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest">Update Progress (%)</label>
                 <input 
                   type="number"
                   min="0"
                   max="100"
                   value={localProgress}
                   onChange={(e) => setLocalProgress(Number(e.target.value))}
-                  disabled={project.status === 'completed' && user?.role !== 'admin'}
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-lg text-sm font-bold disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-2 bg-black/20 border border-border rounded-lg text-sm font-bold"
                 />
               </div>
 
               <Button 
                 onClick={handleSaveUpdate} 
-                disabled={updating || (project.status === 'completed' && user?.role !== 'admin')}
-                className="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-sm mt-2 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                disabled={updating}
+                className="w-full bg-orange-500 text-white font-bold py-2.5 rounded-xl text-sm mt-2 disabled:bg-gray-300 disabled:text-muted-foreground disabled:cursor-not-allowed"
               >
-                {project.status === 'completed' && user?.role !== 'admin' ? 'Locked (Completed) 🔒' : (updating ? 'Saving...' : 'Save Updates')}
+                {updating ? 'Saving...' : 'Save Updates'}
               </Button>
             </div>
           </Card>
+          )}
           {/* Quick Switch / Recent Projects */}
-          <Card className="p-6 border-none ring-1 ring-gray-100 bg-white shadow-sm">
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Switch</h3>
+          <Card className="p-6 border-none ring-1 ring-border bg-card shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+            <h3 className="text-lg font-bold text-foreground mb-4">Quick Switch</h3>
             <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
               {allProjects.map((p) => (
                 <button
@@ -1029,17 +1029,17 @@ export const ProjectDetails = () => {
                   onClick={() => navigate(`/production/projects/${p.id || p._id}`)}
                   className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all flex items-center justify-between group
                     ${(p.id || p._id) === id 
-                      ? 'bg-indigo-50 text-indigo-700 font-bold border border-indigo-100 shadow-sm' 
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-indigo-600'
+                      ? 'bg-orange-500/10 text-orange-600 font-bold border border-indigo-100 shadow-[0_0_15px_rgba(0,0,0,0.5)]' 
+                      : 'text-muted-foreground hover:bg-black/20 hover:text-orange-500'
                     }
                   `}
                 >
                   <span className="truncate">{p.clientName}</span>
-                  {(p.id || p._id) === id && <div className="w-1.5 h-1.5 rounded-full bg-indigo-600 shadow-[0_0_8px_rgba(79,70,229,0.6)]" />}
+                  {(p.id || p._id) === id && <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_8px_rgba(79,70,229,0.6)]" />}
                 </button>
               ))}
               {allProjects.length === 0 && (
-                <p className="text-center text-xs text-gray-400 py-4">No other projects found.</p>
+                <p className="text-center text-xs text-muted-foreground py-4">No other projects found.</p>
               )}
             </div>
           </Card>

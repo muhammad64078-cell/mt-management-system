@@ -43,16 +43,16 @@ export const Sidebar = ({ isOpen, onClose }) => {
       )}
 
       <div className={`
-        flex flex-col w-64 bg-white border-r border-gray-100 h-screen fixed top-0 left-0 z-50 
+        flex flex-col w-64 bg-card border-r border-border h-screen fixed top-0 left-0 z-50 
         transition-transform duration-300 ease-in-out lg:translate-x-0
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Logo */}
-        <div className="flex items-center h-16 px-6 border-b border-gray-100">
-          <div className="bg-indigo-600 p-1.5 rounded-lg mr-3">
+        <div className="flex items-center h-16 px-6 border-b border-border">
+          <div className="bg-orange-500 p-1.5 rounded-lg mr-3 shadow-[0_0_15px_rgba(249,115,22,0.4)]">
             <Briefcase className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold tracking-tight text-gray-900">SoftHouse</span>
+          <span className="text-xl font-bold tracking-tight text-foreground">MT Nexus Global</span>
         </div>
 
         {/* Navigation */}
@@ -71,12 +71,12 @@ export const Sidebar = ({ isOpen, onClose }) => {
                 className={`
                   flex items-center px-3 py-2.5 text-sm font-medium rounded-xl transition-all duration-200
                   ${isActive 
-                    ? 'bg-indigo-50 text-indigo-700' 
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-orange-500/10 text-orange-500 shadow-[inset_2px_0_0_0_rgba(249,115,22,1)]' 
+                    : 'text-muted-foreground hover:bg-card/5 hover:text-foreground'
                   }
                 `}
               >
-                <item.icon className={`w-5 h-5 mr-3 transition-colors ${isActive ? 'text-indigo-600' : 'text-gray-400'}`} />
+                <item.icon className={`w-5 h-5 mr-3 transition-colors ${isActive ? 'text-orange-500' : 'text-muted-foreground'}`} />
                 {item.name}
               </Link>
             );
@@ -84,24 +84,24 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </nav>
 
         {/* User Profile */}
-        <div className="p-4 border-t border-gray-100 bg-gray-50/50">
+        <div className="p-4 border-t border-border bg-black/20">
           <div className="flex items-center p-2 mb-2">
             <div className="relative">
               <img
                 src={userAvatar}
                 alt={user?.name}
-                className="w-10 h-10 rounded-full border-2 border-white ring-1 ring-gray-100"
+                className="w-10 h-10 rounded-full border-2 border-card ring-1 ring-border"
               />
-              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-card rounded-full"></span>
             </div>
             <div className="ml-3 flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>
-              <p className="text-xs font-medium text-gray-500 capitalize truncate">{user?.role}</p>
+              <p className="text-sm font-semibold text-foreground truncate">{user?.name}</p>
+              <p className="text-xs font-medium text-muted-foreground capitalize truncate">{user?.role}</p>
             </div>
           </div>
           <button
             onClick={logout}
-            className="flex items-center w-full px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all duration-200"
+            className="flex items-center w-full px-3 py-2 text-sm font-medium text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all duration-200"
           >
             <LogOut className="w-4 h-4 mr-3" />
             Sign Out

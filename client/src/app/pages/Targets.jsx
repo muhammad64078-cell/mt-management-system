@@ -85,7 +85,7 @@ export const Targets = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+        <Loader2 className="w-8 h-8 text-orange-500 animate-spin" />
       </div>
     );
   }
@@ -95,29 +95,29 @@ export const Targets = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl text-gray-900 mb-2 font-bold tracking-tight">Targets & Goals</h1>
-          <p className="text-sm text-gray-500">Track your performance against daily, weekly, and monthly targets</p>
+          <h1 className="text-2xl text-foreground mb-2 font-bold tracking-tight">Targets & Goals</h1>
+          <p className="text-sm text-muted-foreground">Track your performance against daily, weekly, and monthly targets</p>
         </div>
       </div>
 
       {/* Daily Targets */}
       <div>
         <div className="flex items-center mb-4">
-          <Calendar className="w-5 h-5 text-indigo-600 mr-2" />
-          <h2 className="text-xl font-semibold text-gray-900">Daily Targets</h2>
-          <span className="ml-3 text-sm text-gray-500">Today - {new Date().toLocaleDateString()}</span>
+          <Calendar className="w-5 h-5 text-orange-500 mr-2" />
+          <h2 className="text-xl font-semibold text-foreground">Daily Targets</h2>
+          <span className="ml-3 text-sm text-muted-foreground">Today - {new Date().toLocaleDateString()}</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {Object.entries(targets.daily).length > 0 ? (
             Object.entries(targets.daily).map(([key, data]) => {
               const percentage = calculatePercentage(data.current, data.target);
               return (
-                <Card key={key} className="p-6 shadow-sm border-gray-100 hover:shadow-md transition-shadow">
+                <Card key={key} className="p-6 shadow-[0_0_15px_rgba(0,0,0,0.5)] border-border hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <p className="text-xs font-bold text-gray-400 mb-1 uppercase tracking-wider">{key}</p>
-                      <p className="text-3xl font-bold text-gray-900">{data.current}</p>
-                      <p className="text-[10px] text-gray-500 mt-1">of {data.target} target</p>
+                      <p className="text-xs font-bold text-muted-foreground mb-1 uppercase tracking-wider">{key}</p>
+                      <p className="text-3xl font-bold text-foreground">{data.current}</p>
+                      <p className="text-[10px] text-muted-foreground mt-1">of {data.target} target</p>
                     </div>
                     <div className="text-right">
                       <div className={`text-xl font-bold ${getProgressColor(percentage)}`}>
@@ -126,7 +126,7 @@ export const Targets = () => {
                       {user?.role === 'admin' && (
                         <button 
                           onClick={() => handleDeleteTarget(data.id, 'daily', key)}
-                          className="text-gray-400 hover:text-red-500 transition-colors mt-1"
+                          className="text-muted-foreground hover:text-red-500 transition-colors mt-1"
                           title="Delete Target"
                         >
                           <Trash2 size={14} />
@@ -134,7 +134,7 @@ export const Targets = () => {
                       )}
                     </div>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-1.5">
+                  <div className="w-full bg-black/40 rounded-full h-1.5">
                     <div
                       className={`h-1.5 rounded-full transition-all duration-500 ${
                         percentage >= 100 ? 'bg-green-500' :
@@ -145,14 +145,14 @@ export const Targets = () => {
                       style={{ width: `${Math.min(percentage, 100)}%` }}
                     />
                   </div>
-                  <p className="text-[10px] mt-3 text-gray-400 font-medium">
+                  <p className="text-[10px] mt-3 text-muted-foreground font-medium">
                     {data.target - data.current > 0 ? `${data.target - data.current} more to reach goal` : 'Goal reached! ✨'}
                   </p>
                 </Card>
               );
             })
           ) : (
-            <p className="text-sm text-gray-400 col-span-full py-10 bg-gray-50 rounded-xl text-center border-2 border-dashed border-gray-100">No daily targets assigned by admin yet.</p>
+            <p className="text-sm text-muted-foreground col-span-full py-10 bg-black/20 rounded-xl text-center border-2 border-dashed border-border">No daily targets assigned by admin yet.</p>
           )}
         </div>
       </div>
@@ -161,9 +161,9 @@ export const Targets = () => {
       <div>
         <div className="flex items-center mb-4">
           <Target className="w-5 h-5 text-green-600 mr-2" />
-          <h2 className="text-xl font-semibold text-gray-900">Weekly Targets</h2>
+          <h2 className="text-xl font-semibold text-foreground">Weekly Targets</h2>
         </div>
-        <Card className="p-6 shadow-sm border-gray-100">
+        <Card className="p-6 shadow-[0_0_15px_rgba(0,0,0,0.5)] border-border">
           <div className="space-y-6">
             {Object.entries(targets.weekly).length > 0 ? (
               Object.entries(targets.weekly).map(([key, data]) => {
@@ -173,13 +173,13 @@ export const Targets = () => {
                   <div key={key}>
                     <div className="flex items-center justify-between mb-3">
                       <div>
-                        <span className="text-sm text-gray-700 font-bold capitalize">
+                        <span className="text-sm text-muted-foreground font-bold capitalize">
                           {key.replace(/([A-Z])/g, ' $1').trim()}
                         </span>
-                        <div className="text-xs text-gray-400 font-medium">Progress against weekly goal</div>
+                        <div className="text-xs text-muted-foreground font-medium">Progress against weekly goal</div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm font-bold text-gray-900">
+                        <div className="text-sm font-bold text-foreground">
                           {isRevenue ? `$${data.current.toLocaleString()}` : data.current} / {isRevenue ? `$${data.target.toLocaleString()}` : data.target}
                         </div>
                         <div className={`text-xs font-bold ${getProgressColor(percentage)} flex items-center justify-end gap-1`}>
@@ -187,7 +187,7 @@ export const Targets = () => {
                           {user?.role === 'admin' && (
                             <button 
                               onClick={() => handleDeleteTarget(data.id, 'weekly', key)}
-                              className="text-gray-400 hover:text-red-500 transition-colors"
+                              className="text-muted-foreground hover:text-red-500 transition-colors"
                               title="Delete Target"
                             >
                               <Trash2 size={12} />
@@ -196,7 +196,7 @@ export const Targets = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="w-full bg-gray-100 rounded-full h-3 overflow-hidden">
+                    <div className="w-full bg-black/40 rounded-full h-3 overflow-hidden">
                       <div
                         className={`h-3 rounded-full transition-all duration-700 ${
                           percentage >= 100 ? 'bg-green-500' :
@@ -211,7 +211,7 @@ export const Targets = () => {
                 );
               })
             ) : (
-              <p className="text-sm text-gray-400 py-4 text-center">No weekly targets found.</p>
+              <p className="text-sm text-muted-foreground py-4 text-center">No weekly targets found.</p>
             )}
           </div>
         </Card>
@@ -221,7 +221,7 @@ export const Targets = () => {
       <div>
         <div className="flex items-center mb-4">
           <TrendingUp className="w-5 h-5 text-purple-600 mr-2" />
-          <h2 className="text-xl font-semibold text-gray-900">Monthly Targets</h2>
+          <h2 className="text-xl font-semibold text-foreground">Monthly Targets</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Object.entries(targets.monthly).length > 0 ? (
@@ -229,27 +229,27 @@ export const Targets = () => {
               const percentage = calculatePercentage(data.current, data.target);
               const isRevenue = key === 'revenue' || key.toLowerCase().includes('rev');
               return (
-                <Card key={key} className="p-6 shadow-sm border-gray-100 bg-white">
+                <Card key={key} className="p-6 shadow-[0_0_15px_rgba(0,0,0,0.5)] border-border bg-card">
                   <div className="flex items-start justify-between mb-6">
                     <div>
-                      <p className="text-xs font-bold text-gray-400 mb-2 uppercase tracking-tight">
+                      <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-tight">
                         {key.replace(/([A-Z])/g, ' $1').trim()}
                       </p>
-                      <p className="text-4xl font-bold text-gray-900 mb-1">
+                      <p className="text-4xl font-bold text-foreground mb-1">
                         {isRevenue ? `$${(data.current).toLocaleString()}` : data.current}
                       </p>
-                      <p className="text-sm font-medium text-gray-500">
+                      <p className="text-sm font-medium text-muted-foreground">
                         Monthly Goal: {isRevenue ? `$${(data.target).toLocaleString()}` : data.target}
                       </p>
                     </div>
                     <div className="text-right flex flex-col items-end gap-2">
-                       <span className={`px-3 py-1 rounded-full text-xs font-bold ${percentage >= 100 ? 'bg-green-100 text-green-700' : 'bg-indigo-100 text-indigo-700'}`}>
+                       <span className={`px-3 py-1 rounded-full text-xs font-bold ${percentage >= 100 ? 'bg-green-100 text-green-700' : 'bg-orange-500/20 text-orange-600'}`}>
                          {percentage}% Done
                        </span>
                        {user?.role === 'admin' && (
                          <button 
                            onClick={() => handleDeleteTarget(data.id, 'monthly', key)}
-                           className="text-gray-400 hover:text-red-500 transition-colors"
+                           className="text-muted-foreground hover:text-red-500 transition-colors"
                            title="Delete Target"
                          >
                            <Trash2 size={14} />
@@ -257,7 +257,7 @@ export const Targets = () => {
                        )}
                     </div>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-4">
+                  <div className="w-full bg-black/40 rounded-full h-4">
                     <div
                       className={`h-4 rounded-full transition-all duration-1000 ${
                         percentage >= 100 ? 'bg-green-500' :
@@ -268,9 +268,9 @@ export const Targets = () => {
                       style={{ width: `${Math.min(percentage, 100)}%` }}
                     />
                   </div>
-                  <div className="mt-4 pt-4 border-t border-gray-50 flex justify-between items-center text-xs font-medium text-gray-500">
+                  <div className="mt-4 pt-4 border-t border-gray-50 flex justify-between items-center text-xs font-medium text-muted-foreground">
                     <span>PROGRESS</span>
-                    <span className="text-gray-900 font-bold">
+                    <span className="text-foreground font-bold">
                       {isRevenue 
                         ? `$${Math.max(0, data.target - data.current).toLocaleString()} remaining`
                         : `${Math.max(0, data.target - data.current)} items to go`}
@@ -280,7 +280,7 @@ export const Targets = () => {
               );
             })
           ) : (
-            <p className="text-sm text-gray-400 col-span-full text-center py-6">No monthly goals set.</p>
+            <p className="text-sm text-muted-foreground col-span-full text-center py-6">No monthly goals set.</p>
           )}
         </div>
       </div>
@@ -289,35 +289,35 @@ export const Targets = () => {
       {Object.keys(targets).filter(k => k !== 'daily' && k !== 'weekly' && k !== 'monthly').map(customPeriod => (
         <div key={customPeriod} className="mt-8">
           <div className="flex items-center mb-4">
-            <Target className="w-5 h-5 text-indigo-600 mr-2" />
-            <h2 className="text-xl font-semibold text-gray-900">{customPeriod} Targets</h2>
+            <Target className="w-5 h-5 text-orange-500 mr-2" />
+            <h2 className="text-xl font-semibold text-foreground">{customPeriod} Targets</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.entries(targets[customPeriod]).map(([key, data]) => {
               const percentage = calculatePercentage(data.current, data.target);
               const isRevenue = key === 'revenue' || key.toLowerCase().includes('rev');
               return (
-                <Card key={key} className="p-6 shadow-sm border-gray-100 bg-white">
+                <Card key={key} className="p-6 shadow-[0_0_15px_rgba(0,0,0,0.5)] border-border bg-card">
                   <div className="flex items-start justify-between mb-6">
                     <div>
-                      <p className="text-xs font-bold text-gray-400 mb-2 uppercase tracking-tight">
+                      <p className="text-xs font-bold text-muted-foreground mb-2 uppercase tracking-tight">
                         {key.replace(/([A-Z])/g, ' $1').trim()}
                       </p>
-                      <p className="text-4xl font-bold text-gray-900 mb-1">
+                      <p className="text-4xl font-bold text-foreground mb-1">
                         {isRevenue ? `$${(data.current).toLocaleString()}` : data.current}
                       </p>
-                      <p className="text-sm font-medium text-gray-500">
+                      <p className="text-sm font-medium text-muted-foreground">
                         Target: {isRevenue ? `$${(data.target).toLocaleString()}` : data.target}
                       </p>
                     </div>
                     <div className="text-right flex flex-col items-end gap-2">
-                       <span className={`px-3 py-1 rounded-full text-xs font-bold ${percentage >= 100 ? 'bg-green-100 text-green-700' : 'bg-indigo-100 text-indigo-700'}`}>
+                       <span className={`px-3 py-1 rounded-full text-xs font-bold ${percentage >= 100 ? 'bg-green-100 text-green-700' : 'bg-orange-500/20 text-orange-600'}`}>
                          {percentage}% Done
                        </span>
                        {user?.role === 'admin' && (
                          <button 
                            onClick={() => handleDeleteTarget(data.id, customPeriod, key)}
-                           className="text-gray-400 hover:text-red-500 transition-colors"
+                           className="text-muted-foreground hover:text-red-500 transition-colors"
                            title="Delete Target"
                          >
                            <Trash2 size={14} />
@@ -325,7 +325,7 @@ export const Targets = () => {
                        )}
                     </div>
                   </div>
-                  <div className="w-full bg-gray-100 rounded-full h-4">
+                  <div className="w-full bg-black/40 rounded-full h-4">
                     <div
                       className={`h-4 rounded-full transition-all duration-1000 ${
                         percentage >= 100 ? 'bg-green-500' :

@@ -11,7 +11,7 @@ import { useNotifications } from '../context/NotificationContext';
 const ItemType = 'LEAD_CARD';
 
 const columns = [
-  { id: 'new', title: 'New Leads', color: 'from-indigo-500/20 to-indigo-600/5', border: 'border-indigo-200', text: 'text-indigo-700', badge: 'bg-indigo-100 text-indigo-700' },
+  { id: 'new', title: 'New Leads', color: 'from-indigo-500/20 to-indigo-600/5', border: 'border-indigo-200', text: 'text-orange-600', badge: 'bg-orange-500/20 text-orange-600' },
   { id: 'discussing', title: 'In Discussion', color: 'from-blue-500/20 to-blue-600/5', border: 'border-blue-200', text: 'text-blue-700', badge: 'bg-blue-100 text-blue-700' },
   { id: 'proposal', title: 'Proposal Sent', color: 'from-amber-500/20 to-amber-600/5', border: 'border-amber-200', text: 'text-amber-700', badge: 'bg-amber-100 text-amber-700' },
   { id: 'negotiation', title: 'Negotiation', color: 'from-purple-500/20 to-purple-600/5', border: 'border-purple-200', text: 'text-purple-700', badge: 'bg-purple-100 text-purple-700' },
@@ -107,7 +107,7 @@ export const Pipeline = () => {
       <div
         ref={drag}
         onClick={() => navigate(`/leads/${lead.id || lead._id}`)}
-        className={`group bg-white p-5 rounded-xl border border-gray-100 shadow-sm cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden ${
+        className={`group bg-card p-5 rounded-xl border border-border shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden ${
           isDragging ? 'opacity-40 scale-95' : 'opacity-100'
         }`}
       >
@@ -115,23 +115,23 @@ export const Pipeline = () => {
         <div className={`absolute top-0 left-0 w-1.5 h-full ${statusColors[lead.status] || 'bg-gray-300'}`} />
         
         <div className="flex justify-between items-start mb-3">
-          <h4 className="text-[15px] font-semibold text-gray-800 line-clamp-1 group-hover:text-indigo-600 transition-colors">
+          <h4 className="text-[15px] font-semibold text-foreground line-clamp-1 group-hover:text-orange-500 transition-colors">
             {lead.clientName}
           </h4>
         </div>
         
-        <p className="text-xs font-medium text-gray-500 mb-4 bg-gray-50 px-2 py-1 rounded inline-block">
+        <p className="text-xs font-medium text-muted-foreground mb-4 bg-black/20 px-2 py-1 rounded inline-block">
           {lead.service}
         </p>
 
         <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-50">
-          <div className="flex items-center text-[11px] font-medium text-gray-600">
+          <div className="flex items-center text-[11px] font-medium text-muted-foreground">
             <div className="p-1.5 bg-green-50 rounded-md mr-2">
               <DollarSign className="w-3 h-3 text-green-600" />
             </div>
             {lead.budget}
           </div>
-          <div className="flex items-center text-[11px] font-medium text-gray-600">
+          <div className="flex items-center text-[11px] font-medium text-muted-foreground">
             <div className="p-1.5 bg-blue-50 rounded-md mr-2">
               <Calendar className="w-3 h-3 text-blue-600" />
             </div>
@@ -140,9 +140,9 @@ export const Pipeline = () => {
         </div>
         
         <div className="mt-4 flex items-center justify-between">
-           <div className="flex items-center text-[11px] font-medium text-gray-500">
-             <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center mr-2">
-                <User className="w-3 h-3 text-indigo-600" />
+           <div className="flex items-center text-[11px] font-medium text-muted-foreground">
+             <div className="w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center mr-2">
+                <User className="w-3 h-3 text-orange-500" />
              </div>
              <span className="truncate max-w-[100px]">{lead.assignedTo?.name || 'Unassigned'}</span>
            </div>
@@ -176,16 +176,16 @@ export const Pipeline = () => {
           isOver ? 'scale-[1.01] shadow-xl' : ''
         }`}
       >
-        <div className={`bg-gradient-to-br ${column.color} border-b ${column.border} rounded-t-2xl px-5 py-4 backdrop-blur-sm shadow-sm flex-shrink-0`}>
+        <div className={`bg-gradient-to-br ${column.color} border-b ${column.border} rounded-t-2xl px-5 py-4 backdrop-blur-sm shadow-[0_0_15px_rgba(0,0,0,0.5)] flex-shrink-0`}>
           <div className="flex items-center justify-between">
             <h3 className={`font-extrabold text-sm tracking-widest uppercase ${column.text}`}>{column.title}</h3>
-            <span className={`text-xs font-black px-3 py-1 rounded-full shadow-sm ${column.badge}`}>
+            <span className={`text-xs font-black px-3 py-1 rounded-full shadow-[0_0_15px_rgba(0,0,0,0.5)] ${column.badge}`}>
               {columnLeads.length} Leads
             </span>
           </div>
         </div>
 
-        <div className={`bg-gray-50/50 p-4 rounded-b-2xl border-x border-b border-gray-100 flex-1 min-h-[150px] transition-colors ${isOver ? 'bg-indigo-50/50 ring-2 ring-indigo-200 ring-inset' : ''}`}>
+        <div className={`bg-black/20/50 p-4 rounded-b-2xl border-x border-b border-border flex-1 min-h-[150px] transition-colors ${isOver ? 'bg-orange-500/10/50 ring-2 ring-indigo-200 ring-inset' : ''}`}>
           {columnLeads.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               {columnLeads.map((lead) => (
@@ -193,8 +193,8 @@ export const Pipeline = () => {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-8 border-2 border-dashed border-gray-200 rounded-xl bg-white/50 h-full">
-              <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center px-4">No active leads<br/>in this stage</p>
+            <div className="flex flex-col items-center justify-center py-8 border-2 border-dashed border-border rounded-xl bg-card/50 h-full">
+              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest text-center px-4">No active leads<br/>in this stage</p>
             </div>
           )}
         </div>
@@ -216,20 +216,20 @@ export const Pipeline = () => {
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 flex-shrink-0">
           <div className="space-y-1">
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Pipeline Overview</h1>
-            <p className="text-sm font-medium text-gray-500 flex items-center">
+            <h1 className="text-3xl font-extrabold text-foreground tracking-tight">Pipeline Overview</h1>
+            <p className="text-sm font-medium text-muted-foreground flex items-center">
               <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></span>
               Live sales management & lead tracking
             </p>
           </div>
 
-          <div className="bg-white border border-gray-100 shadow-sm rounded-2xl p-4 flex items-center gap-5 min-w-[280px]">
-             <div className="p-2.5 bg-indigo-50 rounded-xl">
-                <DollarSign className="w-5 h-5 text-indigo-600" />
+          <div className="bg-card border border-border shadow-[0_0_15px_rgba(0,0,0,0.5)] rounded-2xl p-4 flex items-center gap-5 min-w-[280px]">
+             <div className="p-2.5 bg-orange-500/10 rounded-xl">
+                <DollarSign className="w-5 h-5 text-orange-500" />
              </div>
              <div>
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Total Pipeline Value</p>
-                <p className="text-xl font-black text-gray-900">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-0.5">Total Pipeline Value</p>
+                <p className="text-xl font-black text-foreground">
                   ${totalValue.toLocaleString()}
                 </p>
              </div>
