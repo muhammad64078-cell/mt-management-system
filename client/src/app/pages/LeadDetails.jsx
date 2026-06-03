@@ -737,6 +737,7 @@ const handleDelete = async (fileId) => {
             </Card>
 
             {/* Payments */}
+            {user?.role !== "production" && (
             <Card className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg text-foreground">Payments History</h3>
@@ -826,6 +827,7 @@ const handleDelete = async (fileId) => {
                 )}
               </div>
             </Card>
+            )}
           </div>
 
           {/* Sidebar */}

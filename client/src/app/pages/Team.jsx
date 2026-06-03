@@ -91,6 +91,7 @@ export const Team = () => {
       // Update local state
       setData(prev => ({
         ...prev,
+        totalUsers: prev.totalUsers - 1, // Decrement total users count
         teamMembers: prev.teamMembers.filter(m => (m.id || m._id) !== memberId)
       }));
       alert("Team member removed successfully! 🗑️✅");
@@ -212,7 +213,7 @@ const productionMembers = (Array.isArray(data?.teamMembers) ? data.teamMembers :
                 </div>
                 <div className="text-center p-3 bg-black/20 rounded-lg">
                   <p className="text-sm text-muted-foreground">Joined</p>
-                  <p className="text-xs font-medium text-foreground">{new Date(member.createdAt).toLocaleDateString()}</p>
+                  <p className="text-xs font-medium text-foreground">{new Date(member.createdAt || member.created_at).toLocaleDateString()}</p>
                 </div>
               </div>
 

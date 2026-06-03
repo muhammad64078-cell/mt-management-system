@@ -15,6 +15,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { NotFound } from './pages/NotFound';
 import { SalesDashboard } from './pages/salesdashboard';
 import { Reports } from './pages/reports';
+import { Settings } from './pages/Settings';
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       {
         path: "reports",
         element: <Reports />
+      },
+      {
+        path: "settings",
+        element: <ProtectedRoute allowedRoles={["admin"]}><Settings /></ProtectedRoute>
       },
     ]
   },

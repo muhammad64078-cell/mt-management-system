@@ -7,7 +7,8 @@ import {
   Target, 
   UserSquare2, 
   Briefcase,
-  LogOut
+  LogOut,
+  Settings
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -19,7 +20,8 @@ const navigation = [
   { name: 'Targets', href: '/targets', icon: Target, roles: ['admin', 'sales'] },
   { name: 'Team', href: '/team', icon: UserSquare2, roles: ['admin', 'sales'] },
   { name: 'Production Dashboard', href: '/production', icon: LayoutDashboard, roles: ['production'] },
-  { name: 'Production', href: '/production/projects', icon: Briefcase, roles: ['admin', 'production'] }
+  { name: 'Production', href: '/production/projects', icon: Briefcase, roles: ['admin', 'production'] },
+  { name: 'Settings', href: '/settings', icon: Settings, roles: ['admin'] }
 ];
 
 export const Sidebar = ({ isOpen, onClose }) => {
