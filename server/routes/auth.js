@@ -25,8 +25,8 @@ router.post("/login", async (req, res) => {
       .eq('email', normalizedEmail)
       .single();
 
-    if (error || !user) {
-      console.log(`Login failed: User not found in Supabase. Error:`, error);
+    if (error || !user || user.status === 'deleted') {
+      console.log(`Login failed: User not found or deleted in Supabase.`);
       return res.status(400).json({ msg: "User not found" });
     }
     console.log(`User found: ${user.email} (ID: ${user.id})`);
@@ -130,8 +130,9 @@ router.get("/production-users", protect, authorizeRoles("admin", "sales"), async
   try {
     const { data: users, error } = await supabase
       .from('users')
-      .select('id, name, email, role')
-      .ilike('role', 'production');
+      .select('id, name, email, role, status')
+      .ilike('role', 'production')
+      .neq('status', 'deleted');
 
     if (error) throw error;
     res.json(users.map(u => ({ ...u, _id: u.id }))); // _id mapping

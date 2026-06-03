@@ -2,10 +2,11 @@ import { supabase } from "../config/supabaseClient.js";
 
 export const getTeamReport = async (req, res) => {
   try {
-    // 1. Users fetch karein (password ke baghair)
+    // 1. Users fetch karein (password ke baghair) — active users
     const { data: users, error: userError } = await supabase
       .from('users')
-      .select('id, name, email, role, status');
+      .select('id, name, email, role, status, created_at')
+      .neq('status', 'deleted');
 
     if (userError) throw userError;
 

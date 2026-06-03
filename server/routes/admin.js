@@ -15,7 +15,8 @@ router.get("/users", protect, authorizeRoles("admin"), async (req, res) => {
   try {
     const { data: users, error } = await supabase
       .from('users')
-      .select('id, name, email, role, status');
+      .select('id, name, email, role, status')
+      .neq('status', 'deleted');
 
     if (error) throw error;
     res.json(users);
@@ -30,7 +31,7 @@ router.get("/users", protect, authorizeRoles("admin"), async (req, res) => {
 router.get("/dashboard-stats", protect, authorizeRoles("admin"), async (req, res) => {
   try {
     // 1. Users fetch karein roles ke liye (optional count)
-    const { data: users, error: userError } = await supabase.from('users').select('role');
+    const { data: users, error: userError } = await supabase.from('users').select('role').neq('status', 'deleted');
     
     // 2. Leads fetch karein stats ke liye
     const { data: leads, error: leadError } = await supabase.from('leads').select('status, budget');
@@ -223,6 +224,109 @@ router.get("/export-leads/:userId", protect, authorizeRoles("admin"), async (req
     res.end();
   } catch (error) {
     console.error("Excel Export Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/**
+ * 🔴 SYSTEM RESET ROUTES (Admin Only)
+ */
+// 1. Reset Leads
+router.delete("/reset/leads", protect, authorizeRoles("admin"), async (req, res) => {
+  try {
+    const dummyUUID = "00000000-0000-0000-0000-000000000000";
+    
+    // Delete payments first
+    await supabase.from("lead_payments").delete().neq("id", dummyUUID);
+    // Delete messages
+    await supabase.from("lead_messages").delete().neq("id", dummyUUID);
+    // Delete lead activities
+    await supabase.from("lead_activities").delete().neq("id", dummyUUID);
+    // Delete general activities referencing leads or all activities
+    await supabase.from("activities").delete().neq("id", dummyUUID);
+    
+    // Finally delete all leads
+    const { error } = await supabase.from("leads").delete().neq("id", dummyUUID);
+    if (error) throw error;
+
+    res.json({ success: true, message: "All leads and associated activities, messages, and payments reset successfully." });
+  } catch (error) {
+    console.error("Reset Leads Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// 2. Reset Projects
+router.delete("/reset/projects", protect, authorizeRoles("admin"), async (req, res) => {
+  try {
+    const dummyUUID = "00000000-0000-0000-0000-000000000000";
+    
+    await supabase.from("project_tasks").delete().neq("id", dummyUUID);
+    await supabase.from("project_comments").delete().neq("id", dummyUUID);
+    await supabase.from("files").delete().neq("id", dummyUUID);
+    
+    const { error } = await supabase.from("projects").delete().neq("id", dummyUUID);
+    if (error) throw error;
+
+    res.json({ success: true, message: "All projects, tasks, comments, and project files reset successfully." });
+  } catch (error) {
+    console.error("Reset Projects Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// 3. Reset Targets
+router.delete("/reset/targets", protect, authorizeRoles("admin"), async (req, res) => {
+  try {
+    const dummyUUID = "00000000-0000-0000-0000-000000000000";
+    const { error } = await supabase.from("targets").delete().neq("id", dummyUUID);
+    if (error) throw error;
+
+    res.json({ success: true, message: "All targets reset successfully." });
+  } catch (error) {
+    console.error("Reset Targets Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// 4. Reset Activities/Notifications
+router.delete("/reset/activities", protect, authorizeRoles("admin"), async (req, res) => {
+  try {
+    const dummyUUID = "00000000-0000-0000-0000-000000000000";
+    const { error } = await supabase.from("activities").delete().neq("id", dummyUUID);
+    if (error) throw error;
+
+    res.json({ success: true, message: "All activities log reset successfully." });
+  } catch (error) {
+    console.error("Reset Activities Error:", error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// 5. Full Wipe
+router.delete("/reset/all", protect, authorizeRoles("admin"), async (req, res) => {
+  try {
+    const dummyUUID = "00000000-0000-0000-0000-000000000000";
+
+    // 1. Projects
+    await supabase.from("project_tasks").delete().neq("id", dummyUUID);
+    await supabase.from("project_comments").delete().neq("id", dummyUUID);
+    await supabase.from("files").delete().neq("id", dummyUUID);
+    await supabase.from("projects").delete().neq("id", dummyUUID);
+
+    // 2. Leads
+    await supabase.from("lead_payments").delete().neq("id", dummyUUID);
+    await supabase.from("lead_messages").delete().neq("id", dummyUUID);
+    await supabase.from("lead_activities").delete().neq("id", dummyUUID);
+    await supabase.from("activities").delete().neq("id", dummyUUID);
+    await supabase.from("leads").delete().neq("id", dummyUUID);
+
+    // 3. Targets
+    await supabase.from("targets").delete().neq("id", dummyUUID);
+
+    res.json({ success: true, message: "All transactional tables wiped successfully. System is completely fresh!" });
+  } catch (error) {
+    console.error("Full Wipe Error:", error);
     res.status(500).json({ message: error.message });
   }
 });
