@@ -3,6 +3,7 @@ import { Briefcase, CheckCircle2, Clock, AlertCircle, TrendingUp, Eye, Activity,
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import API from "../api/api";
 import { useEffect, useState } from "react";
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from "react-router-dom";
 
 const getProjectNotesData = (notesText) => {
@@ -27,6 +28,7 @@ const getProjectNotesData = (notesText) => {
 
 export const ProductionDashboard = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -175,7 +177,7 @@ export const ProductionDashboard = () => {
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-card text-muted-foreground border border-border">
                     {project.service}
                   </span>
-                  {getProjectNotesData(project.notes).revenue && (
+                  {user?.role === 'admin' && getProjectNotesData(project.notes).revenue && (
                     <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-100 flex items-center gap-0.5 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
                       💰 {getProjectNotesData(project.notes).revenue}
                     </span>

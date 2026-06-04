@@ -20,7 +20,8 @@ import {
   CheckCircle2, 
   User, 
   Sparkles,
-  ClipboardList
+  ClipboardList,
+  Send
 } from 'lucide-react';
 
 const statusColumns = [
@@ -79,6 +80,7 @@ export const ProductionProjects = () => {
   const [modalProgress, setModalProgress] = useState(0);
   const [modalAssignedTo, setModalAssignedTo] = useState('');
   const [savingDetails, setSavingDetails] = useState(false);
+  const [modalAdminInstructions, setModalAdminInstructions] = useState('');
   const [breakdownTab, setBreakdownTab] = useState('developer'); // 'developer' or 'month'
   const [boardGrouping, setBoardGrouping] = useState('status'); // 'status', 'developer', or 'month'
 
@@ -244,20 +246,22 @@ export const ProductionProjects = () => {
   // Helper: Parse notes column JSON
   const getProjectNotesData = (notesText) => {
     try {
-      if (!notesText) return { description: '', revenue: '', checklist: [], comments: [] };
+      if (!notesText) return { description: '', revenue: '', checklist: [], comments: [], adminInstructions: '' };
       const parsed = JSON.parse(notesText);
       return {
         description: parsed.description || '',
         revenue: parsed.revenue || '',
         checklist: parsed.checklist || [],
-        comments: parsed.comments || []
+        comments: parsed.comments || [],
+        adminInstructions: parsed.adminInstructions || ''
       };
     } catch (e) {
       return {
         description: notesText || '',
         revenue: '',
         checklist: [],
-        comments: []
+        comments: [],
+        adminInstructions: ''
       };
     }
   };
@@ -268,6 +272,7 @@ export const ProductionProjects = () => {
     const parsed = getProjectNotesData(project.notes);
     setModalDescription(parsed.description);
     setModalRevenue(parsed.revenue);
+    setModalAdminInstructions(parsed.adminInstructions);
     setModalChecklist(parsed.checklist);
     setModalComments(parsed.comments);
     setModalStatus(project.status);
@@ -285,7 +290,8 @@ export const ProductionProjects = () => {
       description: modalDescription,
       revenue: modalRevenue,
       checklist: modalChecklist,
-      comments: modalComments
+      comments: modalComments,
+      adminInstructions: modalAdminInstructions
     });
 
     try {
@@ -513,7 +519,7 @@ export const ProductionProjects = () => {
                           <span className="text-xs font-bold text-muted-foreground">{project.progress}%</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-emerald-600">{parsed.revenue || '—'}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-emerald-600">{user?.role === 'admin' ? (parsed.revenue || '—') : ''}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-xs text-muted-foreground font-medium">
                         {project.deadline ? new Date(project.deadline).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Not set'}
                       </td>
@@ -683,7 +689,7 @@ export const ProductionProjects = () => {
                             </span>
                           )}
 
-                          {parsed.revenue && (
+                          {user?.role === 'admin' && parsed.revenue && (
                             <span className="flex items-center gap-0.5 text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-extrabold text-[11px]">
                               💰 {parsed.revenue}
                             </span>
@@ -845,16 +851,39 @@ export const ProductionProjects = () => {
 
             </div>
 
-            {/* Editable Description / Requirements Notes */}
+            {/* Editable Description / Requirements Notes — Admin Only */}
+            {user?.role === 'admin' && (
+              <div className="space-y-1.5">
+                <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block">Project Description & Requirements</label>
+                <Textarea
+                  placeholder="Enter detailed project requirements, client brief, or specifications..."
+                  value={modalDescription}
+                  onChange={(e) => setModalDescription(e.target.value)}
+                  disabled={selectedProject.status === 'completed' && user?.role !== 'admin'}
+                  className="min-h-[120px] text-xs bg-black/20/50 border-border focus:bg-card rounded-xl resize-none p-3 outline-none focus:ring-2 focus:ring-indigo-500/20 leading-relaxed font-medium disabled:bg-black/40 disabled:text-muted-foreground disabled:cursor-not-allowed"
+                />
+              </div>
+            )}
+
+            {/* Admin Instructions to Production — Admin writes, Production reads */}
             <div className="space-y-1.5">
-              <label className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider block">Project Description & Requirements</label>
-              <Textarea
-                placeholder="Enter detailed project requirements, client brief, or specifications..."
-                value={modalDescription}
-                onChange={(e) => setModalDescription(e.target.value)}
-                disabled={selectedProject.status === 'completed' && user?.role !== 'admin'}
-                className="min-h-[120px] text-xs bg-black/20/50 border-border focus:bg-card rounded-xl resize-none p-3 outline-none focus:ring-2 focus:ring-indigo-500/20 leading-relaxed font-medium disabled:bg-black/40 disabled:text-muted-foreground disabled:cursor-not-allowed"
-              />
+              <label className="text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <Send size={11} className="text-orange-500" />
+                <span className="text-orange-500">Admin Instructions to Production</span>
+              </label>
+              {user?.role === 'admin' ? (
+                <Textarea
+                  placeholder="Write instructions, briefs, or details for the production team..."
+                  value={modalAdminInstructions}
+                  onChange={(e) => setModalAdminInstructions(e.target.value)}
+                  disabled={selectedProject.status === 'completed'}
+                  className="min-h-[100px] text-xs bg-orange-500/5 border border-orange-500/20 focus:border-orange-500/40 focus:bg-card rounded-xl resize-none p-3 outline-none focus:ring-2 focus:ring-orange-500/20 leading-relaxed font-medium disabled:bg-black/40 disabled:text-muted-foreground disabled:cursor-not-allowed"
+                />
+              ) : (
+                <div className="min-h-[60px] text-xs bg-orange-500/5 border border-orange-500/20 rounded-xl p-3 leading-relaxed font-medium text-foreground whitespace-pre-wrap">
+                  {modalAdminInstructions || <span className="text-muted-foreground italic">No instructions from admin yet.</span>}
+                </div>
+              )}
             </div>
 
             {/* Action Buttons Panel */}
